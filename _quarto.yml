@@ -1,31 +1,49 @@
-project:
+project: 
   type: book  
   output-dir: docs
-
 
 book:
   title: "Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores"
   author: "José Ramón Hernández Aguilar"
   date: "12/25/2024"
+  navbar:
+    search: true
+  sidebar:
+    menu: true
+    collapse-level: 1
+    border: true
   chapters:
     - index.qmd
-    - ./caps/introduccion/intro.qmd
-    - ./caps/marco/marco.qmd
-    - ./caps/metodologia/metodologia.qmd
-    - ./caps/resultados/resultados.qmd
-    - ./caps/discusion/discusion.qmd
-    - ./caps/conclusiones/conclusiones.qmd
-    - references.qmd
-    - anexos.qmd
-    
+    - part: "Introducción"
+      chapters: 
+        - ./caps/introduccion/intro.qmd
+    - part: "Marco Teórico"
+      chapters: 
+        - ./caps/marco/marco.qmd
+    - part: "Metodología"
+      chapters: 
+        - ./caps/metodologia/metodologia.qmd
+    - part: "Resultados"
+      chapters: 
+        - ./caps/resultados/resultados.qmd
+    - part: "Discusión"
+      chapters: 
+        - ./caps/discusion/discusion.qmd
+    - part: "Conclusiones"
+      chapters: 
+        - ./caps/conclusiones/conclusiones.qmd
+    - part: "Referencias"
+      chapters:
+        - references.qmd
+    - part: "Anexos"
+      chapters:
+        - anexos.qmd
 
 bibliography: references.bib
 
 format:
   html:
     theme: cosmo
+    code-link: true
   pdf:
     documentclass: scrreprt
-
-
-

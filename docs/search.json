@@ -46,6 +46,7 @@
     "section": "",
     "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\nAgregando texto.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
     "crumbs": [
+      "Introducción",
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción</span>"
     ]
   },
@@ -66,6 +67,7 @@
     "section": "",
     "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\nAgregando texto.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
     "crumbs": [
+      "Marco Teórico",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Marco Teórico</span>"
     ]
   },
