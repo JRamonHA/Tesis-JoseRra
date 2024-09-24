@@ -1,4 +1,4 @@
-# Discusión
+# Variables de Confort Medidas por el DTHIS-C
 
 This is a book created from markdown and executable code.
 

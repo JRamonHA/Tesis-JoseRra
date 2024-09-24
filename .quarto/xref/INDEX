@@ -58,5 +58,89 @@
   },
   "caps/conclusiones/conclusiones.qmd": {
     "conclusiones.html": "8b78d20c"
+  },
+  "./caps/introduccion/contexto.qmd": {
+    "contexto.html": "11bcd8d6"
+  },
+  "./caps/introduccion/planteamiento.qmd": {
+    "planteamiento.html": "0e6ca1c5"
+  },
+  "./caps/introduccion/objetivos.qmd": {
+    "objetivos.html": "d77ed7a1"
+  },
+  "./caps/introduccion/justificacion.qmd": {
+    "justificacion.html": "2fdc0c08"
+  },
+  "./caps/marco/concepto_confort.qmd": {
+    "concepto_confort.html": "46ed8ce3"
+  },
+  "./caps/marco/variables_dthisc.qmd": {
+    "variables_dthisc.html": "596c21db"
+  },
+  "./caps/marco/sistemas_medicion.qmd": {
+    "sistemas_medicion.html": "4da65d94"
+  },
+  "./caps/metodologia/diseno_dthisc.qmd": {
+    "diseno_dthisc.html": "4e0675cf"
+  },
+  "./caps/metodologia/funcionamiento.qmd": {
+    "funcionamiento.html": "2ec77461"
+  },
+  "./caps/metodologia/validacion_pruebas.qmd": {
+    "validacion_pruebas.html": "ba66c8c8"
+  },
+  "./caps/resultados/mediciones.qmd": {
+    "mediciones.html": "8f470af0"
+  },
+  "./caps/resultados/analisis.qmd": {
+    "analisis.html": "38416007"
+  },
+  "./caps/discusion/impacto.qmd": {
+    "impacto.html": "9cea21fe"
+  },
+  "./caps/discusion/limitaciones.qmd": {
+    "limitaciones.html": "ecdba66f"
+  },
+  "caps/introduccion/contexto.qmd": {
+    "contexto.html": "64027ea4"
+  },
+  "caps/introduccion/planteamiento.qmd": {
+    "planteamiento.html": "c5ba6109"
+  },
+  "caps/introduccion/objetivos.qmd": {
+    "objetivos.html": "86c65cb5"
+  },
+  "caps/introduccion/justificacion.qmd": {
+    "justificacion.html": "5b3c24a5"
+  },
+  "caps/marco/concepto_confort.qmd": {
+    "concepto_confort.html": "dc79a384"
+  },
+  "caps/marco/variables_dthisc.qmd": {
+    "variables_dthisc.html": "b03a650c"
+  },
+  "caps/marco/sistemas_medicion.qmd": {
+    "sistemas_medicion.html": "18654528"
+  },
+  "caps/metodologia/diseno_dthisc.qmd": {
+    "diseno_dthisc.html": "c5d933a5"
+  },
+  "caps/metodologia/funcionamiento.qmd": {
+    "funcionamiento.html": "0bbb6e0f"
+  },
+  "caps/metodologia/validacion_pruebas.qmd": {
+    "validacion_pruebas.html": "9ca128cb"
+  },
+  "caps/resultados/mediciones.qmd": {
+    "mediciones.html": "f8a402eb"
+  },
+  "caps/resultados/analisis.qmd": {
+    "analisis.html": "db21f8bf"
+  },
+  "caps/discusion/impacto.qmd": {
+    "impacto.html": "979f135c"
+  },
+  "caps/discusion/limitaciones.qmd": {
+    "limitaciones.html": "6f86f638"
   }
 }

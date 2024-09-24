@@ -10,29 +10,38 @@ book:
     search: true
   sidebar:
     menu: true
-    collapse-level: 1
+    collapse-level: 2
     border: true
   chapters:
     - index.qmd
     - part: "Introducción"
       chapters: 
-        - ./caps/introduccion/intro.qmd
+        - ./caps/introduccion/contexto.qmd
+        - ./caps/introduccion/planteamiento.qmd
+        - ./caps/introduccion/objetivos.qmd
+        - ./caps/introduccion/justificacion.qmd
     - part: "Marco Teórico"
       chapters: 
-        - ./caps/marco/marco.qmd
+        - ./caps/marco/concepto_confort.qmd
+        - ./caps/marco/variables_dthisc.qmd
+        - ./caps/marco/sistemas_medicion.qmd
     - part: "Metodología"
       chapters: 
-        - ./caps/metodologia/metodologia.qmd
+        - ./caps/metodologia/diseno_dthisc.qmd
+        - ./caps/metodologia/funcionamiento.qmd
+        - ./caps/metodologia/validacion_pruebas.qmd
     - part: "Resultados"
       chapters: 
-        - ./caps/resultados/resultados.qmd
+        - ./caps/resultados/mediciones.qmd
+        - ./caps/resultados/analisis.qmd
     - part: "Discusión"
       chapters: 
-        - ./caps/discusion/discusion.qmd
-    - part: "Conclusiones"
+        - ./caps/discusion/impacto.qmd
+        - ./caps/discusion/limitaciones.qmd
+    - part: "Conclusiones y Recomendaciones"
       chapters: 
         - ./caps/conclusiones/conclusiones.qmd
-    - part: "Referencias"
+    - part: "Bibliografía"
       chapters:
         - references.qmd
     - part: "Anexos"
