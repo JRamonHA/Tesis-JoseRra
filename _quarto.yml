@@ -4,14 +4,20 @@ project:
 
 
 book:
-  title: "tesis_joserra"
-  author: "Norah Jones"
-  date: "18/9/2024"
+  title: "Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores"
+  author: "José Ramón Hernández Aguilar"
+  date: "12/25/2024"
   chapters:
     - index.qmd
-    - ./caps/intro.qmd
-    - summary.qmd
+    - ./caps/introduccion/intro.qmd
+    - ./caps/marco/marco.qmd
+    - ./caps/metodologia/metodologia.qmd
+    - ./caps/resultados/resultados.qmd
+    - ./caps/discusion/discusion.qmd
+    - ./caps/conclusiones/conclusiones.qmd
     - references.qmd
+    - anexos.qmd
+    
 
 bibliography: references.bib
 
