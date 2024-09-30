@@ -17,6 +17,7 @@ book:
     - anexos.qmd
 
   navbar:
+    title: false
     search: true
 
   sidebar:

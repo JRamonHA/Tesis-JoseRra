@@ -62,11 +62,11 @@
   {
     "objectID": "chapter_2.html",
     "href": "chapter_2.html",
-    "title": "2  Introducción al Confort en Espacios y el Desarrollo del DTHIS-C",
+    "title": "2  Tipos de Confort en Espacios",
     "section": "",
-    "text": "2.1 Importancia del Confort",
+    "text": "2.1 Definición de Confort en Espacios",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Introducción al Confort en Espacios y el Desarrollo del DTHIS-C</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Tipos de Confort en Espacios</span>"
     ]
   },
   {
@@ -237,6 +237,46 @@
     "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
     "crumbs": [
       "Bibliografía"
+    ]
+  },
+  {
+    "objectID": "chapter_2.html#confort-térmico",
+    "href": "chapter_2.html#confort-térmico",
+    "title": "2  Tipos de Confort en Espacios",
+    "section": "2.2 Confort Térmico",
+    "text": "2.2 Confort Térmico",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Tipos de Confort en Espacios</span>"
+    ]
+  },
+  {
+    "objectID": "chapter_2.html#confort-acústico",
+    "href": "chapter_2.html#confort-acústico",
+    "title": "2  Tipos de Confort en Espacios",
+    "section": "2.3 Confort Acústico",
+    "text": "2.3 Confort Acústico",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Tipos de Confort en Espacios</span>"
+    ]
+  },
+  {
+    "objectID": "chapter_2.html#confort-lumínico",
+    "href": "chapter_2.html#confort-lumínico",
+    "title": "2  Tipos de Confort en Espacios",
+    "section": "2.4 Confort Lumínico",
+    "text": "2.4 Confort Lumínico",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Tipos de Confort en Espacios</span>"
+    ]
+  },
+  {
+    "objectID": "chapter_2.html#calidad-del-aire",
+    "href": "chapter_2.html#calidad-del-aire",
+    "title": "2  Tipos de Confort en Espacios",
+    "section": "2.5 Calidad del Aire",
+    "text": "2.5 Calidad del Aire",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Tipos de Confort en Espacios</span>"
     ]
   }
 ]
