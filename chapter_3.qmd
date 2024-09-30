@@ -7,8 +7,10 @@
 ## Diseño del Sistema
 
 ## Medición de Variables y Metodología de Implementación
-### Temperatura del Aire y Radiación Térmica
-### Humedad Relativa y Velocidad del Viento
+### Temperatura del Aire 
+### Temperatura Radiante
+### Velocidad del Viento
+### Humedad Relativa
 ### Concentración de CO2
 ### Luminancia y Deslumbramiento
 ### Niveles de Sonido

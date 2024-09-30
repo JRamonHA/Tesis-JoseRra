@@ -124,7 +124,7 @@
     "href": "chapter_3.html#medición-de-variables-y-metodología-de-implementación",
     "title": "3  Diseño y Construcción del DTHIS-C",
     "section": "3.4 Medición de Variables y Metodología de Implementación",
-    "text": "3.4 Medición de Variables y Metodología de Implementación\n\n3.4.1 Temperatura del Aire y Radiación Térmica\n\n\n3.4.2 Humedad Relativa y Velocidad del Viento\n\n\n3.4.3 Concentración de CO2\n\n\n3.4.4 Luminancia y Deslumbramiento\n\n\n3.4.5 Niveles de Sonido",
+    "text": "3.4 Medición de Variables y Metodología de Implementación\n\n3.4.1 Temperatura del Aire\n\n\n3.4.2 Temperatura Radiante\n\n\n3.4.3 Velocidad del Viento\n\n\n3.4.4 Humedad Relativa\n\n\n3.4.5 Concentración de CO2\n\n\n3.4.6 Luminancia y Deslumbramiento\n\n\n3.4.7 Niveles de Sonido",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Diseño y Construcción del DTHIS-C</span>"
     ]

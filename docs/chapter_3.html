@@ -78,11 +78,6 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores</span>
-    </a>
-  </div>
         <div class="quarto-navbar-tools tools-end">
 </div>
           <div id="quarto-search" class="" title="Search"></div>
@@ -176,11 +171,13 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#diseño-del-sistema" id="toc-diseño-del-sistema" class="nav-link" data-scroll-target="#diseño-del-sistema"><span class="header-section-number">3.3</span> Diseño del Sistema</a></li>
   <li><a href="#medición-de-variables-y-metodología-de-implementación" id="toc-medición-de-variables-y-metodología-de-implementación" class="nav-link" data-scroll-target="#medición-de-variables-y-metodología-de-implementación"><span class="header-section-number">3.4</span> Medición de Variables y Metodología de Implementación</a>
   <ul>
-  <li><a href="#temperatura-del-aire-y-radiación-térmica" id="toc-temperatura-del-aire-y-radiación-térmica" class="nav-link" data-scroll-target="#temperatura-del-aire-y-radiación-térmica"><span class="header-section-number">3.4.1</span> Temperatura del Aire y Radiación Térmica</a></li>
-  <li><a href="#humedad-relativa-y-velocidad-del-viento" id="toc-humedad-relativa-y-velocidad-del-viento" class="nav-link" data-scroll-target="#humedad-relativa-y-velocidad-del-viento"><span class="header-section-number">3.4.2</span> Humedad Relativa y Velocidad del Viento</a></li>
-  <li><a href="#concentración-de-co2" id="toc-concentración-de-co2" class="nav-link" data-scroll-target="#concentración-de-co2"><span class="header-section-number">3.4.3</span> Concentración de CO2</a></li>
-  <li><a href="#luminancia-y-deslumbramiento" id="toc-luminancia-y-deslumbramiento" class="nav-link" data-scroll-target="#luminancia-y-deslumbramiento"><span class="header-section-number">3.4.4</span> Luminancia y Deslumbramiento</a></li>
-  <li><a href="#niveles-de-sonido" id="toc-niveles-de-sonido" class="nav-link" data-scroll-target="#niveles-de-sonido"><span class="header-section-number">3.4.5</span> Niveles de Sonido</a></li>
+  <li><a href="#temperatura-del-aire" id="toc-temperatura-del-aire" class="nav-link" data-scroll-target="#temperatura-del-aire"><span class="header-section-number">3.4.1</span> Temperatura del Aire</a></li>
+  <li><a href="#temperatura-radiante" id="toc-temperatura-radiante" class="nav-link" data-scroll-target="#temperatura-radiante"><span class="header-section-number">3.4.2</span> Temperatura Radiante</a></li>
+  <li><a href="#velocidad-del-viento" id="toc-velocidad-del-viento" class="nav-link" data-scroll-target="#velocidad-del-viento"><span class="header-section-number">3.4.3</span> Velocidad del Viento</a></li>
+  <li><a href="#humedad-relativa" id="toc-humedad-relativa" class="nav-link" data-scroll-target="#humedad-relativa"><span class="header-section-number">3.4.4</span> Humedad Relativa</a></li>
+  <li><a href="#concentración-de-co2" id="toc-concentración-de-co2" class="nav-link" data-scroll-target="#concentración-de-co2"><span class="header-section-number">3.4.5</span> Concentración de CO2</a></li>
+  <li><a href="#luminancia-y-deslumbramiento" id="toc-luminancia-y-deslumbramiento" class="nav-link" data-scroll-target="#luminancia-y-deslumbramiento"><span class="header-section-number">3.4.6</span> Luminancia y Deslumbramiento</a></li>
+  <li><a href="#niveles-de-sonido" id="toc-niveles-de-sonido" class="nav-link" data-scroll-target="#niveles-de-sonido"><span class="header-section-number">3.4.7</span> Niveles de Sonido</a></li>
   </ul></li>
   <li><a href="#calibración-y-validación-del-dthis-c" id="toc-calibración-y-validación-del-dthis-c" class="nav-link" data-scroll-target="#calibración-y-validación-del-dthis-c"><span class="header-section-number">3.5</span> Calibración y Validación del DTHIS-C</a></li>
   </ul>
@@ -219,20 +216,26 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="medición-de-variables-y-metodología-de-implementación" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="medición-de-variables-y-metodología-de-implementación"><span class="header-section-number">3.4</span> Medición de Variables y Metodología de Implementación</h2>
-<section id="temperatura-del-aire-y-radiación-térmica" class="level3" data-number="3.4.1">
-<h3 data-number="3.4.1" class="anchored" data-anchor-id="temperatura-del-aire-y-radiación-térmica"><span class="header-section-number">3.4.1</span> Temperatura del Aire y Radiación Térmica</h3>
+<section id="temperatura-del-aire" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="temperatura-del-aire"><span class="header-section-number">3.4.1</span> Temperatura del Aire</h3>
 </section>
-<section id="humedad-relativa-y-velocidad-del-viento" class="level3" data-number="3.4.2">
-<h3 data-number="3.4.2" class="anchored" data-anchor-id="humedad-relativa-y-velocidad-del-viento"><span class="header-section-number">3.4.2</span> Humedad Relativa y Velocidad del Viento</h3>
+<section id="temperatura-radiante" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="temperatura-radiante"><span class="header-section-number">3.4.2</span> Temperatura Radiante</h3>
 </section>
-<section id="concentración-de-co2" class="level3" data-number="3.4.3">
-<h3 data-number="3.4.3" class="anchored" data-anchor-id="concentración-de-co2"><span class="header-section-number">3.4.3</span> Concentración de CO2</h3>
+<section id="velocidad-del-viento" class="level3" data-number="3.4.3">
+<h3 data-number="3.4.3" class="anchored" data-anchor-id="velocidad-del-viento"><span class="header-section-number">3.4.3</span> Velocidad del Viento</h3>
 </section>
-<section id="luminancia-y-deslumbramiento" class="level3" data-number="3.4.4">
-<h3 data-number="3.4.4" class="anchored" data-anchor-id="luminancia-y-deslumbramiento"><span class="header-section-number">3.4.4</span> Luminancia y Deslumbramiento</h3>
+<section id="humedad-relativa" class="level3" data-number="3.4.4">
+<h3 data-number="3.4.4" class="anchored" data-anchor-id="humedad-relativa"><span class="header-section-number">3.4.4</span> Humedad Relativa</h3>
 </section>
-<section id="niveles-de-sonido" class="level3" data-number="3.4.5">
-<h3 data-number="3.4.5" class="anchored" data-anchor-id="niveles-de-sonido"><span class="header-section-number">3.4.5</span> Niveles de Sonido</h3>
+<section id="concentración-de-co2" class="level3" data-number="3.4.5">
+<h3 data-number="3.4.5" class="anchored" data-anchor-id="concentración-de-co2"><span class="header-section-number">3.4.5</span> Concentración de CO2</h3>
+</section>
+<section id="luminancia-y-deslumbramiento" class="level3" data-number="3.4.6">
+<h3 data-number="3.4.6" class="anchored" data-anchor-id="luminancia-y-deslumbramiento"><span class="header-section-number">3.4.6</span> Luminancia y Deslumbramiento</h3>
+</section>
+<section id="niveles-de-sonido" class="level3" data-number="3.4.7">
+<h3 data-number="3.4.7" class="anchored" data-anchor-id="niveles-de-sonido"><span class="header-section-number">3.4.7</span> Niveles de Sonido</h3>
 </section>
 </section>
 <section id="calibración-y-validación-del-dthis-c" class="level2" data-number="3.5">
