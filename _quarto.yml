@@ -30,7 +30,9 @@ format:
     toc: true
     toc-title: Contenido
     toc-depth: 4
-    theme: cosmo
+    theme:
+      light: cosmo
+      dark: [cosmo, theme-dark.scss]
     code-link: true
   pdf:
     documentclass: scrreprt
