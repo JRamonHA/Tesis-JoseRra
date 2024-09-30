@@ -8,33 +8,11 @@ book:
   date: "12/25/2024"
   chapters:
     - index.qmd
-    - part: "Introducción"
-      chapters:
-        - ./caps/introduccion/contexto.qmd
-        - ./caps/introduccion/planteamiento.qmd
-        - ./caps/introduccion/objetivos.qmd
-        - ./caps/introduccion/justificacion.qmd
-    - part: "Marco Teórico"
-      chapters:
-        - ./caps/marco/concepto_confort.qmd
-        - ./caps/marco/variables_dthisc.qmd
-        - ./caps/marco/sistemas_medicion.qmd
-    - part: "Metodología"
-      chapters:
-        - ./caps/metodologia/diseno_dthisc.qmd
-        - ./caps/metodologia/funcionamiento.qmd
-        - ./caps/metodologia/validacion_pruebas.qmd
-    - part: "Resultados"
-      chapters:
-        - ./caps/resultados/mediciones.qmd
-        - ./caps/resultados/analisis.qmd
-    - part: "Discusión"
-      chapters:
-        - ./caps/discusion/impacto.qmd
-        - ./caps/discusion/limitaciones.qmd
-    - part: "Conclusiones y Recomendaciones"
-      chapters:
-        - ./caps/conclusiones/conclusiones.qmd
+    - chapter_1.qmd
+    - chapter_2.qmd
+    - chapter_3.qmd
+    - chapter_4.qmd
+    - chapter_5.qmd
     - references.qmd
     - anexos.qmd
 

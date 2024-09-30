@@ -1,0 +1,16 @@
+# Diseño y Construcción del DTHIS-C
+
+## Introducción al DTHIS-C
+
+## Componentes Principales del DTHIS-C
+
+## Diseño del Sistema
+
+## Medición de Variables y Metodología de Implementación
+### Temperatura del Aire y Radiación Térmica
+### Humedad Relativa y Velocidad del Viento
+### Concentración de CO2
+### Luminancia y Deslumbramiento
+### Niveles de Sonido
+
+## Calibración y Validación del DTHIS-C
