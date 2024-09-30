@@ -142,5 +142,20 @@
   },
   "caps/discusion/limitaciones.qmd": {
     "limitaciones.html": "6f86f638"
+  },
+  "chapter_1.qmd": {
+    "chapter_1.html": "042a6b1f"
+  },
+  "chapter_2.qmd": {
+    "chapter_2.html": "510a9402"
+  },
+  "chapter_3.qmd": {
+    "chapter_3.html": "24ec00e6"
+  },
+  "chapter_4.qmd": {
+    "chapter_4.html": "fed5a2b9"
+  },
+  "chapter_5.qmd": {
+    "chapter_5.html": "05a06ea9"
   }
 }

@@ -26,6 +26,9 @@ book:
 
 format:
   html:
+    toc: true
+    toc-title: Contenido
+    toc-depth: 4
     theme: cosmo
     code-link: true
   pdf:

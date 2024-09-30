@@ -1,7 +1,11 @@
-# Introducción al Confort en Espacios y el Desarrollo del DTHIS-C 
+# Tipos de Confort en Espacios
 
-## Importancia del Confort
+## Definición de Confort en Espacios
 
-## Problemática de los Métodos de Medición Tradicionales
+## Confort Térmico
 
-## Objetivos
+## Confort Acústico
+
+## Confort Lumínico
+
+## Calidad del Aire
