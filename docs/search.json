@@ -124,7 +124,7 @@
     "href": "chapter_3.html#medición-de-variables-y-metodología-de-implementación",
     "title": "3  Diseño y Construcción del DTHIS-C",
     "section": "3.4 Medición de Variables y Metodología de Implementación",
-    "text": "3.4 Medición de Variables y Metodología de Implementación\n\n3.4.1 Temperatura del Aire\n\n\n3.4.2 Temperatura Radiante\n\n\n3.4.3 Velocidad del Viento\n\n\n3.4.4 Humedad Relativa\n\n\n3.4.5 Concentración de CO2\n\n\n3.4.6 Luminancia y Deslumbramiento\n\n\n3.4.7 Niveles de Sonido",
+    "text": "3.4 Medición de Variables y Metodología de Implementación\n\nTemperatura del Aire\n\n\nTemperatura Radiante\n\n\nVelocidad del Viento\n\n\nHumedad Relativa\n\n\nConcentración de CO2\n\n\nLuminancia y Deslumbramiento\n\n\nNiveles de Sonido",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Diseño y Construcción del DTHIS-C</span>"
     ]
@@ -197,6 +197,26 @@
     "text": "5.4 Limitaciones y Propuestas de Mejora",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Discusión y Conclusiones</span>"
+    ]
+  },
+  {
+    "objectID": "anexos.html",
+    "href": "anexos.html",
+    "title": "Anexos",
+    "section": "",
+    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "Anexos"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "Bibliografía",
+    "section": "",
+    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "crumbs": [
+      "Bibliografía"
     ]
   }
 ]

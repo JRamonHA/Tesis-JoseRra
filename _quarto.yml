@@ -29,7 +29,8 @@ format:
   html:
     toc: true
     toc-title: Contenido
-    toc-depth: 4
+    toc-depth: 3
+    number-depth: 2
     theme:
       light: cosmo
       dark: [cosmo, theme-dark.scss]
