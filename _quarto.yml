@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: "Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores"
+  title: "Desarrollo e implementación con tecnologías libres de un dispositivo portátil para evaluar el confort térmico, lumínico y acústico en interiores"
   author: "José Ramón Hernández Aguilar"
   date: "12/25/2024"
   chapters:
