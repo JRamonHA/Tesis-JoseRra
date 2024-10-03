@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Diseño y Construcción del DTHIS-C – Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores</title>
+<title>3&nbsp; Diseño y construcción del DTHIS-C – Desarrollo e Implementación con tecnologías libres de un Dispositivo Portátil para Evaluar el Confort Térmico, Lumínico y Acústico en Interiores</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -91,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y Construcción del DTHIS-C</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_3.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y construcción del DTHIS-C</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -120,31 +120,31 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción al Confort en Espacios Interiores y el Desarrollo del DTHIS-C</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_2.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tipos de Confort en Espacios Interiores</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confort y calidad del aire en espacios interiores</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_3.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y Construcción del DTHIS-C</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y construcción del DTHIS-C</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_4.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resultados y Análisis de las Pruebas del DTHIS-C</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calibración y caracterización del DTHIS-C</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_5.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discusión y Conclusiones</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Discusión y conclusiones</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -169,20 +169,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#introducción-al-dthis-c" id="toc-introducción-al-dthis-c" class="nav-link active" data-scroll-target="#introducción-al-dthis-c"><span class="header-section-number">3.1</span> Introducción al DTHIS-C</a></li>
-  <li><a href="#componentes-principales-del-dthis-c" id="toc-componentes-principales-del-dthis-c" class="nav-link" data-scroll-target="#componentes-principales-del-dthis-c"><span class="header-section-number">3.2</span> Componentes Principales del DTHIS-C</a></li>
-  <li><a href="#diseño-del-sistema" id="toc-diseño-del-sistema" class="nav-link" data-scroll-target="#diseño-del-sistema"><span class="header-section-number">3.3</span> Diseño del Sistema</a></li>
-  <li><a href="#medición-de-variables-y-metodología-de-implementación" id="toc-medición-de-variables-y-metodología-de-implementación" class="nav-link" data-scroll-target="#medición-de-variables-y-metodología-de-implementación"><span class="header-section-number">3.4</span> Medición de Variables y Metodología de Implementación</a>
+  <li><a href="#especificaciones-del-dthis-c" id="toc-especificaciones-del-dthis-c" class="nav-link active" data-scroll-target="#especificaciones-del-dthis-c"><span class="header-section-number">3.1</span> Especificaciones del DTHIS-C</a></li>
+  <li><a href="#diseño-del-dthis-c" id="toc-diseño-del-dthis-c" class="nav-link" data-scroll-target="#diseño-del-dthis-c"><span class="header-section-number">3.2</span> Diseño del DTHIS-C</a>
   <ul class="collapse">
-  <li><a href="#temperatura-del-aire" id="toc-temperatura-del-aire" class="nav-link" data-scroll-target="#temperatura-del-aire">Temperatura del Aire</a></li>
-  <li><a href="#temperatura-radiante" id="toc-temperatura-radiante" class="nav-link" data-scroll-target="#temperatura-radiante">Temperatura Radiante</a></li>
-  <li><a href="#velocidad-del-viento" id="toc-velocidad-del-viento" class="nav-link" data-scroll-target="#velocidad-del-viento">Velocidad del Viento</a></li>
-  <li><a href="#humedad-relativa" id="toc-humedad-relativa" class="nav-link" data-scroll-target="#humedad-relativa">Humedad Relativa</a></li>
-  <li><a href="#concentración-de-co2" id="toc-concentración-de-co2" class="nav-link" data-scroll-target="#concentración-de-co2">Concentración de CO2</a></li>
-  <li><a href="#luminancia-y-deslumbramiento" id="toc-luminancia-y-deslumbramiento" class="nav-link" data-scroll-target="#luminancia-y-deslumbramiento">Luminancia y Deslumbramiento</a></li>
-  <li><a href="#niveles-de-sonido" id="toc-niveles-de-sonido" class="nav-link" data-scroll-target="#niveles-de-sonido">Niveles de Sonido</a></li>
+  <li><a href="#termopar-tipo-t" id="toc-termopar-tipo-t" class="nav-link" data-scroll-target="#termopar-tipo-t">Termopar Tipo T</a></li>
+  <li><a href="#fuehler-systeme-tpf1e-20-pt1000" id="toc-fuehler-systeme-tpf1e-20-pt1000" class="nav-link" data-scroll-target="#fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</a></li>
+  <li><a href="#modern-device-wind-sensor-rev.-p6" id="toc-modern-device-wind-sensor-rev.-p6" class="nav-link" data-scroll-target="#modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</a></li>
+  <li><a href="#sensirion-scd30" id="toc-sensirion-scd30" class="nav-link" data-scroll-target="#sensirion-scd30">Sensirion SCD30</a></li>
+  <li><a href="#arducam-5mp-ov5647-ultra-wide-angle" id="toc-arducam-5mp-ov5647-ultra-wide-angle" class="nav-link" data-scroll-target="#arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</a></li>
+  <li><a href="#micrófono-ambiental-usb" id="toc-micrófono-ambiental-usb" class="nav-link" data-scroll-target="#micrófono-ambiental-usb">Micrófono ambiental USB</a></li>
   </ul></li>
-  <li><a href="#calibración-y-validación-del-dthis-c" id="toc-calibración-y-validación-del-dthis-c" class="nav-link" data-scroll-target="#calibración-y-validación-del-dthis-c"><span class="header-section-number">3.5</span> Calibración y Validación del DTHIS-C</a></li>
   </ul>
 </nav>
     </div>
@@ -191,7 +187,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y Construcción del DTHIS-C</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Diseño y construcción del DTHIS-C</span></h1>
 </div>
 
 
@@ -208,43 +204,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="introducción-al-dthis-c" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="introducción-al-dthis-c"><span class="header-section-number">3.1</span> Introducción al DTHIS-C</h2>
+<section id="especificaciones-del-dthis-c" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="especificaciones-del-dthis-c"><span class="header-section-number">3.1</span> Especificaciones del DTHIS-C</h2>
 </section>
-<section id="componentes-principales-del-dthis-c" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="componentes-principales-del-dthis-c"><span class="header-section-number">3.2</span> Componentes Principales del DTHIS-C</h2>
+<section id="diseño-del-dthis-c" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="diseño-del-dthis-c"><span class="header-section-number">3.2</span> Diseño del DTHIS-C</h2>
+<section id="termopar-tipo-t" class="level3">
+<h3 class="anchored" data-anchor-id="termopar-tipo-t">Termopar Tipo T</h3>
 </section>
-<section id="diseño-del-sistema" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="diseño-del-sistema"><span class="header-section-number">3.3</span> Diseño del Sistema</h2>
+<section id="fuehler-systeme-tpf1e-20-pt1000" class="level3">
+<h3 class="anchored" data-anchor-id="fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</h3>
 </section>
-<section id="medición-de-variables-y-metodología-de-implementación" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="medición-de-variables-y-metodología-de-implementación"><span class="header-section-number">3.4</span> Medición de Variables y Metodología de Implementación</h2>
-<section id="temperatura-del-aire" class="level3">
-<h3 class="anchored" data-anchor-id="temperatura-del-aire">Temperatura del Aire</h3>
+<section id="modern-device-wind-sensor-rev.-p6" class="level3">
+<h3 class="anchored" data-anchor-id="modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</h3>
 </section>
-<section id="temperatura-radiante" class="level3">
-<h3 class="anchored" data-anchor-id="temperatura-radiante">Temperatura Radiante</h3>
+<section id="sensirion-scd30" class="level3">
+<h3 class="anchored" data-anchor-id="sensirion-scd30">Sensirion SCD30</h3>
 </section>
-<section id="velocidad-del-viento" class="level3">
-<h3 class="anchored" data-anchor-id="velocidad-del-viento">Velocidad del Viento</h3>
+<section id="arducam-5mp-ov5647-ultra-wide-angle" class="level3">
+<h3 class="anchored" data-anchor-id="arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</h3>
 </section>
-<section id="humedad-relativa" class="level3">
-<h3 class="anchored" data-anchor-id="humedad-relativa">Humedad Relativa</h3>
-</section>
-<section id="concentración-de-co2" class="level3">
-<h3 class="anchored" data-anchor-id="concentración-de-co2">Concentración de CO2</h3>
-</section>
-<section id="luminancia-y-deslumbramiento" class="level3">
-<h3 class="anchored" data-anchor-id="luminancia-y-deslumbramiento">Luminancia y Deslumbramiento</h3>
-</section>
-<section id="niveles-de-sonido" class="level3">
-<h3 class="anchored" data-anchor-id="niveles-de-sonido">Niveles de Sonido</h3>
-</section>
-</section>
-<section id="calibración-y-validación-del-dthis-c" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="calibración-y-validación-del-dthis-c"><span class="header-section-number">3.5</span> Calibración y Validación del DTHIS-C</h2>
+<section id="micrófono-ambiental-usb" class="level3">
+<h3 class="anchored" data-anchor-id="micrófono-ambiental-usb">Micrófono ambiental USB</h3>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -814,13 +798,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_2.html" class="pagination-link" aria-label="Tipos de Confort en Espacios Interiores">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Tipos de Confort en Espacios Interiores</span></span>
+      <a href="./chapter_2.html" class="pagination-link" aria-label="Confort y calidad del aire en espacios interiores">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confort y calidad del aire en espacios interiores</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_4.html" class="pagination-link" aria-label="Resultados y Análisis de las Pruebas del DTHIS-C">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Resultados y Análisis de las Pruebas del DTHIS-C</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter_4.html" class="pagination-link" aria-label="Calibración y caracterización del DTHIS-C">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Calibración y caracterización del DTHIS-C</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

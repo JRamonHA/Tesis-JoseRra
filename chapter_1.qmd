@@ -1,7 +1,7 @@
-# Introducción al Confort en Espacios Interiores y el Desarrollo del DTHIS-C 
+# Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C
 
-## Importancia del Confort en Espacios Interiores
+## Importancia del confort en espacios interiores
 
-## Problemática de los Métodos de Medición Tradicionales
+## Modelos de confort adaptativos
 
 ## Objetivos

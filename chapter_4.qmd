@@ -1,5 +1,7 @@
-# Resultados y Análisis de las Pruebas del DTHIS-C
+# Calibración y caracterización del DTHIS-C
 
-## Presentación de los Resultados por Variables de Confort
+## Presentación de los resultados
 
-## Análisis e Interpretación de Resultados
+## Análisis e interpretación de resultados
+
+## Visualización de datos

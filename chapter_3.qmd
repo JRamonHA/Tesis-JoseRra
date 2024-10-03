@@ -1,18 +1,12 @@
-# Diseño y Construcción del DTHIS-C
+# Diseño y construcción del DTHIS-C
 
-## Introducción al DTHIS-C
+## Especificaciones del DTHIS-C
 
-## Componentes Principales del DTHIS-C
+## Diseño del DTHIS-C
 
-## Diseño del Sistema
-
-## Medición de Variables y Metodología de Implementación
-### Temperatura del Aire 
-### Temperatura Radiante
-### Velocidad del Viento
-### Humedad Relativa
-### Concentración de CO2
-### Luminancia y Deslumbramiento
-### Niveles de Sonido
-
-## Calibración y Validación del DTHIS-C
+### Termopar Tipo T 
+### Fuehler Systeme TPF1/E-20 PT1000
+### Modern Device Wind Sensor Rev. P6
+### Sensirion SCD30
+### Arducam 5MP OV5647 Ultra Wide Angle
+### Micrófono ambiental USB

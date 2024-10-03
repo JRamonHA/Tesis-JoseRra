@@ -1,11 +1,17 @@
-# Tipos de Confort en Espacios Interiores
+# Confort y calidad del aire en espacios interiores
 
-## Definición de Confort en Espacios Interiores
+## Confort térmico
 
-## Confort Térmico
+## Variables físicas del confort térmico
 
-## Confort Acústico
+## Confort acústico
 
-## Confort Lumínico
+## Variables físicas del confort acústico
 
-## Calidad del Aire
+## Confort lumínico
+
+## Variables físicas del confort lumínico
+
+## Calidad del aire
+
+## Variables físicas de la calidad del aire
