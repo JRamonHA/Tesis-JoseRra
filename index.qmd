@@ -1,2 +1,2 @@
 # Portada {.unnumbered}
-![](./figs/Portada_LIER.jpg){ fig-align="center" width="100%"}
+![](./images/Portada_LIER.jpg){ fig-align="center" width="100%"}
