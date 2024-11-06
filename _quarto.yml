@@ -36,6 +36,10 @@ format:
     theme:
       light: cosmo
       dark: [cosmo, theme-dark.scss]
+    smooth-scroll: true
+    comments:
+      hypothesis: 
+        theme: clean
     code-link: true
   pdf:
     documentclass: scrreprt
