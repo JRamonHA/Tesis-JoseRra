@@ -14,7 +14,7 @@
     "href": "chapter_1.html",
     "title": "1  Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C",
     "section": "",
-    "text": "1.1 Importancia del confort en espacios interiores",
+    "text": "1.1 Importancia del confort en espacios interiores\nEn este capítulo se examina la importancia del confort en espacios interiores conforme al ANSI/ASHRAE Standard 55, que establece las condiciones térmicas necesarias para el bienestar de los ocupantes. Se incluyen modelos adaptativos de confort, que explican cómo las personas ajustan sus expectativas de acuerdo con el clima y contexto, aportando claves para el diseño de entornos confortables y eficientes.\nSe presenta también el DTHIS-C (Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña), un equipo portátil que mide variables ambientales como:\nDestacando la importancia de su elaboración para el desarrollo de espacios interiores basados en criterios de confort térmico, acústico y lumínico.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C</span>"
     ]
@@ -197,6 +197,16 @@
     "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. «Literate Programming». Comput. J. 27 (2): 97-111. https://doi.org/10.1093/comjnl/27.2.97.",
     "crumbs": [
       "Anexos"
+    ]
+  },
+  {
+    "objectID": "chapter_1.html#dthis-c",
+    "href": "chapter_1.html#dthis-c",
+    "title": "1  Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C",
+    "section": "1.3 DTHIS-C",
+    "text": "1.3 DTHIS-C",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C</span>"
     ]
   }
 ]

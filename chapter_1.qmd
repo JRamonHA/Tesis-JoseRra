@@ -1,7 +1,22 @@
 # Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C
 
+En este capítulo se examina la importancia del confort en espacios interiores conforme al ANSI/ASHRAE Standard 55, que establece las condiciones térmicas necesarias para el bienestar de los ocupantes. Se incluyen modelos adaptativos de confort, que explican cómo las personas ajustan sus expectativas de acuerdo con el clima y contexto, aportando claves para el diseño de entornos confortables y eficientes.
+
+Se presenta también el DTHIS-C (Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña), un equipo portátil que mide variables ambientales como:
+
+- Temperatura del aire a diferentes alturas
+- Temperatura radiante
+- Humedad relativa
+- Velocidad del viento
+- Concentración de CO<sub>2</sub>
+- Luminancia
+- Deslumbramiento
+- Niveles de sonido
+
+Destacando la importancia de su elaboración para el desarrollo de espacios interiores basados en criterios de confort térmico, acústico y lumínico.
+
 ## Importancia del confort en espacios interiores
 
 ## Modelos de confort adaptativos
 
-## Objetivos
+## DTHIS-C
