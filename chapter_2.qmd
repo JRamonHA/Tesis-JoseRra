@@ -34,8 +34,16 @@ El nivel de presión sonora es uno de los principales factores acústicos que in
 
 ## Confort lumínico
 
+El confort lumínico se refiere a la percepción de bienestar visual en un espacio, permitiendo que las personas realicen sus actividades cotidianas de manera efectiva y cómoda bajo condiciones de iluminación adecuadas. @vasquez
+
 ## Variables físicas del confort lumínico
+
+Según se describe en la norma ISO EN 12464-1 @light, la evaluación del confort lumínico puede lograrse mediante la determinación de: la luminancia, la iluminancia, el deslumbramiento, la iluminación en espacios interiores.
 
 ## Calidad del aire
 
+De acuerdo con el estándar @air, se considera que el aire interior tiene una calidad aceptable cuando "no contiene contaminantes conocidos en concentraciones nocivas según lo establecido por las autoridades competentes y la mayoría sustancial de las personas expuestas (80% o más) no expresa insatisfacción".
+
 ## Variables físicas de la calidad del aire
+
+La calidad del aire interior se evalúa monitoreando la concentración de CO<sub>2</sub>, comparándola con los niveles exteriores (300-500 ppm). @air recomienda mantener concentraciones interiores entre 1000 y 1200 ppm para garantizar un ambiente adecuado y regular los sistemas de ventilación. Sin embargo, concentraciones superiores a 5000 ppm son peligrosas, ya que indican una ausencia total de aire fresco.

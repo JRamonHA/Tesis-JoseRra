@@ -84,7 +84,7 @@
     "href": "chapter_2.html#confort-lumínico",
     "title": "2  Confort y calidad del aire en espacios interiores",
     "section": "2.5 Confort lumínico",
-    "text": "2.5 Confort lumínico",
+    "text": "2.5 Confort lumínico\nEl confort lumínico se refiere a la percepción de bienestar visual en un espacio, permitiendo que las personas realicen sus actividades cotidianas de manera efectiva y cómoda bajo condiciones de iluminación adecuadas. Vásquez et al. (2019)",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Confort y calidad del aire en espacios interiores</span>"
     ]
@@ -94,7 +94,7 @@
     "href": "chapter_2.html#variables-físicas-del-confort-lumínico",
     "title": "2  Confort y calidad del aire en espacios interiores",
     "section": "2.6 Variables físicas del confort lumínico",
-    "text": "2.6 Variables físicas del confort lumínico",
+    "text": "2.6 Variables físicas del confort lumínico\nSegún se describe en la norma ISO EN 12464-1 Standard (2011), la evaluación del confort lumínico puede lograrse mediante la determinación de: la luminancia, la iluminancia, el deslumbramiento, la iluminación en espacios interiores.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Confort y calidad del aire en espacios interiores</span>"
     ]
@@ -104,7 +104,7 @@
     "href": "chapter_2.html#calidad-del-aire",
     "title": "2  Confort y calidad del aire en espacios interiores",
     "section": "2.7 Calidad del aire",
-    "text": "2.7 Calidad del aire",
+    "text": "2.7 Calidad del aire\nDe acuerdo con el estándar ASHRAE-62 (2001), se considera que el aire interior tiene una calidad aceptable cuando “no contiene contaminantes conocidos en concentraciones nocivas según lo establecido por las autoridades competentes y la mayoría sustancial de las personas expuestas (80% o más) no expresa insatisfacción”.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Confort y calidad del aire en espacios interiores</span>"
     ]
@@ -114,7 +114,7 @@
     "href": "chapter_2.html#variables-físicas-de-la-calidad-del-aire",
     "title": "2  Confort y calidad del aire en espacios interiores",
     "section": "2.8 Variables físicas de la calidad del aire",
-    "text": "2.8 Variables físicas de la calidad del aire\n\n\n\n\nAntoniadou, Panagiota, y Agis M. Papadopoulos. 2017. «Occupants’ thermal comfort: State of the art and the prospects of personalized assessment in office buildings». Energy and Buildings 153: 136-49. https://doi.org/10.1016/j.enbuild.2017.08.001.\n\n\nASHRAE-55. 2021. ANSI/ASHRAE Standard 55-2020: Thermal Environmental Conditions for Human Occupancy. Atlanta, GA: American Society of Heating, Refrigerating; Air-Conditioning Engineers (ASHRAE).\n\n\nAzar, Elie, William O’Brien, Salvatore Carlucci, Tianzhen Hong, Andrew Sonta, Joyce Kim, Maedot S. Andargie, et al. 2020. «Simulation-aided occupant-centric building design: A critical review of tools, methods, and applications». Energy and Buildings 224: 110292. https://doi.org/10.1016/j.enbuild.2020.110292.\n\n\nDjongyang, Noël, René Tchinda, y Donatien Njomo. 2010. «Thermal comfort: A review paper». Renewable and Sustainable Energy Reviews 14 (9): 2626-40. https://doi.org/10.1016/j.rser.2010.07.040.\n\n\nMacpherson, R. K. 1962. «The assessment of the thermal environment: A review». British Journal of Industrial Medicine 19 (3): 151-64. https://doi.org/10.1136/oem.19.3.151.",
+    "text": "2.8 Variables físicas de la calidad del aire\nLa calidad del aire interior se evalúa monitoreando la concentración de CO2, comparándola con los niveles exteriores (300-500 ppm). ASHRAE-62 (2001) recomienda mantener concentraciones interiores entre 1000 y 1200 ppm para garantizar un ambiente adecuado y regular los sistemas de ventilación. Sin embargo, concentraciones superiores a 5000 ppm son peligrosas, ya que indican una ausencia total de aire fresco.\n\n\n\n\nAntoniadou, Panagiota, y Agis M. Papadopoulos. 2017. «Occupants’ thermal comfort: State of the art and the prospects of personalized assessment in office buildings». Energy and Buildings 153: 136-49. https://doi.org/10.1016/j.enbuild.2017.08.001.\n\n\nASHRAE-55. 2021. ANSI/ASHRAE Standard 55-2020: Thermal Environmental Conditions for Human Occupancy. Atlanta, GA: American Society of Heating, Refrigerating; Air-Conditioning Engineers (ASHRAE).\n\n\nASHRAE-62. 2001. ANSI/ASHRAE Standard 62-2001: Ventilation for acceptable indoor air quality. Vol. 62. 2001. American Society of Heating, Refrigerating; Air-Conditioning Engineers.\n\n\nAzar, Elie, William O’Brien, Salvatore Carlucci, Tianzhen Hong, Andrew Sonta, Joyce Kim, Maedot S. Andargie, et al. 2020. «Simulation-aided occupant-centric building design: A critical review of tools, methods, and applications». Energy and Buildings 224: 110292. https://doi.org/10.1016/j.enbuild.2020.110292.\n\n\nDjongyang, Noël, René Tchinda, y Donatien Njomo. 2010. «Thermal comfort: A review paper». Renewable and Sustainable Energy Reviews 14 (9): 2626-40. https://doi.org/10.1016/j.rser.2010.07.040.\n\n\nMacpherson, R. K. 1962. «The assessment of the thermal environment: A review». British Journal of Industrial Medicine 19 (3): 151-64. https://doi.org/10.1136/oem.19.3.151.\n\n\nStandard, British. 2011. «Light and lighting: Lighting of work places: Part 1: Indoor work places». NS-EN 12464-1: 2011.\n\n\nVásquez, Natalia Giraldo, Maíra Longhinotti Felippe, Fernando O. R. Pereira, y Ariane Kuhnen. 2019. «Luminous and visual preferences of young children in their classrooms: Curtain use, artificial lighting and window views». Building and Environment 152: 59-73. https://doi.org/10.1016/j.buildenv.2019.01.049.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Confort y calidad del aire en espacios interiores</span>"
     ]
@@ -184,7 +184,7 @@
     "href": "references.html",
     "title": "Bibliografía",
     "section": "",
-    "text": "Antoniadou, Panagiota, and Agis M. Papadopoulos. 2017. “Occupants’\nThermal Comfort: State of the Art and the Prospects of Personalized\nAssessment in Office Buildings.” Energy and Buildings\n153: 136–49. https://doi.org/10.1016/j.enbuild.2017.08.001.\n\n\nASHRAE-55. 2021. ANSI/ASHRAE Standard 55-2020: Thermal Environmental\nConditions for Human Occupancy. Atlanta, GA: American Society of\nHeating, Refrigerating; Air-Conditioning Engineers (ASHRAE).\n\n\nAzar, Elie, William O’Brien, Salvatore Carlucci, Tianzhen Hong, Andrew\nSonta, Joyce Kim, Maedot S. Andargie, et al. 2020.\n“Simulation-Aided Occupant-Centric Building Design: A Critical\nReview of Tools, Methods, and Applications.” Energy and\nBuildings 224: 110292. https://doi.org/10.1016/j.enbuild.2020.110292.\n\n\nDjongyang, Noël, René Tchinda, and Donatien Njomo. 2010. “Thermal\nComfort: A Review Paper.” Renewable and Sustainable Energy\nReviews 14 (9): 2626–40. https://doi.org/10.1016/j.rser.2010.07.040.\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.\n\n\nMacpherson, R. K. 1962. “The Assessment of the Thermal\nEnvironment: A Review.” British Journal of Industrial\nMedicine 19 (3): 151–64. https://doi.org/10.1136/oem.19.3.151.",
+    "text": "Antoniadou, Panagiota, and Agis M. Papadopoulos. 2017. “Occupants’\nThermal Comfort: State of the Art and the Prospects of Personalized\nAssessment in Office Buildings.” Energy and Buildings\n153: 136–49. https://doi.org/10.1016/j.enbuild.2017.08.001.\n\n\nASHRAE-55. 2021. ANSI/ASHRAE Standard 55-2020: Thermal Environmental\nConditions for Human Occupancy. Atlanta, GA: American Society of\nHeating, Refrigerating; Air-Conditioning Engineers (ASHRAE).\n\n\nASHRAE-62. 2001. ANSI/ASHRAE Standard 62-2001: Ventilation for\nAcceptable Indoor Air Quality. Vol. 62. 2001. American Society of\nHeating, Refrigerating; Air-Conditioning Engineers.\n\n\nAzar, Elie, William O’Brien, Salvatore Carlucci, Tianzhen Hong, Andrew\nSonta, Joyce Kim, Maedot S. Andargie, et al. 2020.\n“Simulation-Aided Occupant-Centric Building Design: A Critical\nReview of Tools, Methods, and Applications.” Energy and\nBuildings 224: 110292. https://doi.org/10.1016/j.enbuild.2020.110292.\n\n\nDjongyang, Noël, René Tchinda, and Donatien Njomo. 2010. “Thermal\nComfort: A Review Paper.” Renewable and Sustainable Energy\nReviews 14 (9): 2626–40. https://doi.org/10.1016/j.rser.2010.07.040.\n\n\nMacpherson, R. K. 1962. “The Assessment of the Thermal\nEnvironment: A Review.” British Journal of Industrial\nMedicine 19 (3): 151–64. https://doi.org/10.1136/oem.19.3.151.\n\n\nStandard, British. 2011. “Light and Lighting: Lighting of Work\nPlaces: Part 1: Indoor Work Places.” NS-EN 12464-1:\n2011.\n\n\nVásquez, Natalia Giraldo, Maíra Longhinotti Felippe, Fernando O. R.\nPereira, and Ariane Kuhnen. 2019. “Luminous and Visual Preferences\nof Young Children in Their Classrooms: Curtain Use, Artificial Lighting\nand Window Views.” Building and Environment 152: 59–73.\nhttps://doi.org/10.1016/j.buildenv.2019.01.049.",
     "crumbs": [
       "Bibliografía"
     ]
@@ -194,7 +194,7 @@
     "href": "anexos.html",
     "title": "Anexos",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. «Literate Programming». Comput. J. 27 (2): 97-111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "This is a book created from markdown and executable code.",
     "crumbs": [
       "Anexos"
     ]
