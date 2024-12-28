@@ -10,7 +10,21 @@ Según @djongyang, el confort térmico se alcanza cuando la temperatura corporal
 
 ## Variables físicas del confort térmico
 
-@macpherson identificó seis factores clave que afectan la sensación térmica. Entre ellos se encuentran cuatro variables físicas: temperatura del aire, velocidad del aire, humedad relativa y temperatura media radiante; y dos variables personales: el aislamiento térmico de la ropa y el nivel de actividad física, también conocido como tasa metabólica. Estos factores constituyen la base para el análisis y predicción del confort térmico en espacios cerrados.
+@macpherson identificó seis factores determinantes que afectan la sensación térmica en los espacios cerrados. Entre ellos, cuatro son variables físicas: temperatura del aire, velocidad del aire, humedad relativa y temperatura media radiante; y dos son variables personales: el aislamiento térmico de la ropa y el nivel de actividad física, también conocido como tasa metabólica. Estos factores constituyen la base para el análisis y predicción del confort térmico.  
+
+Acorde a @ashrae55, dichas variables se definen de la siguiente manera:  
+
+1. **Temperatura del aire**: La temperatura medida en un punto específico del aire.  
+
+2. **Velocidad del aire**: La magnitud del movimiento del aire en un punto determinado, sin considerar su dirección.  
+
+3. **Humedad**: Representa el contenido de humedad en el aire y se expresa mediante varias variables termodinámicas, como presión de vapor, temperatura de punto de rocío, temperatura de bulbo húmedo, relación de humedad y humedad relativa. Su promedio espacial y temporal se calcula de manera similar al de la temperatura del aire.  
+
+4. **Temperatura media radiante ($t_{r}$)**: La temperatura de un recinto negro y uniforme que intercambia con el ocupante la misma cantidad de calor por radiación que el entorno real. Este valor único aplica a todo el cuerpo y considera tanto la temperatura radiante media de onda larga ($t_{rlw}$) como la de onda corta ($t_{rsw}$).  
+
+5. **Aislamiento térmico de la ropa ($I_{cl}$)**: La resistencia al intercambio de calor sensible proporcionada por un conjunto de ropa, expresada en unidades de "clo". *Nota informativa*: Esta definición incluye la transferencia de calor de todo el cuerpo, incluyendo las áreas no cubiertas, como la cabeza y las manos.  
+
+6. **Tasa metabólica ($met$)**: La tasa a la que se transforma la energía química en calor y trabajo mecánico debido a las actividades metabólicas de un individuo. Se mide por unidad de área de superficie de la piel y se expresa en "met", equivalente a 58.2 W/m<sup>2</sup>, que corresponde a la energía generada por unidad de superficie de piel de una persona promedio en reposo.  
 
 ## Confort acústico
 
@@ -30,7 +44,7 @@ Asimismo enumera ciertos factores acústicos que impactan el confort acústico:
 3. La duración del ruido.  
 4. Su variación en el tiempo. 
 
-El nivel de presión sonora es uno de los principales factores acústicos que influyen en el confort. Para predecir el confort frente al ruido de impacto, se utiliza típicamente el nivel máximo de presión sonora (Lmax), mientras que para el ruido aéreo se emplea el nivel de presión sonora equivalente durante un periodo de tiempo determinado (Leq). @azar
+El nivel de presión sonora es uno de los principales factores acústicos que influyen en el confort. Para predecir el confort frente al ruido de impacto, se utiliza típicamente el nivel máximo de presión sonora ($L_{max}$), mientras que para el ruido aéreo se emplea el nivel de presión sonora equivalente durante un periodo de tiempo determinado ($L_{eq}$). @azar
 
 ## Confort lumínico
 

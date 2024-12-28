@@ -27,6 +27,9 @@ book:
     search: true
     collapse-level: 1
 
+comments:
+  hypothesis: true
+
 format:
   html:
     toc: true
@@ -37,9 +40,6 @@ format:
       light: cosmo
       dark: [cosmo, theme-dark.scss]
     smooth-scroll: true
-    comments:
-      hypothesis: 
-        theme: clean
     code-link: true
   pdf:
     documentclass: scrreprt

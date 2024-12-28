@@ -91,11 +91,6 @@ div.csl-indent {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
-<script type="application/json" class="js-hypothesis-config">
-{
-  "theme": "clean"
-}
-</script>
 <script async="" src="https://hypothes.is/embed.js"></script>
 <script>
   window.document.addEventListener("DOMContentLoaded", function (_event) {
@@ -103,6 +98,35 @@ div.csl-indent {
   });
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -242,7 +266,16 @@ div.csl-indent {
 </section>
 <section id="variables-físicas-del-confort-térmico" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="variables-físicas-del-confort-térmico"><span class="header-section-number">2.2</span> Variables físicas del confort térmico</h2>
-<p><span class="citation" data-cites="macpherson">Macpherson (<a href="references.html#ref-macpherson" role="doc-biblioref">1962</a>)</span> identificó seis factores clave que afectan la sensación térmica. Entre ellos se encuentran cuatro variables físicas: temperatura del aire, velocidad del aire, humedad relativa y temperatura media radiante; y dos variables personales: el aislamiento térmico de la ropa y el nivel de actividad física, también conocido como tasa metabólica. Estos factores constituyen la base para el análisis y predicción del confort térmico en espacios cerrados.</p>
+<p><span class="citation" data-cites="macpherson">Macpherson (<a href="references.html#ref-macpherson" role="doc-biblioref">1962</a>)</span> identificó seis factores determinantes que afectan la sensación térmica en los espacios cerrados. Entre ellos, cuatro son variables físicas: temperatura del aire, velocidad del aire, humedad relativa y temperatura media radiante; y dos son variables personales: el aislamiento térmico de la ropa y el nivel de actividad física, también conocido como tasa metabólica. Estos factores constituyen la base para el análisis y predicción del confort térmico.</p>
+<p>Acorde a <span class="citation" data-cites="ashrae55">ASHRAE-55 (<a href="references.html#ref-ashrae55" role="doc-biblioref">2021</a>)</span>, dichas variables se definen de la siguiente manera:</p>
+<ol type="1">
+<li><p><strong>Temperatura del aire</strong>: La temperatura medida en un punto específico del aire.</p></li>
+<li><p><strong>Velocidad del aire</strong>: La magnitud del movimiento del aire en un punto determinado, sin considerar su dirección.</p></li>
+<li><p><strong>Humedad</strong>: Representa el contenido de humedad en el aire y se expresa mediante varias variables termodinámicas, como presión de vapor, temperatura de punto de rocío, temperatura de bulbo húmedo, relación de humedad y humedad relativa. Su promedio espacial y temporal se calcula de manera similar al de la temperatura del aire.</p></li>
+<li><p><strong>Temperatura media radiante (<span class="math inline">\(t_{r}\)</span>)</strong>: La temperatura de un recinto negro y uniforme que intercambia con el ocupante la misma cantidad de calor por radiación que el entorno real. Este valor único aplica a todo el cuerpo y considera tanto la temperatura radiante media de onda larga (<span class="math inline">\(t_{rlw}\)</span>) como la de onda corta (<span class="math inline">\(t_{rsw}\)</span>).</p></li>
+<li><p><strong>Aislamiento térmico de la ropa (<span class="math inline">\(I_{cl}\)</span>)</strong>: La resistencia al intercambio de calor sensible proporcionada por un conjunto de ropa, expresada en unidades de “clo”. <em>Nota informativa</em>: Esta definición incluye la transferencia de calor de todo el cuerpo, incluyendo las áreas no cubiertas, como la cabeza y las manos.</p></li>
+<li><p><strong>Tasa metabólica (<span class="math inline">\(met\)</span>)</strong>: La tasa a la que se transforma la energía química en calor y trabajo mecánico debido a las actividades metabólicas de un individuo. Se mide por unidad de área de superficie de la piel y se expresa en “met”, equivalente a 58.2 W/m<sup>2</sup>, que corresponde a la energía generada por unidad de superficie de piel de una persona promedio en reposo.</p></li>
+</ol>
 </section>
 <section id="confort-acústico" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="confort-acústico"><span class="header-section-number">2.3</span> Confort acústico</h2>
@@ -263,7 +296,7 @@ div.csl-indent {
 </li>
 <li>Su variación en el tiempo.</li>
 </ol>
-<p>El nivel de presión sonora es uno de los principales factores acústicos que influyen en el confort. Para predecir el confort frente al ruido de impacto, se utiliza típicamente el nivel máximo de presión sonora (Lmax), mientras que para el ruido aéreo se emplea el nivel de presión sonora equivalente durante un periodo de tiempo determinado (Leq). <span class="citation" data-cites="azar">Azar et&nbsp;al. (<a href="references.html#ref-azar" role="doc-biblioref">2020</a>)</span></p>
+<p>El nivel de presión sonora es uno de los principales factores acústicos que influyen en el confort. Para predecir el confort frente al ruido de impacto, se utiliza típicamente el nivel máximo de presión sonora (<span class="math inline">\(L_{max}\)</span>), mientras que para el ruido aéreo se emplea el nivel de presión sonora equivalente durante un periodo de tiempo determinado (<span class="math inline">\(L_{eq}\)</span>). <span class="citation" data-cites="azar">Azar et&nbsp;al. (<a href="references.html#ref-azar" role="doc-biblioref">2020</a>)</span></p>
 </section>
 <section id="confort-lumínico" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="confort-lumínico"><span class="header-section-number">2.5</span> Confort lumínico</h2>
