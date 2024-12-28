@@ -1,6 +1,6 @@
 # Confort y calidad del aire en espacios interiores
 
-En este capítulo se aborda el contexto del confort en espacios cerrados, incluyendo los aspectos térmico, acústico, lumínico y la calidad del aire. Se define el concepto de confort térmico, destacando las variables físicas que lo determinan y las temperaturas integradas más comúnmente utilizadas para su evaluación. Asimismo, se revisan los métodos desarrollados para predecir el confort térmico a lo largo del tiempo. Además, se identifican y describen los principales fenómenos asociados con la incomodidad térmica, acústica y lumínica. Finalmente, se presentan los aspectos fundamentales relacionados con el confort acústico, lumínico y la calidad del aire.
+En este capítulo se aborda el contexto del confort en espacios cerrados, incluyendo los aspectos térmico, acústico, lumínico y la calidad del aire. Se define el concepto de confort térmico, destacando las variables físicas que lo determinan. Asimismo, se revisan los métodos desarrollados para evaluar el confort térmico a lo largo del tiempo. Además, se identifican y describen los principales fenómenos asociados con la incomodidad térmica, acústica y lumínica. Finalmente, se presentan los aspectos fundamentales relacionados con el confort acústico, lumínico y la calidad del aire.
 
 ## Confort térmico
 
