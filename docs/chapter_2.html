@@ -303,7 +303,19 @@ window.Quarto = {
 </section>
 <section id="variables-físicas-del-confort-lumínico" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="variables-físicas-del-confort-lumínico"><span class="header-section-number">2.6</span> Variables físicas del confort lumínico</h2>
-<p>Según se describe en la norma ISO EN 12464-1 <span class="citation" data-cites="light">Standard (<a href="references.html#ref-light" role="doc-biblioref">2011</a>)</span>, la evaluación del confort lumínico puede lograrse mediante la determinación de: la luminancia, la iluminancia, el deslumbramiento, la iluminación en espacios interiores.</p>
+<p>Según se describe en la norma ISO EN 12464-1 <span class="citation" data-cites="light">Standard (<a href="references.html#ref-light" role="doc-biblioref">2011</a>)</span>, la evaluación del confort lumínico puede lograrse mediante la determinación de: la luminancia y la iluminancia.</p>
+<ol type="1">
+<li><p><strong>Luminancia</strong>: Su unidad de medida es la candela por metro cuadrado (<span class="math inline">\(cd/m^2\)</span>) y se define como la densidad de la intensidad luminosa en una dirección específica, por unidad de área proyectada en un punto determinado de una superficie real o imaginaria. <span class="citation" data-cites="cie_lum">CIE (<a href="references.html#ref-cie_lum" role="doc-biblioref">2020b</a>)</span></p>
+<p>Matemáticamente, se expresa como:</p>
+<p><span class="math inline">\(L_v = \frac{I_v}{A \cdot \cos(\alpha)}\)</span></p>
+<p>donde (<span class="math inline">\(L_v\)</span>) es la luminancia, (<span class="math inline">\(I_v\)</span>) representa la intensidad luminosa en la dirección especificada, (<span class="math inline">\(A\)</span>) es el área considerada, y (<span class="math inline">\(\alpha\)</span>) es el ángulo entre la normal a la superficie en el punto especificado y la dirección considerada.</p>
+<p>La luminancia cuantifica cuán brillante aparece una superficie cuando se observa desde una dirección específica, teniendo en cuenta tanto la intensidad de la luz emitida o reflejada como la geometría de la superficie.</p></li>
+<li><p><strong>Iluminancia</strong>: Su unidad de medida es el lux (<span class="math inline">\(lx\)</span>) y se define como la densidad del flujo luminoso incidente por unidad de área en un punto de una superficie real o imaginaria. <span class="citation" data-cites="cie_illum">CIE (<a href="references.html#ref-cie_illum" role="doc-biblioref">2020a</a>)</span></p>
+<p>Matemáticamente, se expresa como:</p>
+<p><span class="math inline">\(E_v = \frac{\Phi_v}{A}\)</span></p>
+<p>donde (<span class="math inline">\(E_v\)</span>) es la iluminancia, (<span class="math inline">\(\Phi_v\)</span>) representa el flujo luminoso incidente, y (<span class="math inline">\(A\)</span>) es el área sobre la cual incide el flujo luminoso.</p>
+<p>La iluminancia cuantifica la cantidad de luz que llega a una superficie específica, considerando tanto la intensidad de la luz como el área sobre la cual se distribuye.</p></li>
+</ol>
 </section>
 <section id="calidad-del-aire" class="level2" data-number="2.7">
 <h2 data-number="2.7" class="anchored" data-anchor-id="calidad-del-aire"><span class="header-section-number">2.7</span> Calidad del aire</h2>
@@ -311,7 +323,7 @@ window.Quarto = {
 </section>
 <section id="variables-físicas-de-la-calidad-del-aire" class="level2" data-number="2.8">
 <h2 data-number="2.8" class="anchored" data-anchor-id="variables-físicas-de-la-calidad-del-aire"><span class="header-section-number">2.8</span> Variables físicas de la calidad del aire</h2>
-<p>La calidad del aire interior se evalúa monitoreando la concentración de CO<sub>2</sub>, comparándola con los niveles exteriores (300-500 ppm). <span class="citation" data-cites="air">ASHRAE-62 (<a href="references.html#ref-air" role="doc-biblioref">2001</a>)</span> recomienda mantener concentraciones interiores entre 1000 y 1200 ppm para garantizar un ambiente adecuado y regular los sistemas de ventilación. Sin embargo, concentraciones superiores a 5000 ppm son peligrosas, ya que indican una ausencia total de aire fresco.</p>
+<p>La calidad del aire interior se evalúa monitoreando la <strong>concentración de CO<sub>2</sub></strong>, comparándola con los niveles exteriores (300-500 ppm). <span class="citation" data-cites="air">ASHRAE-62 (<a href="references.html#ref-air" role="doc-biblioref">2001</a>)</span> recomienda mantener concentraciones interiores entre 1000 y 1200 ppm para garantizar un ambiente adecuado y regular los sistemas de ventilación. Sin embargo, concentraciones superiores a 5000 ppm son peligrosas, ya que indican una ausencia total de aire fresco.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -329,6 +341,12 @@ Azar, Elie, William O’Brien, Salvatore Carlucci, Tianzhen Hong, Andrew Sonta, 
 </div>
 <div id="ref-berglund" class="csl-entry" role="listitem">
 Berglund, B. 1999. <span>«Guidelines for community noise»</span>. <em>World Health Organization</em>.
+</div>
+<div id="ref-cie_illum" class="csl-entry" role="listitem">
+CIE. 2020a. <span>«Illuminance (17-21-060)»</span>. <a href="https://cie.co.at/eilvterm/17-21-060">https://cie.co.at/eilvterm/17-21-060</a>.
+</div>
+<div id="ref-cie_lum" class="csl-entry" role="listitem">
+———. 2020b. <span>«Luminance (17-21-050)»</span>. <a href="https://cie.co.at/eilvterm/17-21-050">https://cie.co.at/eilvterm/17-21-050</a>.
 </div>
 <div id="ref-djongyang" class="csl-entry" role="listitem">
 Djongyang, Noël, René Tchinda, y Donatien Njomo. 2010. <span>«Thermal comfort: A review paper»</span>. <em>Renewable and Sustainable Energy Reviews</em> 14 (9): 2626-40. <a href="https://doi.org/10.1016/j.rser.2010.07.040">https://doi.org/10.1016/j.rser.2010.07.040</a>.
