@@ -6,20 +6,47 @@ En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C
 
 El dispositivo se compone de los siguientes sensores y componentes electrónicos:
 
-| **Sensor**                                    | **Variable**                       | **Cantidad** | **Comunicación** | **Microcontrolador**     | **Acondicionador de señal**  |
-|-----------------------------------------------|------------------------------------|--------------|------------------|--------------------------|------------------------------|
-| Termopar tipo T                               | Temperatura Ambiente               | 4            | ICSP             | Arduino UNO R4 WiFi      | PWFusion SEN-30007 MAX31856	 |
-| TPF1/E-20 PT1000                              | Temperatura Radiante               | 1            | ICSP             | Arduino UNO R4 WiFi      | Adafruit PT1000 RTD-MAX31865 |
-| Wind Sensor Rev P6                            | Velocidad del Viento		         | 1            | ADC              | Arduino UNO R4 WiFi        |				               |
-| SCD30 Sensirion                               | CO₂ y Humedad Relativa             | 1            | I2C              | Raspberry Pi 4           |				                 |
-| 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | 1            | CSI              | Raspberry Pi 4           |				                 |
-| Micrófono ambiental USB                       | Sonido                             | 1            | USB              | Raspberry Pi 4           |                              |
+| **Sensor**                                    | **Variable**                       | **Comunicación** | **Microcontrolador**     | **Acondicionador de señal**  |
+|-----------------------------------------------|------------------------------------|------------------|--------------------------|------------------------------|
+| Termopar tipo T                               | Temperatura Ambiente               | ICSP             | Arduino UNO R4 WiFi      | PWFusion MAX31856 SEN-30007	 |
+| TPF1/E-20 PT1000                              | Temperatura Radiante               | ICSP             | Arduino UNO R4 WiFi      | Adafruit PT1000 RTD-MAX31865 |
+| Wind Sensor Rev P6                            | Velocidad del Viento		           | ADC              | Arduino UNO R4 WiFi        |				               |
+| SCD30 Sensirion                               | CO<sub>2</sub> y Humedad Relativa             | I2C              | Raspberry Pi 4           |				                 |
+| 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | CSI              | Raspberry Pi 4           |				                 |
+| Micrófono ambiental USB                       | Sonido                             | USB              | Raspberry Pi 4           |                              |
 
 ## Diseño del DTHIS-C
 
 A continuación se proporcionan las especificaciones y código para cada sensor:
 
-### Termopar Tipo T
+### Termopar Tipo T 
+
+En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para aplicaciones de baja temperatura y criogénicas, así como para entornos con humedad.  
+
+A continuación, se presentan sus especificaciones según @omega:  
+
+**Rangos de Temperatura**  
+- **Grado de termopar:** -200 a 350 °C (-328 a 662 °F).  
+- **Grado de extensión:** -60 a 100 °C (-76 a 212 °F).  
+
+**Límites de Error**  
+- **Estándar:**  
+  - ±1.0 °C o ±0.75% por encima de 0 °C.  
+  - ±1.0 °C o ±1.5% por debajo de 0 °C.  
+- **Especial:**  
+  - ±0.5 °C o ±0.4%.  
+
+### PWFusion MAX31856 SEN-30007
+
+El PWFusion MAX31856 SEN-30007 es un shield de termopares de cuatro canales diseñado para integrarse con la plataforma Arduino. Este dispositivo se conecta directamente a la placa de desarrollo. El módulo acondiciona la señal proveniente de termopares, realizando el procesamiento necesario para adaptar y amplificar la señal eléctrica, la cual se caracteriza por su baja amplitud.
+
+Acorde a @pwf sus específicaciones son las siguientes:
+
+- Conversión de señal analógica a digital con resolución de 19 bits.
+- Interfaz ICSP de 4 hilos.
+- Rango de voltaje de alimentación: 3.3 V a 5.0 V.
+
+Igualmente se proporciona el código de Arduino empleado:
 
 ```` markdown
 #include <PWFusion_MAX31856.h>
@@ -66,6 +93,32 @@ float* ThermocoupleMeasurements() {
 ````
 
 ### Fuehler Systeme TPF1/E-20 PT1000
+Se empleó el TPF1/E-20 PT1000, diseñado para medir la temperatura radiante en un rango de temperaturas de -30 °C a +75 °C. Su sonda de temperatura, basada en la tecnología PT1000, se puede montar como un péndulo libremente suspendido, lo que permite obtener mediciones precisas de la temperatura de sensación térmica en entornos donde la convección natural y la estratificación del aire pueden influir en los resultados. @fuehler
+
+**Especificaciones**
+
+- Tipo de circuito: Conexión de 2 hilos.
+- Corriente de medición: Aproximadamente 1 mA.
+- Conexión eléctrica: Extremos pelados con terminales.
+- Cable: Cable de PVC (2×0,25 mm<sup>2</sup>, temperatura máxima +105 °C) con extremos de cable núcleo disponibles en diferentes longitudes.
+- Resistencia de fuga: Mayor a 100 M$\Omega$ a +20 °C (500 V DC).
+- Material del globo: Aluminio (negro).
+- Dimensiones del globo: Diámetro de 70 mm.
+
+### Adafruit PT1000 RTD-MAX31865
+
+El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital. 
+
+@adafruit describe las siguientes características:
+
+- Realiza la conversión de la resistencia de sensores RTD de platino a un valor digital de forma sencilla.
+- Soporte con RTD de platino con valores de 100 $\Omega$ a 1 k$\Omega$ (a 0 °C), abarcando desde PT100 hasta PT1000.
+- Compatible con configuraciones de 2, 3 y 4 hilos para la conexión de sensores.
+- Incorpora una interfaz ICSP, facilitando su integración en sistemas basados en microcontroladores.
+- Cuenta con un ADC de 15 bits que proporciona una resolución nominal de temperatura de 0.03125 °C (valor variable debido a la no linealidad del RTD) y una precisión total de hasta 0.5 °C (0.05% de la escala completa) en todas las condiciones operativas.
+- Tiempo máximo de conversión es de 21 ms.
+
+A continuación se muestra el código de Arduino:
 
 ```` markdown
 #include <Adafruit_MAX31865.h>
@@ -96,11 +149,52 @@ float readPT1000Temperature() {
 
 ### Modern Device Wind Sensor Rev. P6
 
+El sensor de viento Rev. P6 es un anemómetro de hilo caliente. Incorpora un potenciómetro de alta precisión para facilitar la calibración (realizada en fábrica) y utilizar termistores de coeficiente de temperatura positivo, que aseguran mediciones más estables incluso ante variaciones de temperatura ambiente. Requiere una fuente de alimentación de 9 a 12 V (idealmente 12 V) para garantizar el adecuado calentamiento de los termistores y evitar la saturación en condiciones de viento intenso. Integra un sensor de temperatura ambiental con salida escalada a 3.3 V y una señal de viento ajustada a un máximo de 3.3 V mediante resistencias de alta precisión. @modern
+
+**Especificaciones**
+
+- Voltaje de alimentación: 10–12 V.
+- Corriente: Aproximadamente 40 mA.
+- Velocidades de viento medidas: 0–150 mph.
+- Compensación de temperatura ambiente.
+
 ```` markdown
 Insert code
 ````
 
 ### Sensirion SCD30
+
+El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por infrarrojos. Incorpora un sensor de humedad y temperatura. Cuenta con un diseño de doble canal. Además, ofrece una precisión de ±(30 ppm + 3% de la lectura) en un rango de 400 a 10,000 ppm. @scd30
+
+**Especificaciones**
+
+**CO<sub>2</sub>**
+
+- Rango de medición: 400 – 10,000 ppm
+- Precisión: ±30 ppm ±3% del valor medido
+- Tiempo de respuesta (τ63%): 20 s
+- Estabilidad térmica: 2.5 ppm/°C
+
+**Humedad**
+
+- Precisión típica: ±3 %RH
+- Rango de operación: 0 – 95 %RH
+- Tiempo de respuesta (τ63%): 8 s
+- Certificación de calibración: Calibrado de fábrica
+- Temperatura
+- Precisión típica: ±0.4 °C
+- Tiempo de respuesta (τ63%): 10 s
+
+**Características generales**
+
+- Voltaje de alimentación: 3.3 – 5.5 V
+- Corriente promedio: 19 mA
+- Corriente máxima: 75 mA
+- Rango de temperatura de operación: 0 – 50 °C
+- Interfaces: I²C, ModBus, PWM
+- Dimensiones: 35 × 23 × 7 mm
+
+A continuación se muestra el código de Python empleado para us incorpación al DTHIS-C:
 
 ```` markdown
 import time
@@ -136,6 +230,26 @@ def scd30_measurements():
 ````
 
 ### Arducam 5MP OV5647 Ultra Wide Angle
+
+La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que ofrece un campo de visión horizontal de 220°. @arducam
+
+**Especificaciones**
+
+- Sensor: Omnivision OV5647
+- Tamaño del sensor: 1/4″ (OV5647)
+- Resolución: 5 MP (2592×1944)
+- Video:
+  - 1080p a 30 fps
+  - 720p a 60 fps
+  - 480p a 90 fps
+- Sensibilidad IR: Filtro IR-cut integrado (solo luz visible)
+- Campo de visión horizontal (HFOV): 220°
+- Distancia focal efectiva: 0.76 mm
+- Distancia focal equivalente en 35 mm: 8.2 mm
+- Tipo de enfoque: Manual
+- Montura del objetivo: M12
+- Dimensiones: 36 mm × 36 mm
+- Corriente pico: 300 mA
 
 ```` markdown
 #!/bin/bash
@@ -187,6 +301,16 @@ falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 > "$MAPS_DIR/
 ````
 
 ### Micrófono ambiental USB
+
+El micrófono incorpora un filtro que atenúa eficazmente los ruidos producidos por el viento o la respiración. Su patrón de captación direccional optimiza la focalización de la fuente sonora. @steren
+
+**Especificaciones**
+
+- Respuesta en frecuencia: 50 a 10,000 Hz
+- Impedancia 2,200 $\Omega$
+- Sensibilidad: -32 dB ±3 dB
+
+
 
 ```` markdown
 #!/bin/bash
