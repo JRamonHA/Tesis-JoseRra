@@ -251,6 +251,8 @@ La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que of
 - Dimensiones: 36 mm × 36 mm
 - Corriente pico: 300 mA
 
+A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:
+
 ```` markdown
 #!/bin/bash
 
@@ -310,7 +312,9 @@ El micrófono incorpora un filtro que atenúa eficazmente los ruidos producidos 
 - Impedancia 2,200 $\Omega$
 - Sensibilidad: -32 dB ±3 dB
 
+A continuación, se presentan los códigos utilizados para la captura y análisis de sonido. Estos scripts permiten grabar el audio, extraer parámetros clave de la señal y convertirlos a valores en decibeles (dB).
 
+El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:
 
 ```` markdown
 #!/bin/bash
@@ -319,6 +323,7 @@ grabar="/home/hdeza/Sonido/audio.wav"
 
 arecord -D plughw:3,0 -f cd -t wav -d 15 -r 44100 $grabar
 ````
+Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:
 
 ```` markdown
 #!/bin/bash
@@ -328,6 +333,8 @@ maximo="/home/hdeza/Sonido/dBmax.txt"
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Maximum amplitude:" | /usr/bin/awk '{print $3}'  > $maximo
 ````
 
+Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:
+
 ```` markdown
 #!/bin/bash
 
@@ -336,6 +343,8 @@ minimo="/home/hdeza/Sonido/dBmin.txt"
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Minimum amplitude:" | /usr/bin/awk '{print $3}' > $minimo
 ````
 
+Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:
+
 ```` markdown
 #!/bin/bash
 
@@ -343,6 +352,12 @@ media="/home/hdeza/Sonido/rms.txt"
 
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "RMS     amplitude:" | /usr/bin/awk '{print $3}' > $media
 ````
+
+El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:
+
+$$dB = 20 \log_{10}(\text{amplitud}) + 120$$
+
+Los valores resultantes son almacenados en un diccionario para su posterior uso:
 
 ```` markdown
 import numpy as np
