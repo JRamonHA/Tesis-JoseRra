@@ -261,16 +261,23 @@ window.Quarto = {
   <ul>
   <li><a href="#especificaciones-del-dthis-c" id="toc-especificaciones-del-dthis-c" class="nav-link active" data-scroll-target="#especificaciones-del-dthis-c"><span class="header-section-number">3.1</span> Especificaciones del DTHIS-C</a></li>
   <li><a href="#diseño-del-dthis-c" id="toc-diseño-del-dthis-c" class="nav-link" data-scroll-target="#diseño-del-dthis-c"><span class="header-section-number">3.2</span> Diseño del DTHIS-C</a>
+  <ul>
+  <li><a href="#arduino-uno-wifi-r2" id="toc-arduino-uno-wifi-r2" class="nav-link" data-scroll-target="#arduino-uno-wifi-r2"><span class="header-section-number">3.2.1</span> Arduino UNO WiFi R2</a>
   <ul class="collapse">
   <li><a href="#termopar-tipo-t" id="toc-termopar-tipo-t" class="nav-link" data-scroll-target="#termopar-tipo-t">Termopar Tipo T</a></li>
   <li><a href="#pwfusion-max31856-sen-30007" id="toc-pwfusion-max31856-sen-30007" class="nav-link" data-scroll-target="#pwfusion-max31856-sen-30007">PWFusion MAX31856 SEN-30007</a></li>
   <li><a href="#fuehler-systeme-tpf1e-20-pt1000" id="toc-fuehler-systeme-tpf1e-20-pt1000" class="nav-link" data-scroll-target="#fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</a></li>
   <li><a href="#adafruit-pt1000-rtd-max31865" id="toc-adafruit-pt1000-rtd-max31865" class="nav-link" data-scroll-target="#adafruit-pt1000-rtd-max31865">Adafruit PT1000 RTD-MAX31865</a></li>
   <li><a href="#modern-device-wind-sensor-rev.-p6" id="toc-modern-device-wind-sensor-rev.-p6" class="nav-link" data-scroll-target="#modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</a></li>
+  </ul></li>
+  <li><a href="#raspberry-pi-4" id="toc-raspberry-pi-4" class="nav-link" data-scroll-target="#raspberry-pi-4"><span class="header-section-number">3.2.2</span> Raspberry Pi 4</a>
+  <ul class="collapse">
   <li><a href="#sensirion-scd30" id="toc-sensirion-scd30" class="nav-link" data-scroll-target="#sensirion-scd30">Sensirion SCD30</a></li>
   <li><a href="#arducam-5mp-ov5647-ultra-wide-angle" id="toc-arducam-5mp-ov5647-ultra-wide-angle" class="nav-link" data-scroll-target="#arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</a></li>
   <li><a href="#micrófono-ambiental-usb" id="toc-micrófono-ambiental-usb" class="nav-link" data-scroll-target="#micrófono-ambiental-usb">Micrófono ambiental USB</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#lista-de-materiales" id="toc-lista-de-materiales" class="nav-link" data-scroll-target="#lista-de-materiales"><span class="header-section-number">3.3</span> Lista de materiales</a></li>
   </ul>
 </nav>
     </div>
@@ -296,7 +303,7 @@ window.Quarto = {
 </header>
 
 
-<p>En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.</p>
+<p>En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.</p>
 <section id="especificaciones-del-dthis-c" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="especificaciones-del-dthis-c"><span class="header-section-number">3.1</span> Especificaciones del DTHIS-C</h2>
 <p>El dispositivo se compone de los siguientes sensores y componentes electrónicos:</p>
@@ -320,28 +327,28 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Termopar tipo T</td>
-<td>Temperatura Ambiente</td>
+<td>Temperatura ambiente</td>
 <td>ICSP</td>
-<td>Arduino UNO R4 WiFi</td>
+<td>Arduino UNO WiFi Rev2</td>
 <td>PWFusion MAX31856 SEN-30007</td>
 </tr>
 <tr class="even">
 <td>TPF1/E-20 PT1000</td>
-<td>Temperatura Radiante</td>
+<td>Temperatura radiante</td>
 <td>ICSP</td>
-<td>Arduino UNO R4 WiFi</td>
+<td>Arduino UNO WiFi Rev2</td>
 <td>Adafruit PT1000 RTD-MAX31865</td>
 </tr>
 <tr class="odd">
 <td>Wind Sensor Rev P6</td>
-<td>Velocidad del Viento</td>
+<td>Velocidad del viento</td>
 <td>ADC</td>
-<td>Arduino UNO R4 WiFi</td>
+<td>Arduino UNO WiFi Rev2</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>SCD30 Sensirion</td>
-<td>CO<sub>2</sub> y Humedad Relativa</td>
+<td>CO<sub>2</sub> y humedad relativa</td>
 <td>I2C</td>
 <td>Raspberry Pi 4</td>
 <td></td>
@@ -366,9 +373,11 @@ window.Quarto = {
 <section id="diseño-del-dthis-c" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="diseño-del-dthis-c"><span class="header-section-number">3.2</span> Diseño del DTHIS-C</h2>
 <p>A continuación se proporcionan las especificaciones y código para cada sensor:</p>
-<section id="termopar-tipo-t" class="level3">
-<h3 class="anchored" data-anchor-id="termopar-tipo-t">Termopar Tipo T</h3>
-<p>En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para aplicaciones de baja temperatura y criogénicas, así como para entornos con humedad.</p>
+<section id="arduino-uno-wifi-r2" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="arduino-uno-wifi-r2"><span class="header-section-number">3.2.1</span> Arduino UNO WiFi R2</h3>
+<section id="termopar-tipo-t" class="level4">
+<h4 class="anchored" data-anchor-id="termopar-tipo-t">Termopar Tipo T</h4>
+<p>En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para entornos con humedad.</p>
 <p>A continuación, se presentan sus especificaciones según <span class="citation" data-cites="omega">OMEGA (<a href="references.html#ref-omega" role="doc-biblioref">s.&nbsp;f.</a>)</span>:</p>
 <p><strong>Rangos de Temperatura</strong><br>
 - <strong>Grado de termopar:</strong> -200 a 350 °C (-328 a 662 °F).<br>
@@ -380,9 +389,15 @@ window.Quarto = {
 - <strong>Especial:</strong><br>
 - ±0.5 °C o ±0.4%.</p>
 </section>
-<section id="pwfusion-max31856-sen-30007" class="level3">
-<h3 class="anchored" data-anchor-id="pwfusion-max31856-sen-30007">PWFusion MAX31856 SEN-30007</h3>
+<section id="pwfusion-max31856-sen-30007" class="level4">
+<h4 class="anchored" data-anchor-id="pwfusion-max31856-sen-30007">PWFusion MAX31856 SEN-30007</h4>
 <p>El PWFusion MAX31856 SEN-30007 es un shield de termopares de cuatro canales diseñado para integrarse con la plataforma Arduino. Este dispositivo se conecta directamente a la placa de desarrollo. El módulo acondiciona la señal proveniente de termopares, realizando el procesamiento necesario para adaptar y amplificar la señal eléctrica, la cual se caracteriza por su baja amplitud.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/sen30007_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para el shield MAX31856 SEN-30007</figcaption>
+</figure>
+</div>
 <p>Acorde a <span class="citation" data-cites="pwf">PWFusion (<a href="references.html#ref-pwf" role="doc-biblioref">s.&nbsp;f.</a>)</span> sus específicaciones son las siguientes:</p>
 <ul>
 <li>Conversión de señal analógica a digital con resolución de 19 bits.</li>
@@ -432,8 +447,8 @@ window.Quarto = {
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  return temperatures;</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="fuehler-systeme-tpf1e-20-pt1000" class="level3">
-<h3 class="anchored" data-anchor-id="fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</h3>
+<section id="fuehler-systeme-tpf1e-20-pt1000" class="level4">
+<h4 class="anchored" data-anchor-id="fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</h4>
 <p>Se empleó el TPF1/E-20 PT1000, diseñado para medir la temperatura radiante en un rango de temperaturas de -30 °C a +75 °C. Su sonda de temperatura, basada en la tecnología PT1000, se puede montar como un péndulo libremente suspendido, lo que permite obtener mediciones precisas de la temperatura de sensación térmica en entornos donde la convección natural y la estratificación del aire pueden influir en los resultados. <span class="citation" data-cites="fuehler">FuehlerSysteme (<a href="references.html#ref-fuehler" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
 <p><strong>Especificaciones</strong></p>
 <ul>
@@ -446,9 +461,15 @@ window.Quarto = {
 <li>Dimensiones del globo: Diámetro de 70 mm.</li>
 </ul>
 </section>
-<section id="adafruit-pt1000-rtd-max31865" class="level3">
-<h3 class="anchored" data-anchor-id="adafruit-pt1000-rtd-max31865">Adafruit PT1000 RTD-MAX31865</h3>
+<section id="adafruit-pt1000-rtd-max31865" class="level4">
+<h4 class="anchored" data-anchor-id="adafruit-pt1000-rtd-max31865">Adafruit PT1000 RTD-MAX31865</h4>
 <p>El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/pt1000_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para el PT1000 RTD-MAX31865</figcaption>
+</figure>
+</div>
 <p><span class="citation" data-cites="adafruit">Adafruit (<a href="references.html#ref-adafruit" role="doc-biblioref">s.&nbsp;f.</a>)</span> describe las siguientes características:</p>
 <ul>
 <li>Realiza la conversión de la resistencia de sensores RTD de platino a un valor digital de forma sencilla.</li>
@@ -484,9 +505,15 @@ window.Quarto = {
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  return temperatura;</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="modern-device-wind-sensor-rev.-p6" class="level3">
-<h3 class="anchored" data-anchor-id="modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</h3>
+<section id="modern-device-wind-sensor-rev.-p6" class="level4">
+<h4 class="anchored" data-anchor-id="modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</h4>
 <p>El sensor de viento Rev.&nbsp;P6 es un anemómetro de hilo caliente. Incorpora un potenciómetro de alta precisión para facilitar la calibración (realizada en fábrica) y utilizar termistores de coeficiente de temperatura positivo, que aseguran mediciones más estables incluso ante variaciones de temperatura ambiente. Requiere una fuente de alimentación de 9 a 12 V (idealmente 12 V) para garantizar el adecuado calentamiento de los termistores y evitar la saturación en condiciones de viento intenso. Integra un sensor de temperatura ambiental con salida escalada a 3.3 V y una señal de viento ajustada a un máximo de 3.3 V mediante resistencias de alta precisión. <span class="citation" data-cites="modern">ModernDevice (<a href="references.html#ref-modern" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/windsensor_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para el Wind Sensor Rev.&nbsp;P6</figcaption>
+</figure>
+</div>
 <p><strong>Especificaciones</strong></p>
 <ul>
 <li>Voltaje de alimentación: 10–12 V.</li>
@@ -496,9 +523,18 @@ window.Quarto = {
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Insert code</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="sensirion-scd30" class="level3">
-<h3 class="anchored" data-anchor-id="sensirion-scd30">Sensirion SCD30</h3>
+</section>
+<section id="raspberry-pi-4" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="raspberry-pi-4"><span class="header-section-number">3.2.2</span> Raspberry Pi 4</h3>
+<section id="sensirion-scd30" class="level4">
+<h4 class="anchored" data-anchor-id="sensirion-scd30">Sensirion SCD30</h4>
 <p>El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por infrarrojos. Incorpora un sensor de humedad y temperatura. Cuenta con un diseño de doble canal. Además, ofrece una precisión de ±(30 ppm + 3% de la lectura) en un rango de 400 a 10,000 ppm. <span class="citation" data-cites="scd30">Sensirion (<a href="references.html#ref-scd30" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/scd30_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para el SCD30</figcaption>
+</figure>
+</div>
 <p><strong>Especificaciones</strong></p>
 <p><strong>CO<sub>2</sub></strong></p>
 <ul>
@@ -558,9 +594,15 @@ window.Quarto = {
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="in">        HR = round(HR, 2)</span></span>
 <span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="in">        return CO2, T, HR</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="arducam-5mp-ov5647-ultra-wide-angle" class="level3">
-<h3 class="anchored" data-anchor-id="arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</h3>
+<section id="arducam-5mp-ov5647-ultra-wide-angle" class="level4">
+<h4 class="anchored" data-anchor-id="arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</h4>
 <p>La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que ofrece un campo de visión horizontal de 220°. <span class="citation" data-cites="arducam">Arducam (<a href="references.html#ref-arducam" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/camera_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para la cámara OV5647</figcaption>
+</figure>
+</div>
 <p><strong>Especificaciones</strong></p>
 <ul>
 <li>Sensor: Omnivision OV5647</li>
@@ -629,9 +671,15 @@ window.Quarto = {
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>#Make the luminance map with configurations and save it</span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 &gt; "$MAPS_DIR/image_map_$DATE.hdr"</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="micrófono-ambiental-usb" class="level3">
-<h3 class="anchored" data-anchor-id="micrófono-ambiental-usb">Micrófono ambiental USB</h3>
+<section id="micrófono-ambiental-usb" class="level4">
+<h4 class="anchored" data-anchor-id="micrófono-ambiental-usb">Micrófono ambiental USB</h4>
 <p>El micrófono incorpora un filtro que atenúa eficazmente los ruidos producidos por el viento o la respiración. Su patrón de captación direccional optimiza la focalización de la fuente sonora. <span class="citation" data-cites="steren">Steren (<a href="references.html#ref-steren" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src=".\images/micro_bb.png" class="img-fluid figure-img" style="width:70.0%"></p>
+<figcaption>Diagrama de conexión para el micrófono</figcaption>
+</figure>
+</div>
 <p><strong>Especificaciones</strong></p>
 <ul>
 <li>Respuesta en frecuencia: 50 a 10,000 Hz</li>
@@ -697,6 +745,11 @@ window.Quarto = {
 <span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="in">    dBmin_db = round(20 * np.log10(abs(float(dBmin_x))) + 120, 4)</span></span>
 <span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="in">    return {'RMS': rms_db, 'dBmax': dBmax_db, 'dBmin': dBmin_db}</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="lista-de-materiales" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="lista-de-materiales"><span class="header-section-number">3.3</span> Lista de materiales</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -725,7 +778,6 @@ Sensirion. s.&nbsp;f. <span>«SCD30»</span>. <a href="https://sensirion.com/pro
 Steren. s.&nbsp;f. <span>«Micrófono USB C de solapa para celular»</span>. <a href="https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html">https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html</a>.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
