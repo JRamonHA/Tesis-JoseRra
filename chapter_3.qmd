@@ -4,22 +4,37 @@ En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C
 
 ## Especificaciones del DTHIS-C
 
-El dispositivo se compone de los siguientes sensores y componentes electrónicos:
+En la tabla @tbl-componentes se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.
 
 | **Sensor**                                    | **Variable**                       | **Comunicación** | **Microcontrolador**     | **Acondicionador de señal**  |
 |-----------------------------------------------|------------------------------------|------------------|--------------------------|------------------------------|
-| Termopar tipo T                               | Temperatura ambiente               | ICSP             | Arduino UNO WiFi Rev2    | PWFusion MAX31856 SEN-30007	 |
+| Termopar tipo T                               | Temperatura ambiente               | ICSP             | Arduino UNO WiFi Rev2    | PWFusion MAX31856 SEN-30007	|
 | TPF1/E-20 PT1000                              | Temperatura radiante               | ICSP             | Arduino UNO WiFi Rev2    | Adafruit PT1000 RTD-MAX31865 |
-| Wind Sensor Rev P6                            | Velocidad del viento		           | ADC              | Arduino UNO WiFi Rev2        |				                |
-| SCD30 Sensirion                               | CO<sub>2</sub> y humedad relativa  | I2C              | Raspberry Pi 4           |				                |
-| 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | CSI              | Raspberry Pi 4           |				                |
-| Micrófono ambiental USB                       | Sonido                             | USB              | Raspberry Pi 4           |                        |
+| Wind Sensor Rev P6                            | Velocidad del viento		           | ADC              | Arduino UNO WiFi Rev2    |				                      |
+| SCD30 Sensirion                               | CO<sub>2</sub> y humedad relativa  | I2C              | Raspberry Pi 4 Model B   |				                      |
+| 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | CSI              | Raspberry Pi 4 Model B   |				                      |
+| Micrófono ambiental USB                       | Sonido                             | USB              | Raspberry Pi 4 Model B   |                              |
+: Sensores y componentes electrónicos que consitutyen al DTHIS-C. {#tbl-componentes .hover .sm}
 
 ## Diseño del DTHIS-C
 
-A continuación se proporcionan las especificaciones y código para cada sensor:
+La arquitectura del DTHIS-C se ha fundamentado en el uso combinado de la Raspberry Pi 4 y el Arduino Uno WiFi Rev2, microcontroladores seleccionados por las siguientes características y ventajas:
 
-### Arduino UNO WiFi R2
+1. **Versatilidad y capacidad de procesamiento:**  
+   La Raspberry Pi 4, programada mediante Python, proporciona una plataforma robusta para el procesamiento avanzado de datos y la ejecución de algoritmos complejos. Su flexibilidad, junto con la facilidad de integración de diversas funcionalidades, permite adaptar el sistema a requerimientos específicos y optimizar el rendimiento según las demandas del entorno.
+
+2. **Conectividad y eficiencia en la adquisición de datos:**  
+   Ambos dispositivos cuentan con conectividad a Internet, lo que posibilita la transmisión en tiempo real de datos hacia una base de datos remota alojada en el servidor ThingsBoard. Además, el Arduino Uno WiFi Rev2 destaca por su eficiencia en la gestión de operaciones de entrada/salida, garantizando una respuesta rápida y precisa en la adquisición y control de los sensores.
+
+3. **Compatibilidad y ecosistema abierto:**  
+   La adopción de tecnologías abiertas facilita la integración y reproducibilidad del sistema. La amplia comunidad de desarrolladores que respalda tanto la Raspberry Pi como el Arduino asegura soporte continuo, actualizaciones regulares y una extensa variedad de recursos y librerías, lo que se traduce en mayor flexibilidad para adaptar el sistema a diversas necesidades y entornos.
+
+4. **Accesibilidad:**  
+   Frente a equipos especializados, la utilización de estos microcontroladores constituye una solución rentable sin comprometer el rendimiento ni la fiabilidad del sistema. Esta ventaja económica facilita la replicación y el escalado del proyecto en distintos contextos.
+
+A continuación, se detallan las especificaciones técnicas y el código implementado para cada sensor.
+
+### Arduino UNO WiFi Rev2
 
 #### Termopar Tipo T 
 
@@ -42,7 +57,7 @@ A continuación, se presentan sus especificaciones según @omega:
 
 El PWFusion MAX31856 SEN-30007 es un shield de termopares de cuatro canales diseñado para integrarse con la plataforma Arduino. Este dispositivo se conecta directamente a la placa de desarrollo. El módulo acondiciona la señal proveniente de termopares, realizando el procesamiento necesario para adaptar y amplificar la señal eléctrica, la cual se caracteriza por su baja amplitud.
 
-![Diagrama de conexión para el shield MAX31856 SEN-30007](/images/sen30007_bb.png){width=70%}
+![Diagrama de conexión para el shield MAX31856 SEN-30007](/images/sen30007_bb.png){#fig-MAX31856 width=70%}
 
 Acorde a @pwf sus específicaciones son las siguientes:
 
@@ -113,7 +128,7 @@ Se empleó el TPF1/E-20 PT1000, diseñado para medir la temperatura radiante en 
 
 El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital. 
 
-![Diagrama de conexión para el PT1000 RTD-MAX31865](/images/pt1000_bb.png){width=70%}
+![Diagrama de conexión para el PT1000 RTD-MAX31865](/images/pt1000_bb.png){#fig-MAX31865 width=70%}
 
 @adafruit describe las siguientes características:
 
@@ -157,7 +172,7 @@ float readPT1000Temperature() {
 
 El sensor de viento Rev. P6 es un anemómetro de hilo caliente. Incorpora un potenciómetro de alta precisión para facilitar la calibración (realizada en fábrica) y utilizar termistores de coeficiente de temperatura positivo, que aseguran mediciones más estables incluso ante variaciones de temperatura ambiente. Requiere una fuente de alimentación de 9 a 12 V (idealmente 12 V) para garantizar el adecuado calentamiento de los termistores y evitar la saturación en condiciones de viento intenso. Integra un sensor de temperatura ambiental con salida escalada a 3.3 V y una señal de viento ajustada a un máximo de 3.3 V mediante resistencias de alta precisión. @modern
 
-![Diagrama de conexión para el Wind Sensor Rev. P6](/images/windsensor_bb.png){width=70%}
+![Diagrama de conexión para el Wind Sensor Rev. P6](/images/windsensor_bb.png){#fig-WindSensor width=70%}
 
 **Especificaciones**
 
@@ -171,13 +186,13 @@ Insert code
 ````
 
 
-### Raspberry Pi 4
+### Raspberry Pi 4 Model B
 
 #### Sensirion SCD30
 
 El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por infrarrojos. Incorpora un sensor de humedad y temperatura. Cuenta con un diseño de doble canal. Además, ofrece una precisión de ±(30 ppm + 3% de la lectura) en un rango de 400 a 10,000 ppm. @scd30
 
-![Diagrama de conexión para el SCD30](/images/scd30_bb.png){width=70%}
+![Diagrama de conexión para el SCD30](/images/scd30_bb.png){#fig-SCD30 width=70%}
 
 **Especificaciones**
 
@@ -246,7 +261,7 @@ def scd30_measurements():
 
 La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que ofrece un campo de visión horizontal de 220°. @arducam
 
-![Diagrama de conexión para la cámara OV5647](/images/camera_bb.png){width=70%}
+![Diagrama de conexión para la cámara OV5647](/images/camera_bb.png){#fig-Camara width=70%}
 
 **Especificaciones**
 
@@ -321,7 +336,7 @@ falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 > "$MAPS_DIR/
 
 El micrófono incorpora un filtro que atenúa eficazmente los ruidos producidos por el viento o la respiración. Su patrón de captación direccional optimiza la focalización de la fuente sonora. @steren
 
-![Diagrama de conexión para el micrófono](/images/micro_bb.png){width=70%}
+![Diagrama de conexión para el micrófono](/images/micro_bb.png){#fig-Microfono width=70%}
 
 **Especificaciones**
 
@@ -411,3 +426,29 @@ def sound_data():
 ````
 
 ## Lista de materiales
+
+La tabla @tbl-materiales muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.
+
+| **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                                             |
+|-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Adaptador USB               | UGREEN Adaptador USB C Hembra a USB Macho 3                           | 1            | $199.00                  | $199.00               | [Amazon](https://a.co/d/arZqIaH)                                                                                                                                 |
+| Arduino                     | Arduino UNO WiFi Rev2                                                 | 2            | $1,268.10                | $2,536.20             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                                           |
+| Cable para cámara Raspberry | OKY9053                                                               | 1            | $27.59                   | $27.59                | [AG Electrónica](https://www.agelectronica.com/detalle?busca=OKY9053)                                                                                            |
+| Carcasa                     | Carcasa ABS para Raspberry Pi 4 con ventilador y disipadores de calor | 1            | $188.00                  | $188.00               | [330ohms](https://www.330ohms.com/collections/carcasas-rpi/products/carcasa-abs-para-raspberry-pi-4-con-ventilador-y-disipadores-de-calor)                       |
+| Fisheye                     | 5MP OV5647 Wide Angle Fisheye Camera                                  | 1            | $502.59                  | $502.59               | [AG Electrónica](https://www.agelectronica.com/detalle?busca=SKU10344*)                                                                                          |
+| Fuente de alimentación      | DC 12 V 30 A Fuente de alimentación 360 W                             | 1            | $382.00                  | $382.00               | [Amazon](https://a.co/d/dZtxNhR)                                                                                                                                 |
+| Fuente para Arduino         | Aclorol 9V 1A DC Fuente de alimentación                               | 2            | $269.00                  | $538.00               | [Amazon](https://a.co/d/6nRFb6V)                                                                                                                                 |
+| Fuente para Raspberry       | Fuente oficial para Raspberry Pi 27W USB-C                            | 1            | $370.00                  | $370.00               | [330ohms](https://www.330ohms.com/collections/raspberry-pi-5/products/fuente-oficial-para-raspberry-pi-27w-usb-c?src=raspberrypi)                                |
+| MAX31856                    | PWFusion SEN-30007 MAX31856                                           | 1            | ≈ $1,493.10              | ≈ $1,493.10           | [Playing With Fusion](https://www.playingwithfusion.com/productview.php?catid=0&pdid=71)                                                                         |
+| MAX31865                    | Adafruit PT1000 RTD-MAX31865                                          | 1            | ≈ $269.10                | ≈ $269.10             | [Adafruit](https://www.adafruit.com/product/3648)                                                                                                                |
+| Micro SD                    | Memoria Microsd Kingston Canvas Go Plus 64gb U3 V30 A2 170mb          | 1            | $194.00                  | $194.00               | [Mercado Libre](https://articulo.mercadolibre.com.mx/MLM-1509193544-memoria-microsd-kingston-canvas-go-plus-64gb-u3-v30-a2-170mb-_JM)                            |
+| Micrófono                   | Micrófono ambiental USB                                               | 1            | $99.00                   | $99.00                | [Steren](https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html)                                                                                  |
+| Raspberry                   | Raspberry Pi 4 Model B 8 GB                                           | 1            | $1,990.52                | $1,990.52             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=RASPBERRYPI-4-MODB%sum-8GB)                                                                         |
+| SCD30                       | SCD30 Sensirion                                                       | 1            | ≈ $563.94                | ≈ $563.94             | [DigiKey](https://www.digikey.com.mx/es/products/detail/sensirion-ag/SCD30/8445334)                                                                              |
+| Termopar                    | Termopar tipo T                                                       | 30 m         | $3,735.00                | $3,735.00             | [Omega](https://mx.omega.com/pptst/GG_T_TC_WIRE.html#order)                                                                                                      |
+| TPF1                        | TPF1/E-20 PT1000                                                      | 1            | ≈ $1,576.60              | ≈ $1,576.60           | [FuehlerSysteme](https://www.fuehlersysteme.de/Radiation-Pendulum-Temperature-Sensor_1)                                                                          |
+| Tripié                      | XXZU 210 cm soporte de luz                                            | 1            | $539.10                  | $539.10               | [Amazon](https://a.co/d/1OlLE51)                                                                                                                                 |
+| Wind Sensor                 | Wind Sensor Rev P6                                                    | 1            | ≈ $719.10                | ≈ $719.10             | [Modern Device](https://moderndevice.com/products/wind-sensor-rev-p)                                                                                             |
+: Lista de materiales para la construcción del DTHIS-C. {#tbl-materiales .hover .sm}
+
+*Nota: Los precios no incluyen envío y pueden estar sujetos a cambios según el destino del producto.*
