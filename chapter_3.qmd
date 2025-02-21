@@ -70,44 +70,56 @@ Igualmente se proporciona el código de Arduino empleado:
 ```` markdown
 #include <PWFusion_MAX31856.h>
 
-// Pines para los termopares
-const uint8_t tcChipSelects[] = {10, 9, 8, 7};
-MAX31856 thermocouples[4];
+// Definición de los pines chip select para cada termopar
+uint8_t tcChipSelects[] = {10, 9, 8, 7};
+#define NUM_THERMOCOUPLES   (sizeof(tcChipSelects) / sizeof(uint8_t))
 
-/**
- *Función: ThermocoupleMeasurements
- *Lee y calibra las temperaturas de cuatro termopares tipo T.
- *
- *Retorno:
- *Puntero a un array de cuatro floats con las temperaturas calibradas.
- */
-float* ThermocoupleMeasurements() {
-  static float temperatures[4];  
+// Coeficientes de calibración para cada termopar
+const float m[NUM_THERMOCOUPLES] = {1.0450, 1.0602, 1.0814, 1.0554};  // Pendientes
+const float b[NUM_THERMOCOUPLES] = {-2.4327, -2.8632, -4.4316, -3.9348};  // Intersecciones
+
+// Se crea un objeto MAX31856 para cada termopar
+MAX31856 thermocouples[NUM_THERMOCOUPLES];
+
+float* ThermocoupleTemp() {
+  static float tc_temps[NUM_THERMOCOUPLES];
   static bool initialized = false;
 
-  // Coeficientes de calibración
-  const float m[4] = {1.0460, 1.0600, 1.0801, 1.0547};  // Pendientes
-  const float b[4] = {-2.5241, -2.8834, -4.4269, -3.9315};  // Intersecciones
-
-  // Inicialización de los termopares solo la primera vez
+  // Inicializa los sensores solo la primera vez que se llama a la función
   if (!initialized) {
-    for (int i = 0; i < 4; i++) {
+    delay(1000);  // Espera para la estabilización de los sensores
+    for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
       thermocouples[i].begin(tcChipSelects[i]);
       thermocouples[i].config(T_TYPE, CUTOFF_60HZ, AVG_SEL_4SAMP, CMODE_OFF);
     }
     initialized = true;
   }
-
-  // Lectura y calibración de las temperaturas
-  for (int i = 0; i < 4; i++) {
+  
+  // Inicia la medición en cada sensor
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
     thermocouples[i].startOneShotMeasurement();
-    delay(180);
-    thermocouples[i].sample();
-    float rawTemperature = thermocouples[i].getTemperature();
-    temperatures[i] = m[i] * rawTemperature + b[i];  // Aplica la calibración
   }
-
-  return temperatures;
+  
+  // Espera el tiempo necesario para que la conversión se complete
+  delay(180);
+  
+  // Actualiza la muestra en cada sensor
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+    thermocouples[i].sample();
+  }
+  
+  // Obtiene la temperatura ambiente de cada sensor y aplica la calibración
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+    if (thermocouples[i].getStatus() != 0) {
+      // En caso de error, se asigna NaN (Not a Number)
+      tc_temps[i] = NAN;
+    } else {
+      float raw_temperature = thermocouples[i].getTemperature();
+      tc_temps[i] = m[i] * raw_temperature + b[i];  // Aplica la calibración
+    }
+  }
+  
+  return tc_temps;
 }
 ````
 
@@ -144,27 +156,34 @@ A continuación se muestra el código de Arduino:
 ```` markdown
 #include <Adafruit_MAX31865.h>
 
-// Define el objeto del sensor con los pines correspondientes
+// Usamos software SPI: CS, DI, DO, CLK
 Adafruit_MAX31865 thermo = Adafruit_MAX31865(10, 11, 12, 13);
+// Para hardware SPI solo se pasa el pin CS
+// Adafruit_MAX31865 thermo = Adafruit_MAX31865(10);
 
-// Define las constantes para el sensor PT1000
-#define RREF      4300.0
-#define RNOMINAL  1000.0
+#define RREF      4300.0  // Resistor de referencia (usa 430.0 para PT100 o 4300.0 para PT1000)
+#define RNOMINAL  1000.0  // Resistencia nominal a 0°C (100.0 para PT100, 1000.0 para PT1000)
 
-/**
- *Inicializa el sensor PT1000.
- *Debe ser llamado en la función setup() del archivo principal.
- */
-void initPT1000() {
-  thermo.begin(MAX31865_2WIRE);  // Cambia a MAX31865_4WIRE si usas una conexión de 4 cables
-}
-
-/**
- *Lee la temperatura del sensor PT1000.
- */
-float readPT1000Temperature() {
-  float temperatura = thermo.temperature(RNOMINAL, RREF);
-  return temperatura;
+// Función que realiza la medición y retorna la temperatura radiante en grados Celsius.
+float TPF1Temp() {
+  // Inicializa el sensor solo la primera vez que se llama a la función.
+  static bool initialized = false;
+  if (!initialized) {
+    thermo.begin(MAX31865_2WIRE);  // Inicialización del MAX31865
+    initialized = true;
+  }
+  
+  // Lectura del valor RTD
+  uint16_t rtd = thermo.readRTD();
+  
+  // Calcula la razón y la resistencia (opcional si se requiere para otros cálculos)
+  float ratio = rtd / 32768.0;
+  float resistance = RREF * ratio;
+  
+  // Calcula la temperatura utilizando el método de la librería
+  float radiant_temp = thermo.temperature(RNOMINAL, RREF);
+  
+  return radiant_temp;
 }
 ````
 
@@ -182,7 +201,37 @@ El sensor de viento Rev. P6 es un anemómetro de hilo caliente. Incorpora un pot
 - Compensación de temperatura ambiente.
 
 ```` markdown
-Insert code
+#include <math.h>
+
+const int OutPin  = A0;   // Pin analógico para el sensor de viento ("OUT")
+const int TempPin = A2;   // Pin analógico para el sensor de temperatura ("TMP")
+
+// Función que lee velocidad de viento y temperatura, y retorna un array de dos floats:
+// ws[0] -> velocidad de viento (m/s)
+// ws[1] -> temperatura (°C)
+float* WindSensor() {
+  static float ws[2];
+  
+  // Lectura del sensor de viento
+  int windADunits = analogRead(OutPin);
+  float voltage = (float)windADunits * 5.0 / 1024.0;
+  
+  // Aplicar la corrección al voltaje
+  float correctedVoltage = voltage - 1.1621;
+  
+  // Lectura del sensor de temperatura
+  int tempRawAD = analogRead(TempPin);
+  float tempC = ((((float)tempRawAD * 5.0) / 1024.0) - 0.400) / 0.0195;
+  
+  // Cálculo de la velocidad de viento en m/s usando la ecuación empírica:
+  // WS = 26.3431 * (correctedVoltage)^(1.4273) * (tempC)^(-0.7631)
+  float windSpeed = 26.3431 * pow(correctedVoltage, 1.4273) * pow(tempC, -0.7631);
+  
+  ws[0] = windSpeed;
+  ws[1] = tempC;
+  
+  return ws;
+}
 ````
 
 
@@ -232,8 +281,7 @@ from scd30_i2c import SCD30
 
 def scd30_measurements():
     """
-    Función para obtener las lecturas de CO2,
-    Temperatura y Humedad Relativa del sensor SCD30.
+    Función para obtener las lecturas de CO2, Temperatura y Humedad Relativa del sensor SCD30.
 
     Retorna:
         tuple: (CO2, T, HR) donde
@@ -396,26 +444,28 @@ import numpy as np
 
 def sound_data():
     """
-    Función para obtener los datos de sonido desde archivos
-    y calcular sus valores en dB.
+    Función para obtener los datos de sonido desde archivos y calcular sus valores en dB.
 
     Retorna:
         dict: Datos de sonido en dB (RMS_dB, dBmax_dB, dBmin_dB).
     """
-    archivos = ['/home/hdeza/Sonido/rms.txt',
-    '/home/hdeza/Sonido/dBmax.txt',
-    '/home/hdeza/Sonido/dBmin.txt']
+    archivos = [
+        '/home/dthisc/dthis-c/sound/rms.txt',
+        '/home/dthisc/dthis-c/sound/dBmax.txt',
+        '/home/dthisc/dthis-c/sound/dBmin.txt'
+    ]
+    
     rms_x = ""
     dBmax_x = ""
     dBmin_x = ""
 
     for archivo in archivos:
         with open(archivo, 'r', encoding='utf-8') as f:
-            if archivo == '/home/hdeza/Sonido/rms.txt':
+            if archivo == '/home/dthisc/dthis-c/sound/rms.txt':
                 rms_x = round(float(f.read().strip()), 4)
-            elif archivo == '/home/hdeza/Sonido/dBmax.txt':
+            elif archivo == '/home/dthisc/dthis-c/sound/dBmax.txt':
                 dBmax_x = round(float(f.read().strip()), 4)
-            elif archivo == '/home/hdeza/Sonido/dBmin.txt':
+            elif archivo == '/home/dthisc/dthis-c/sound/dBmin.txt':
                 dBmin_x = round(float(f.read().strip()), 4)
 
     rms_db = round(20 * np.log10(float(rms_x)) + 120, 4)
