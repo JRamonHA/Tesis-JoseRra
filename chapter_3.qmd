@@ -36,6 +36,155 @@ A continuación, se detallan las especificaciones técnicas y el código impleme
 
 ### Arduino UNO WiFi Rev2
 
+El Arduino UNO WiFi Rev2 es una placa de microcontrolador diseñada para proyectos de Internet de las Cosas (IoT), integrando conectividad WiFi y Bluetooth mediante el módulo u-blox NINA-W102 y un sensor IMU de 6 ejes (LSM6DS3TR) para detección de movimientos. Equipada con el microcontrolador ATmega4809, ofrece una óptima capacidad de memoria, y mantiene compatibilidad con el formato estándar UNO, facilitando su uso con shields existentes. Su diseño eficiente y versátil lo hace ideal para la adquisición de datos de sensores y la comunicación inalámbrica en tiempo real, como se requiere en el DTHIS-C. @arduino
+
+En la tabla @tbl-arduino se muestran sus especificaciones.
+
+| **Parámetro**              | **Detalle**                                   |
+|----------------------------|-----------------------------------------------|
+| Microcontrolador           | ATmega4809                                    |
+| Memoria flash              | 48 KB                                         |
+| SRAM                       | 6,144 Bytes                                   |
+| EEPROM                     | 256 Bytes                                     |
+| Conectividad Wi-Fi         | Sí, u-blox NINA-W102 (2.4 GHz)                |
+| Bluetooth                  | Sí, Bluetooth Low Energy                      |
+| Sensor IMU                 | Sí, LSM6DS3TR (6 ejes)                        |
+| Pines digitales I/O        | 14 (5 PWM)                                    |
+| Pines analógicos           | 6                                             |
+| Voltaje de operación       | 5V                                            |
+| Consumo máximo total       | 200 mA                                        |
+| Dimensiones                | 68.6 mm x 53.4 mm                             |
+: Especificaciones del Arduino UNO WiFi Rev2. {#tbl-arduino .hover .sm}
+
+El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:
+
+```` markdown
+#include <WiFiNINA.h>
+#include <PubSubClient.h>
+
+// Definiciones para la red WiFi y ThingsBoard
+#define WIFI_AP "IER"          
+#define WIFI_PASSWORD "acadier2014" 
+#define TOKEN "bXQq1eepFYJV3nldvLTV"
+#define THINGSBOARD_SERVER "tb.ier.unam.mx"
+#define MQTT_PORT 1883
+
+// Inicialización de las librerías y objetos
+WiFiClient espClient;
+PubSubClient mqttClient(espClient);
+
+/**
+ * Configuración inicial del dispositivo.
+ * Configura la conexión WiFi y el cliente MQTT para ThingsBoard.
+ */
+void setup() {
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);  // Conectar a la red WiFi
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);  // Espera hasta conectarse
+  }
+  
+  mqttClient.setServer(THINGSBOARD_SERVER, MQTT_PORT);
+  connectToThingsBoard();  // Conectar a ThingsBoard
+}
+
+/**
+ * Ciclo principal del programa.
+ * Mantiene las conexiones y realiza las tareas periódicas.
+ */
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    reconnectWiFi();  // Reconecta WiFi si es necesario
+  }
+  
+  if (!mqttClient.connected()) {
+    reconnectThingsBoard();  // Reconecta MQTT si es necesario
+  }
+
+  // Obtener las mediciones de los termopares (temperaturas)
+  float* temperatures = ThermocoupleTemp();
+  sendTC(temperatures);    // Enviar temperaturas a ThingsBoard
+
+  // Obtener la temperatura del TPF1
+  float radiant = TPF1Temp();
+  sendRT(radiant);  // Enviar temperatura radiante a ThingsBoard
+
+  // Obtener la velocidad promedio del viento
+  float* windspeed = WindSensor();
+  sendWS(windspeed);      // Enviar velocidad del viento a ThingsBoard
+
+  mqttClient.loop();
+  delay(2000);  // Espera 2 segundos antes de la siguiente iteración
+}
+
+/**
+ * Conecta a la red WiFi.
+ */
+void connectWiFi() {
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);  // Espera hasta conectarse
+  }
+}
+
+/**
+ * Reconecta a la red WiFi si es necesario.
+ */
+void reconnectWiFi() {
+  while (WiFi.status() != WL_CONNECTED) {
+    WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+    delay(500);
+  }
+}
+
+/**
+ * Reconecta a ThingsBoard si es necesario.
+ */
+void reconnectThingsBoard() {
+  while (!mqttClient.connected()) {
+    connectToThingsBoard();
+    delay(5000);  // Espera antes de reintentar
+  }
+}
+
+/**
+ * Conecta a ThingsBoard usando el token de autenticación.
+ */
+bool connectToThingsBoard() {
+  return mqttClient.connect("ArduinoClient", TOKEN, NULL);
+}
+
+/**
+ * Envía los datos de temperatura.
+ */
+void sendTC(float* temperatures) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"T1\":" + String(temperatures[0]) + 
+                   ", \"T2\":" + String(temperatures[1]) + 
+                   ", \"T3\":" + String(temperatures[2]) + 
+                   ", \"T4\":" + String(temperatures[3]) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());
+}
+
+/**
+ * Envía los datos de temperatura radiante.
+ */
+void sendRT(float radiant) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"TR\":" + String(radiant) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());  
+}
+
+/**
+ * Envía los datos de velocidad del viento.
+ */
+void sendWS(float* windspeed) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"WS\":" + String(windspeed[0]) + 
+                   ", \"TEMP\":" + String(windspeed[1]) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());
+}
+````
+
 #### Termopar Tipo T 
 
 En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para entornos con humedad.  
@@ -236,6 +385,78 @@ float* WindSensor() {
 
 
 ### Raspberry Pi 4 Model B
+
+El Raspberry Pi 4 Model B es una computadora de placa única de alto rendimiento, diseñada para tareas de procesamiento avanzado y conectividad eficiente en un formato compacto. Equipada con un procesador de 64 bits de cuatro núcleos y opciones de RAM de hasta 8 GB, ofrece soporte para salida de video dual 4K y conectividad avanzada mediante Wi-Fi de doble banda, Bluetooth 5.0, Ethernet Gigabit y puertos USB 3.0, con capacidad para Power over Ethernet (PoE) mediante un accesorio adicional. Su diseño versátil y eficiente la hace ideal para la integración y gestión de datos en el sistema DTHIS-C. @raspberry
+
+En la tabla @tbl-raspberry se muestran sus especificaciones.
+
+| **Parámetro**              | **Detalle**                                     |
+|----------------------------|-------------------------------------------------|
+| Procesador                 | Broadcom BCM2711, 4 núcleos Cortex-A72, 1.5 GHz |
+| Memoria RAM                | 8 GB (LPDDR4-3200)                              |
+| Conectividad Wi-Fi         | Sí, dual-band 2.4 GHz y 5 GHz, 802.11ac         |
+| Bluetooth                  | Sí, Bluetooth 5.0                               |
+| Puertos USB                | 2 USB 3.0, 2 USB 2.0                            |
+| Salida de video            | 2 micro HDMI, soporte dual 4K 60 fps            |
+| Ethernet                   | Gigabit                                         |
+| Almacenamiento             | Tarjeta microSD                                 |
+| Voltaje de operación       | 5V                                              |
+| Consumo energético         | Eficiente, sin ventilador (~3A recomendado)     |
+| Dimensiones                | 85.6 mm x 56.5 mm x 17 mm                       |
+: Especificaciones del Raspberry Pi 4 Model B. {#tbl-raspberry .hover .sm}
+
+El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería `paho-mqtt` para la comunicación y está diseñado para operar de manera continua::
+
+```` markdown
+import paho.mqtt.client as mqtt
+import json
+import time
+from thingsboard_credentials import thingsboard_data
+from scd30 import scd30_measurements
+from sound import sound_data
+
+# Obtiene los datos de conexión para ThingsBoard
+unique_id, token, thingsboard_host = thingsboard_data()
+
+# Diccionario para almacenar las lecturas del sensor
+sensor_data = {'CO2': 0, 'T': 0, 'HR': 0}
+# Diccionario para datos de sonido
+# micro_data = {'RMS': 0, 'dBmax': 0, 'dBmin': 0}  
+
+# Configura el cliente MQTT
+client = mqtt.Client(unique_id, False)
+client.username_pw_set(token, password=None)
+client.connect(thingsboard_host, 1883, 60, '')
+client.loop_start()
+
+try:
+    while True:
+        # Obtiene las mediciones del sensor SCD30
+        CO2, T, HR = scd30_measurements()
+
+        # Actualiza el diccionario con las lecturas actuales
+        sensor_data['CO2'] = CO2
+        sensor_data['T'] = T
+        sensor_data['HR'] = HR
+
+        # Publica los datos del SCD30 en ThingsBoard
+        client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
+
+        # Obtiene los datos de sonido
+        # micro_data = sound_data() 
+
+        # Publica los datos de sonido en ThingsBoard
+        # client.publish('v1/devices/me/telemetry', json.dumps(micro_data), 1)
+
+        time.sleep(2)  # Ajusta el intervalo de tiempo entre lecturas
+
+except KeyboardInterrupt:
+    pass
+
+# Detiene el loop del cliente MQTT y desconecta del servidor
+client.loop_stop()
+client.disconnect()
+````
 
 #### Sensirion SCD30
 
@@ -479,26 +700,26 @@ def sound_data():
 
 La tabla @tbl-materiales muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.
 
-| **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                                             |
-|-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Adaptador USB               | UGREEN Adaptador USB C Hembra a USB Macho 3                           | 1            | $199.00                  | $199.00               | [Amazon](https://a.co/d/arZqIaH)                                                                                                                                 |
-| Arduino                     | Arduino UNO WiFi Rev2                                                 | 2            | $1,268.10                | $2,536.20             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                                           |
-| Cable para cámara Raspberry | OKY9053                                                               | 1            | $27.59                   | $27.59                | [AG Electrónica](https://www.agelectronica.com/detalle?busca=OKY9053)                                                                                            |
-| Carcasa                     | Carcasa ABS para Raspberry Pi 4 con ventilador y disipadores de calor | 1            | $188.00                  | $188.00               | [330ohms](https://www.330ohms.com/collections/carcasas-rpi/products/carcasa-abs-para-raspberry-pi-4-con-ventilador-y-disipadores-de-calor)                       |
-| Fisheye                     | 5MP OV5647 Wide Angle Fisheye Camera                                  | 1            | $502.59                  | $502.59               | [AG Electrónica](https://www.agelectronica.com/detalle?busca=SKU10344*)                                                                                          |
-| Fuente de alimentación      | DC 12 V 30 A Fuente de alimentación 360 W                             | 1            | $382.00                  | $382.00               | [Amazon](https://a.co/d/dZtxNhR)                                                                                                                                 |
-| Fuente para Arduino         | Aclorol 9V 1A DC Fuente de alimentación                               | 2            | $269.00                  | $538.00               | [Amazon](https://a.co/d/6nRFb6V)                                                                                                                                 |
-| Fuente para Raspberry       | Fuente oficial para Raspberry Pi 27W USB-C                            | 1            | $370.00                  | $370.00               | [330ohms](https://www.330ohms.com/collections/raspberry-pi-5/products/fuente-oficial-para-raspberry-pi-27w-usb-c?src=raspberrypi)                                |
-| MAX31856                    | PWFusion SEN-30007 MAX31856                                           | 1            | ≈ $1,493.10              | ≈ $1,493.10           | [Playing With Fusion](https://www.playingwithfusion.com/productview.php?catid=0&pdid=71)                                                                         |
-| MAX31865                    | Adafruit PT1000 RTD-MAX31865                                          | 1            | ≈ $269.10                | ≈ $269.10             | [Adafruit](https://www.adafruit.com/product/3648)                                                                                                                |
-| Micro SD                    | Memoria Microsd Kingston Canvas Go Plus 64gb U3 V30 A2 170mb          | 1            | $194.00                  | $194.00               | [Mercado Libre](https://articulo.mercadolibre.com.mx/MLM-1509193544-memoria-microsd-kingston-canvas-go-plus-64gb-u3-v30-a2-170mb-_JM)                            |
-| Micrófono                   | Micrófono ambiental USB                                               | 1            | $99.00                   | $99.00                | [Steren](https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html)                                                                                  |
-| Raspberry                   | Raspberry Pi 4 Model B 8 GB                                           | 1            | $1,990.52                | $1,990.52             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=RASPBERRYPI-4-MODB%sum-8GB)                                                                         |
-| SCD30                       | SCD30 Sensirion                                                       | 1            | ≈ $563.94                | ≈ $563.94             | [DigiKey](https://www.digikey.com.mx/es/products/detail/sensirion-ag/SCD30/8445334)                                                                              |
-| Termopar                    | Termopar tipo T                                                       | 30 m         | $3,735.00                | $3,735.00             | [Omega](https://mx.omega.com/pptst/GG_T_TC_WIRE.html#order)                                                                                                      |
-| TPF1                        | TPF1/E-20 PT1000                                                      | 1            | ≈ $1,576.60              | ≈ $1,576.60           | [FuehlerSysteme](https://www.fuehlersysteme.de/Radiation-Pendulum-Temperature-Sensor_1)                                                                          |
-| Tripié                      | XXZU 210 cm soporte de luz                                            | 1            | $539.10                  | $539.10               | [Amazon](https://a.co/d/1OlLE51)                                                                                                                                 |
-| Wind Sensor                 | Wind Sensor Rev P6                                                    | 1            | ≈ $719.10                | ≈ $719.10             | [Modern Device](https://moderndevice.com/products/wind-sensor-rev-p)                                                                                             |
+| **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                        |
+|-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| Adaptador USB               | UGREEN Adaptador USB C Hembra a USB Macho 3                           | 1            | $199.00                  | $199.00               | [Amazon](https://a.co/d/arZqIaH)                                                                                                            |
+| Arduino                     | Arduino UNO WiFi Rev2                                                 | 2            | $1,268.10                | $2,536.20             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                      |
+| Cable para cámara Raspberry | OKY9053                                                               | 1            | $27.59                   | $27.59                | [AG Electrónica](https://www.agelectronica.com/detalle?busca=OKY9053)                                                                       |
+| Carcasa                     | Carcasa ABS para Raspberry Pi 4 con ventilador y disipadores de calor | 1            | $188.00                  | $188.00               | [330ohms](https://www.330ohms.com/collections/carcasas-rpi/products/carcasa-abs-para-raspberry-pi-4-con-ventilador-y-disipadores-de-calor)  |
+| Fisheye                     | 5MP OV5647 Wide Angle Fisheye Camera                                  | 1            | $502.59                  | $502.59               | [AG Electrónica](https://www.agelectronica.com/detalle?busca=SKU10344*)                                                                     |
+| Fuente de alimentación      | DC 12 V 30 A Fuente de alimentación 360 W                             | 1            | $382.00                  | $382.00               | [Amazon](https://a.co/d/dZtxNhR)                                                                                                            |
+| Fuente para Arduino         | Aclorol 9V 1A DC Fuente de alimentación                               | 2            | $269.00                  | $538.00               | [Amazon](https://a.co/d/6nRFb6V)                                                                                                            |
+| Fuente para Raspberry       | Fuente oficial para Raspberry Pi 27W USB-C                            | 1            | $370.00                  | $370.00               | [330ohms](https://www.330ohms.com/collections/raspberry-pi-5/products/fuente-oficial-para-raspberry-pi-27w-usb-c?src=raspberrypi)           |
+| MAX31856                    | PWFusion SEN-30007 MAX31856                                           | 1            | ≈ $1,493.10              | ≈ $1,493.10           | [Playing With Fusion](https://www.playingwithfusion.com/productview.php?catid=0&pdid=71)                                                    |
+| MAX31865                    | Adafruit PT1000 RTD-MAX31865                                          | 1            | ≈ $269.10                | ≈ $269.10             | [Adafruit](https://www.adafruit.com/product/3648)                                                                                           |
+| Micro SD                    | Memoria Microsd Kingston Canvas Go Plus 64gb U3 V30 A2 170mb          | 1            | $194.00                  | $194.00               | [Mercado Libre](https://articulo.mercadolibre.com.mx/MLM-1509193544-memoria-microsd-kingston-canvas-go-plus-64gb-u3-v30-a2-170mb-_JM)       |
+| Micrófono                   | Micrófono ambiental USB                                               | 1            | $99.00                   | $99.00                | [Steren](https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html)                                                             |
+| Raspberry                   | Raspberry Pi 4 Model B 8 GB                                           | 1            | $1,990.52                | $1,990.52             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=RASPBERRYPI-4-MODB%sum-8GB)                                                    |
+| SCD30                       | SCD30 Sensirion                                                       | 1            | ≈ $563.94                | ≈ $563.94             | [DigiKey](https://www.digikey.com.mx/es/products/detail/sensirion-ag/SCD30/8445334)                                                         |
+| Termopar                    | Termopar tipo T                                                       | 30 m         | $3,735.00                | $3,735.00             | [Omega](https://mx.omega.com/pptst/GG_T_TC_WIRE.html#order)                                                                                 |
+| TPF1                        | TPF1/E-20 PT1000                                                      | 1            | ≈ $1,576.60              | ≈ $1,576.60           | [FuehlerSysteme](https://www.fuehlersysteme.de/Radiation-Pendulum-Temperature-Sensor_1)                                                     |
+| Tripié                      | XXZU 210 cm soporte de luz                                            | 1            | $539.10                  | $539.10               | [Amazon](https://a.co/d/1OlLE51)                                                                                                            |
+| Wind Sensor                 | Wind Sensor Rev P6                                                    | 1            | ≈ $719.10                | ≈ $719.10             | [Modern Device](https://moderndevice.com/products/wind-sensor-rev-p)                                                                        |
 : Lista de materiales para la construcción del DTHIS-C. {#tbl-materiales .hover .sm}
 
 *Nota: Los precios no incluyen envío y pueden estar sujetos a cambios según el destino del producto.*
