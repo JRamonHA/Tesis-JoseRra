@@ -469,130 +469,135 @@ Tabla&nbsp;3.2: Especificaciones del Arduino UNO WiFi Rev2.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>#include &lt;WiFiNINA.h&gt;</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>#include &lt;PubSubClient.h&gt;</span>
+<div id="1cf57a36" class="cell" data-execution_count="1">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;WiFiNINA.h&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;PubSubClient.h&gt;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>// Definiciones para la red WiFi y ThingsBoard</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>#define WIFI_AP "IER"          </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>#define WIFI_PASSWORD "acadier2014" </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>#define TOKEN "bXQq1eepFYJV3nldvLTV"</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>#define THINGSBOARD_SERVER "tb.ier.unam.mx"</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>#define MQTT_PORT 1883</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Definiciones para la red WiFi y ThingsBoard</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#define WIFI_AP "IER"          </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#define WIFI_PASSWORD "acadier2014" </span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#define TOKEN "bXQq1eepFYJV3nldvLTV"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#define THINGSBOARD_SERVER "tb.ier.unam.mx"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#define MQTT_PORT 1883</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>// Inicialización de las librerías y objetos</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WiFiClient espClient;</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>PubSubClient mqttClient(espClient);</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Inicialización de las librerías y objetos</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>WiFiClient espClient<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>PubSubClient mqttClient(espClient)<span class="op">;</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Configuración inicial del dispositivo.</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Configura la conexión WiFi y el cliente MQTT para ThingsBoard.</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a> */</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Configuración inicial <span class="kw">del</span> dispositivo.</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Configura la conexión WiFi y el cliente MQTT para ThingsBoard.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>void setup() {</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  WiFi.begin(WIFI_AP, WIFI_PASSWORD);  // Conectar a la red WiFi</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  while (WiFi.status() != WL_CONNECTED) {</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    delay(500);  // Espera hasta conectarse</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  WiFi.begin(WIFI_AP, WIFI_PASSWORD)<span class="op">;</span>  <span class="op">//</span> Conectar a la red WiFi</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (WiFi.status() <span class="op">!=</span> WL_CONNECTED) {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    delay(<span class="dv">500</span>)<span class="op">;</span>  <span class="op">//</span> Espera hasta conectarse</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  mqttClient.setServer(THINGSBOARD_SERVER, MQTT_PORT);</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  connectToThingsBoard();  // Conectar a ThingsBoard</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  mqttClient.setServer(THINGSBOARD_SERVER, MQTT_PORT)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  connectToThingsBoard()<span class="op">;</span>  <span class="op">//</span> Conectar a ThingsBoard</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Ciclo principal del programa.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Mantiene las conexiones y realiza las tareas periódicas.</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a> */</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Ciclo principal <span class="kw">del</span> programa.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Mantiene las conexiones y realiza las tareas periódicas.</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>void loop() {</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  if (WiFi.status() != WL_CONNECTED) {</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    reconnectWiFi();  // Reconecta WiFi si es necesario</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (WiFi.status() <span class="op">!=</span> WL_CONNECTED) {</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    reconnectWiFi()<span class="op">;</span>  <span class="op">//</span> Reconecta WiFi si es necesario</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  if (!mqttClient.connected()) {</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    reconnectThingsBoard();  // Reconecta MQTT si es necesario</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>mqttClient.connected()) {</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    reconnectThingsBoard()<span class="op">;</span>  <span class="op">//</span> Reconecta MQTT si es necesario</span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  // Obtener las mediciones de los termopares (temperaturas)</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  float* temperatures = ThermocoupleTemp();</span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  sendTC(temperatures);    // Enviar temperaturas a ThingsBoard</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Obtener las mediciones de los termopares (temperaturas)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span><span class="op">*</span> temperatures <span class="op">=</span> ThermocoupleTemp()<span class="op">;</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  sendTC(temperatures)<span class="op">;</span>    <span class="op">//</span> Enviar temperaturas a ThingsBoard</span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  // Obtener la temperatura del TPF1</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  float radiant = TPF1Temp();</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  sendRT(radiant);  // Enviar temperatura radiante a ThingsBoard</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Obtener la temperatura <span class="kw">del</span> TPF1</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> radiant <span class="op">=</span> TPF1Temp()<span class="op">;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  sendRT(radiant)<span class="op">;</span>  <span class="op">//</span> Enviar temperatura radiante a ThingsBoard</span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  // Obtener la velocidad promedio del viento</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  float* windspeed = WindSensor();</span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  sendWS(windspeed);      // Enviar velocidad del viento a ThingsBoard</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Obtener la velocidad promedio <span class="kw">del</span> viento</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span><span class="op">*</span> windspeed <span class="op">=</span> WindSensor()<span class="op">;</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>  sendWS(windspeed)<span class="op">;</span>      <span class="op">//</span> Enviar velocidad <span class="kw">del</span> viento a ThingsBoard</span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  mqttClient.loop();</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  delay(2000);  // Espera 2 segundos antes de la siguiente iteración</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>  mqttClient.loop()<span class="op">;</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>  delay(<span class="dv">2000</span>)<span class="op">;</span>  <span class="op">//</span> Espera <span class="dv">2</span> segundos antes de la siguiente iteración</span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Conecta a la red WiFi.</span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a> */</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Conecta a la red WiFi.</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>void connectWiFi() {</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  WiFi.begin(WIFI_AP, WIFI_PASSWORD);</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>  while (WiFi.status() != WL_CONNECTED) {</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    delay(500);  // Espera hasta conectarse</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  WiFi.begin(WIFI_AP, WIFI_PASSWORD)<span class="op">;</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (WiFi.status() <span class="op">!=</span> WL_CONNECTED) {</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    delay(<span class="dv">500</span>)<span class="op">;</span>  <span class="op">//</span> Espera hasta conectarse</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Reconecta a la red WiFi si es necesario.</span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a> */</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Reconecta a la red WiFi si es necesario.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
 <span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>void reconnectWiFi() {</span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  while (WiFi.status() != WL_CONNECTED) {</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    WiFi.begin(WIFI_AP, WIFI_PASSWORD);</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    delay(500);</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (WiFi.status() <span class="op">!=</span> WL_CONNECTED) {</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>    WiFi.begin(WIFI_AP, WIFI_PASSWORD)<span class="op">;</span></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>    delay(<span class="dv">500</span>)<span class="op">;</span></span>
 <span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Reconecta a ThingsBoard si es necesario.</span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a> */</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Reconecta a ThingsBoard si es necesario.</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
 <span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>void reconnectThingsBoard() {</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  while (!mqttClient.connected()) {</span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    connectToThingsBoard();</span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    delay(5000);  // Espera antes de reintentar</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="op">!</span>mqttClient.connected()) {</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>    connectToThingsBoard()<span class="op">;</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>    delay(<span class="dv">5000</span>)<span class="op">;</span>  <span class="op">//</span> Espera antes de reintentar</span>
 <span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Conecta a ThingsBoard usando el token de autenticación.</span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a> */</span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>bool connectToThingsBoard() {</span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  return mqttClient.connect("ArduinoClient", TOKEN, NULL);</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Conecta a ThingsBoard usando el token de autenticación.</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span> connectToThingsBoard() {</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> mqttClient.<span class="ex">connect</span>(<span class="st">"ArduinoClient"</span>, TOKEN, NULL)<span class="op">;</span></span>
 <span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Envía los datos de temperatura.</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a> */</span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>void sendTC(float* temperatures) {</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  String topic = "v1/devices/me/telemetry";</span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  String payload = "{\"T1\":" + String(temperatures<span class="co">[</span><span class="ot">0</span><span class="co">]</span>) + </span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>                   ", \"T2\":" + String(temperatures<span class="co">[</span><span class="ot">1</span><span class="co">]</span>) + </span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>                   ", \"T3\":" + String(temperatures<span class="co">[</span><span class="ot">2</span><span class="co">]</span>) + </span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>                   ", \"T4\":" + String(temperatures<span class="co">[</span><span class="ot">3</span><span class="co">]</span>) + "}";</span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str());</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Envía los datos de temperatura.</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>void sendTC(<span class="bu">float</span><span class="op">*</span> temperatures) {</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>  String topic <span class="op">=</span> <span class="st">"v1/devices/me/telemetry"</span><span class="op">;</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>  String payload <span class="op">=</span> <span class="st">"{</span><span class="ch">\"</span><span class="st">T1</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(temperatures[<span class="dv">0</span>]) <span class="op">+</span> </span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>                   <span class="st">", </span><span class="ch">\"</span><span class="st">T2</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(temperatures[<span class="dv">1</span>]) <span class="op">+</span> </span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>                   <span class="st">", </span><span class="ch">\"</span><span class="st">T3</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(temperatures[<span class="dv">2</span>]) <span class="op">+</span> </span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>                   <span class="st">", </span><span class="ch">\"</span><span class="st">T4</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(temperatures[<span class="dv">3</span>]) <span class="op">+</span> <span class="st">"}"</span><span class="op">;</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str())<span class="op">;</span></span>
 <span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Envía los datos de temperatura radiante.</span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a> */</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>void sendRT(float radiant) {</span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  String topic = "v1/devices/me/telemetry";</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  String payload = "{\"TR\":" + String(radiant) + "}";</span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str());  </span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Envía los datos de temperatura radiante.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a>void sendRT(<span class="bu">float</span> radiant) {</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a>  String topic <span class="op">=</span> <span class="st">"v1/devices/me/telemetry"</span><span class="op">;</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>  String payload <span class="op">=</span> <span class="st">"{</span><span class="ch">\"</span><span class="st">TR</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(radiant) <span class="op">+</span> <span class="st">"}"</span><span class="op">;</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str())<span class="op">;</span>  </span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>/**</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="ss"> * </span>Envía los datos de velocidad del viento.</span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a> */</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>void sendWS(float* windspeed) {</span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  String topic = "v1/devices/me/telemetry";</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  String payload = "{\"WS\":" + String(windspeed<span class="co">[</span><span class="ot">0</span><span class="co">]</span>) + </span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>                   ", \"TEMP\":" + String(windspeed<span class="co">[</span><span class="ot">1</span><span class="co">]</span>) + "}";</span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str());</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="op">/**</span></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a> <span class="op">*</span> Envía los datos de velocidad <span class="kw">del</span> viento.</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a> <span class="op">*/</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>void sendWS(<span class="bu">float</span><span class="op">*</span> windspeed) {</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>  String topic <span class="op">=</span> <span class="st">"v1/devices/me/telemetry"</span><span class="op">;</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>  String payload <span class="op">=</span> <span class="st">"{</span><span class="ch">\"</span><span class="st">WS</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(windspeed[<span class="dv">0</span>]) <span class="op">+</span> </span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>                   <span class="st">", </span><span class="ch">\"</span><span class="st">TEMP</span><span class="ch">\"</span><span class="st">:"</span> <span class="op">+</span> String(windspeed[<span class="dv">1</span>]) <span class="op">+</span> <span class="st">"}"</span><span class="op">;</span></span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>  mqttClient.publish(topic.c_str(), payload.c_str())<span class="op">;</span></span>
 <span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="termopar-tipo-t" class="level4">
 <h4 class="anchored" data-anchor-id="termopar-tipo-t">Termopar Tipo T</h4>
 <p>En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para entornos con humedad.</p>
@@ -627,59 +632,64 @@ Figura&nbsp;3.1: Diagrama de conexión para el shield MAX31856 SEN-30007
 <li>Rango de voltaje de alimentación: 3.3 V a 5.0 V.</li>
 </ul>
 <p>Igualmente se proporciona el código de Arduino empleado:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>#include &lt;PWFusion_MAX31856.h&gt;</span>
+<div id="da23b524" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;PWFusion_MAX31856.h&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>// Definición de los pines chip select para cada termopar</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>uint8_t tcChipSelects[] = {10, 9, 8, 7};</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>#define NUM_THERMOCOUPLES   (sizeof(tcChipSelects) / sizeof(uint8_t))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Definición de los pines chip select para cada termopar</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>uint8_t tcChipSelects[] <span class="op">=</span> {<span class="dv">10</span>, <span class="dv">9</span>, <span class="dv">8</span>, <span class="dv">7</span>}<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#define NUM_THERMOCOUPLES   (sizeof(tcChipSelects) / sizeof(uint8_t))</span></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>// Coeficientes de calibración para cada termopar</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>const float m<span class="co">[</span><span class="ot">NUM_THERMOCOUPLES</span><span class="co">]</span> = {1.0450, 1.0602, 1.0814, 1.0554};  // Pendientes</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>const float b<span class="co">[</span><span class="ot">NUM_THERMOCOUPLES</span><span class="co">]</span> = {-2.4327, -2.8632, -4.4316, -3.9348};  // Intersecciones</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Coeficientes de calibración para cada termopar</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>const <span class="bu">float</span> m[NUM_THERMOCOUPLES] <span class="op">=</span> {<span class="fl">1.0450</span>, <span class="fl">1.0602</span>, <span class="fl">1.0814</span>, <span class="fl">1.0554</span>}<span class="op">;</span>  <span class="op">//</span> Pendientes</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>const <span class="bu">float</span> b[NUM_THERMOCOUPLES] <span class="op">=</span> {<span class="op">-</span><span class="fl">2.4327</span>, <span class="op">-</span><span class="fl">2.8632</span>, <span class="op">-</span><span class="fl">4.4316</span>, <span class="op">-</span><span class="fl">3.9348</span>}<span class="op">;</span>  <span class="op">//</span> Intersecciones</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>// Se crea un objeto MAX31856 para cada termopar</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>MAX31856 thermocouples<span class="co">[</span><span class="ot">NUM_THERMOCOUPLES</span><span class="co">]</span>;</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Se crea un objeto MAX31856 para cada termopar</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>MAX31856 thermocouples[NUM_THERMOCOUPLES]<span class="op">;</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>float* ThermocoupleTemp() {</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  static float tc_temps<span class="co">[</span><span class="ot">NUM_THERMOCOUPLES</span><span class="co">]</span>;</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  static bool initialized = false;</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span><span class="op">*</span> ThermocoupleTemp() {</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  static <span class="bu">float</span> tc_temps[NUM_THERMOCOUPLES]<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  static <span class="bu">bool</span> initialized <span class="op">=</span> false<span class="op">;</span></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  // Inicializa los sensores solo la primera vez que se llama a la función</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  if (!initialized) {</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    delay(1000);  // Espera para la estabilización de los sensores</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    for (int i = 0; i &lt; NUM_THERMOCOUPLES; i++) {</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.begin(tcChipSelects<span class="co">[</span><span class="ot">i</span><span class="co">]</span>);</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.config(T_TYPE, CUTOFF_60HZ, AVG_SEL_4SAMP, CMODE_OFF);</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Inicializa los sensores solo la primera vez que se llama a la función</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>initialized) {</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    delay(<span class="dv">1000</span>)<span class="op">;</span>  <span class="op">//</span> Espera para la estabilización de los sensores</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> NUM_THERMOCOUPLES<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>      thermocouples[i].begin(tcChipSelects[i])<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      thermocouples[i].config(T_TYPE, CUTOFF_60HZ, AVG_SEL_4SAMP, CMODE_OFF)<span class="op">;</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    initialized = true;</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    initialized <span class="op">=</span> true<span class="op">;</span></span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  // Inicia la medición en cada sensor</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  for (int i = 0; i &lt; NUM_THERMOCOUPLES; i++) {</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.startOneShotMeasurement();</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Inicia la medición en cada sensor</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> NUM_THERMOCOUPLES<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    thermocouples[i].startOneShotMeasurement()<span class="op">;</span></span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  // Espera el tiempo necesario para que la conversión se complete</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  delay(180);</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Espera el tiempo necesario para que la conversión se complete</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  delay(<span class="dv">180</span>)<span class="op">;</span></span>
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  // Actualiza la muestra en cada sensor</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  for (int i = 0; i &lt; NUM_THERMOCOUPLES; i++) {</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.sample();</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Actualiza la muestra en cada sensor</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> NUM_THERMOCOUPLES<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    thermocouples[i].sample()<span class="op">;</span></span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  // Obtiene la temperatura ambiente de cada sensor y aplica la calibración</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  for (int i = 0; i &lt; NUM_THERMOCOUPLES; i++) {</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    if (thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.getStatus() != 0) {</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      // En caso de error, se asigna NaN (Not a Number)</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      tc_temps<span class="co">[</span><span class="ot">i</span><span class="co">]</span> = NAN;</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    } else {</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      float raw_temperature = thermocouples<span class="co">[</span><span class="ot">i</span><span class="co">]</span>.getTemperature();</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>      tc_temps<span class="co">[</span><span class="ot">i</span><span class="co">]</span> = m<span class="co">[</span><span class="ot">i</span><span class="co">]</span> * raw_temperature + b<span class="co">[</span><span class="ot">i</span><span class="co">]</span>;  // Aplica la calibración</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Obtiene la temperatura ambiente de cada sensor y aplica la calibración</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="bu">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> NUM_THERMOCOUPLES<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (thermocouples[i].getStatus() <span class="op">!=</span> <span class="dv">0</span>) {</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      <span class="op">//</span> En caso de error, se asigna NaN (Not a Number)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      tc_temps[i] <span class="op">=</span> NAN<span class="op">;</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>      <span class="bu">float</span> raw_temperature <span class="op">=</span> thermocouples[i].getTemperature()<span class="op">;</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>      tc_temps[i] <span class="op">=</span> m[i] <span class="op">*</span> raw_temperature <span class="op">+</span> b[i]<span class="op">;</span>  <span class="op">//</span> Aplica la calibración</span>
 <span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  return tc_temps;</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> tc_temps<span class="op">;</span></span>
 <span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="fuehler-systeme-tpf1e-20-pt1000" class="level4">
 <h4 class="anchored" data-anchor-id="fuehler-systeme-tpf1e-20-pt1000">Fuehler Systeme TPF1/E-20 PT1000</h4>
@@ -718,37 +728,42 @@ Figura&nbsp;3.2: Diagrama de conexión para el PT1000 RTD-MAX31865
 <li>Tiempo máximo de conversión es de 21 ms.</li>
 </ul>
 <p>A continuación se muestra el código de Arduino:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>#include &lt;Adafruit_MAX31865.h&gt;</span>
+<div id="e63ba30f" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;Adafruit_MAX31865.h&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>// Usamos software SPI: CS, DI, DO, CLK</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Adafruit_MAX31865 thermo = Adafruit_MAX31865(10, 11, 12, 13);</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>// Para hardware SPI solo se pasa el pin CS</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>// Adafruit_MAX31865 thermo = Adafruit_MAX31865(10);</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Usamos software SPI: CS, DI, DO, CLK</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Adafruit_MAX31865 thermo <span class="op">=</span> Adafruit_MAX31865(<span class="dv">10</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Para hardware SPI solo se pasa el pin CS</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Adafruit_MAX31865 thermo <span class="op">=</span> Adafruit_MAX31865(<span class="dv">10</span>)<span class="op">;</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>#define RREF      4300.0  // Resistor de referencia (usa 430.0 para PT100 o 4300.0 para PT1000)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>#define RNOMINAL  1000.0  // Resistencia nominal a 0°C (100.0 para PT100, 1000.0 para PT1000)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#define RREF      4300.0  // Resistor de referencia (usa 430.0 para PT100 o 4300.0 para PT1000)</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#define RNOMINAL  1000.0  // Resistencia nominal a 0°C (100.0 para PT100, 1000.0 para PT1000)</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>// Función que realiza la medición y retorna la temperatura radiante en grados Celsius.</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>float TPF1Temp() {</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  // Inicializa el sensor solo la primera vez que se llama a la función.</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  static bool initialized = false;</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  if (!initialized) {</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    thermo.begin(MAX31865_2WIRE);  // Inicialización del MAX31865</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    initialized = true;</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Función que realiza la medición y retorna la temperatura radiante en grados Celsius.</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span> TPF1Temp() {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Inicializa el sensor solo la primera vez que se llama a la función.</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  static <span class="bu">bool</span> initialized <span class="op">=</span> false<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="op">!</span>initialized) {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    thermo.begin(MAX31865_2WIRE)<span class="op">;</span>  <span class="op">//</span> Inicialización <span class="kw">del</span> MAX31865</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    initialized <span class="op">=</span> true<span class="op">;</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  // Lectura del valor RTD</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  uint16_t rtd = thermo.readRTD();</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Lectura <span class="kw">del</span> valor RTD</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  uint16_t rtd <span class="op">=</span> thermo.readRTD()<span class="op">;</span></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  // Calcula la razón y la resistencia (opcional si se requiere para otros cálculos)</span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  float ratio = rtd / 32768.0;</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  float resistance = RREF * ratio;</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Calcula la razón y la resistencia (opcional si se requiere para otros cálculos)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> ratio <span class="op">=</span> rtd <span class="op">/</span> <span class="fl">32768.0</span><span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> resistance <span class="op">=</span> RREF <span class="op">*</span> ratio<span class="op">;</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  // Calcula la temperatura utilizando el método de la librería</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  float radiant_temp = thermo.temperature(RNOMINAL, RREF);</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Calcula la temperatura utilizando el método de la librería</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> radiant_temp <span class="op">=</span> thermo.temperature(RNOMINAL, RREF)<span class="op">;</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  return radiant_temp;</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> radiant_temp<span class="op">;</span></span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="modern-device-wind-sensor-rev.-p6" class="level4">
 <h4 class="anchored" data-anchor-id="modern-device-wind-sensor-rev.-p6">Modern Device Wind Sensor Rev.&nbsp;P6</h4>
@@ -770,37 +785,42 @@ Figura&nbsp;3.3: Diagrama de conexión para el Wind Sensor Rev.&nbsp;P6
 <li>Velocidades de viento medidas: 0–150 mph.</li>
 <li>Compensación de temperatura ambiente.</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>#include &lt;math.h&gt;</span>
+<div id="b961f325" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;math.h&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>const int OutPin  = A0;   // Pin analógico para el sensor de viento ("OUT")</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>const int TempPin = A2;   // Pin analógico para el sensor de temperatura ("TMP")</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>const <span class="bu">int</span> OutPin  <span class="op">=</span> A0<span class="op">;</span>   <span class="op">//</span> Pin analógico para el sensor de viento (<span class="st">"OUT"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>const <span class="bu">int</span> TempPin <span class="op">=</span> A2<span class="op">;</span>   <span class="op">//</span> Pin analógico para el sensor de temperatura (<span class="st">"TMP"</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>// Función que lee velocidad de viento y temperatura, y retorna un array de dos floats:</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>// ws<span class="co">[</span><span class="ot">0</span><span class="co">]</span> -&gt; velocidad de viento (m/s)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>// ws<span class="co">[</span><span class="ot">1</span><span class="co">]</span> -&gt; temperatura (°C)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>float* WindSensor() {</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  static float ws<span class="co">[</span><span class="ot">2</span><span class="co">]</span>;</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> Función que lee velocidad de viento y temperatura, y retorna un array de dos floats:</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> ws[<span class="dv">0</span>] <span class="op">-&gt;</span> velocidad de viento (m<span class="op">/</span>s)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="op">//</span> ws[<span class="dv">1</span>] <span class="op">-&gt;</span> temperatura (°C)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span><span class="op">*</span> WindSensor() {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  static <span class="bu">float</span> ws[<span class="dv">2</span>]<span class="op">;</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  // Lectura del sensor de viento</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  int windADunits = analogRead(OutPin);</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  float voltage = (float)windADunits * 5.0 / 1024.0;</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Lectura <span class="kw">del</span> sensor de viento</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">int</span> windADunits <span class="op">=</span> analogRead(OutPin)<span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> voltage <span class="op">=</span> (<span class="bu">float</span>)windADunits <span class="op">*</span> <span class="fl">5.0</span> <span class="op">/</span> <span class="fl">1024.0</span><span class="op">;</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  // Aplicar la corrección al voltaje</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  float correctedVoltage = voltage - 1.1621;</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Aplicar la corrección al voltaje</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> correctedVoltage <span class="op">=</span> voltage <span class="op">-</span> <span class="fl">1.1621</span><span class="op">;</span></span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  // Lectura del sensor de temperatura</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  int tempRawAD = analogRead(TempPin);</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  float tempC = ((((float)tempRawAD * 5.0) / 1024.0) - 0.400) / 0.0195;</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Lectura <span class="kw">del</span> sensor de temperatura</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="bu">int</span> tempRawAD <span class="op">=</span> analogRead(TempPin)<span class="op">;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> tempC <span class="op">=</span> ((((<span class="bu">float</span>)tempRawAD <span class="op">*</span> <span class="fl">5.0</span>) <span class="op">/</span> <span class="fl">1024.0</span>) <span class="op">-</span> <span class="fl">0.400</span>) <span class="op">/</span> <span class="fl">0.0195</span><span class="op">;</span></span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  // Cálculo de la velocidad de viento en m/s usando la ecuación empírica:</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  // WS = 26.3431 * (correctedVoltage)^(1.4273) * (tempC)^(-0.7631)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  float windSpeed = 26.3431 * pow(correctedVoltage, 1.4273) * pow(tempC, -0.7631);</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> Cálculo de la velocidad de viento en m<span class="op">/</span>s usando la ecuación empírica:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="op">//</span> WS <span class="op">=</span> <span class="fl">26.3431</span> <span class="op">*</span> (correctedVoltage)<span class="op">^</span>(<span class="fl">1.4273</span>) <span class="op">*</span> (tempC)<span class="op">^</span>(<span class="op">-</span><span class="fl">0.7631</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">float</span> windSpeed <span class="op">=</span> <span class="fl">26.3431</span> <span class="op">*</span> <span class="bu">pow</span>(correctedVoltage, <span class="fl">1.4273</span>) <span class="op">*</span> <span class="bu">pow</span>(tempC, <span class="op">-</span><span class="fl">0.7631</span>)<span class="op">;</span></span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  ws<span class="co">[</span><span class="ot">0</span><span class="co">]</span> = windSpeed;</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  ws<span class="co">[</span><span class="ot">1</span><span class="co">]</span> = tempC;</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  ws[<span class="dv">0</span>] <span class="op">=</span> windSpeed<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  ws[<span class="dv">1</span>] <span class="op">=</span> tempC<span class="op">;</span></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  return ws;</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> ws<span class="op">;</span></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 </section>
 <section id="raspberry-pi-4-model-b" class="level3" data-number="3.2.2">
@@ -875,54 +895,59 @@ Tabla&nbsp;3.3: Especificaciones del Raspberry Pi 4 Model B.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería <code>paho-mqtt</code> para la comunicación y está diseñado para operar de manera continua::</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>import paho.mqtt.client as mqtt</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>import json</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>import time</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>from thingsboard_credentials import thingsboard_data</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>from scd30 import scd30_measurements</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>from sound import sound_data</span>
+<div id="8ab5af89" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paho.mqtt.client <span class="im">as</span> mqtt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> thingsboard_credentials <span class="im">import</span> thingsboard_data</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scd30 <span class="im">import</span> scd30_measurements</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sound <span class="im">import</span> sound_data</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu"># Obtiene los datos de conexión para ThingsBoard</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>unique_id, token, thingsboard_host = thingsboard_data()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtiene los datos de conexión para ThingsBoard</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>unique_id, token, thingsboard_host <span class="op">=</span> thingsboard_data()</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu"># Diccionario para almacenar las lecturas del sensor</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>sensor_data = {'CO2': 0, 'T': 0, 'HR': 0}</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu"># Diccionario para datos de sonido</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu"># micro_data = {'RMS': 0, 'dBmax': 0, 'dBmin': 0}  </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Diccionario para almacenar las lecturas del sensor</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>sensor_data <span class="op">=</span> {<span class="st">'CO2'</span>: <span class="dv">0</span>, <span class="st">'T'</span>: <span class="dv">0</span>, <span class="st">'HR'</span>: <span class="dv">0</span>}</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Diccionario para datos de sonido</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># micro_data = {'RMS': 0, 'dBmax': 0, 'dBmin': 0}  </span></span>
 <span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="fu"># Configura el cliente MQTT</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>client = mqtt.Client(unique_id, False)</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>client.username_pw_set(token, password=None)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>client.connect(thingsboard_host, 1883, 60, '')</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Configura el cliente MQTT</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> mqtt.Client(unique_id, <span class="va">False</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>client.username_pw_set(token, password<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>client.<span class="ex">connect</span>(thingsboard_host, <span class="dv">1883</span>, <span class="dv">60</span>, <span class="st">''</span>)</span>
 <span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>client.loop_start()</span>
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>try:</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    while True:</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        # Obtiene las mediciones del sensor SCD30</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        CO2, T, HR = scd30_measurements()</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obtiene las mediciones del sensor SCD30</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        CO2, T, HR <span class="op">=</span> scd30_measurements()</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="in">        # Actualiza el diccionario con las lecturas actuales</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="in">        sensor_data['CO2'] = CO2</span></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="in">        sensor_data['T'] = T</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="in">        sensor_data['HR'] = HR</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Actualiza el diccionario con las lecturas actuales</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        sensor_data[<span class="st">'CO2'</span>] <span class="op">=</span> CO2</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        sensor_data[<span class="st">'T'</span>] <span class="op">=</span> T</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        sensor_data[<span class="st">'HR'</span>] <span class="op">=</span> HR</span>
 <span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="in">        # Publica los datos del SCD30 en ThingsBoard</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="in">        client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Publica los datos del SCD30 en ThingsBoard</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        client.publish(<span class="st">'v1/devices/me/telemetry'</span>, json.dumps(sensor_data), <span class="dv">1</span>)</span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="in">        # Obtiene los datos de sonido</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="in">        # micro_data = sound_data() </span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Obtiene los datos de sonido</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># micro_data = sound_data() </span></span>
 <span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="in">        # Publica los datos de sonido en ThingsBoard</span></span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="in">        # client.publish('v1/devices/me/telemetry', json.dumps(micro_data), 1)</span></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Publica los datos de sonido en ThingsBoard</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="co"># client.publish('v1/devices/me/telemetry', json.dumps(micro_data), 1)</span></span>
 <span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a><span class="in">        time.sleep(2)  # Ajusta el intervalo de tiempo entre lecturas</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        time.sleep(<span class="dv">2</span>)  <span class="co"># Ajusta el intervalo de tiempo entre lecturas</span></span>
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>except KeyboardInterrupt:</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    pass</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span></span>
 <span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="fu"># Detiene el loop del cliente MQTT y desconecta del servidor</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a><span class="co"># Detiene el loop del cliente MQTT y desconecta del servidor</span></span>
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>client.loop_stop()</span>
 <span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>client.disconnect()</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="sensirion-scd30" class="level4">
 <h4 class="anchored" data-anchor-id="sensirion-scd30">Sensirion SCD30</h4>
 <p>El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por infrarrojos. Incorpora un sensor de humedad y temperatura. Cuenta con un diseño de doble canal. Además, ofrece una precisión de ±(30 ppm + 3% de la lectura) en un rango de 400 a 10,000 ppm. <span class="citation" data-cites="scd30">Sensirion (<a href="references.html#ref-scd30" role="doc-biblioref">s.&nbsp;f.</a>)</span></p>
@@ -964,35 +989,40 @@ Figura&nbsp;3.4: Diagrama de conexión para el SCD30
 <li>Dimensiones: 35 × 23 × 7 mm</li>
 </ul>
 <p>A continuación se muestra el código de Python empleado para us incorpación al DTHIS-C:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>import time</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>import board</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>import busio</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>from scd30_i2c import SCD30</span>
+<div id="417b3229" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> board</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> busio</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scd30_i2c <span class="im">import</span> SCD30</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>def scd30_measurements():</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    """</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    Función para obtener las lecturas de CO2, Temperatura y Humedad Relativa del sensor SCD30.</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scd30_measurements():</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Función para obtener las lecturas de CO2, Temperatura y Humedad Relativa del sensor SCD30.</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="in">    Retorna:</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="in">        tuple: (CO2, T, HR) donde</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="in">            CO2: concentración de CO2 en ppm</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="in">            T: temperatura en grados Celsius</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="in">            HR: humedad relativa en porcentaje</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="in">    """</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="in">    # Inicializa el sensor SCD30</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="in">    scd30 = SCD30()</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="in">    # Espera para asegurarse de que el sensor esté listo</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="in">    time.sleep(2)  </span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="in">    # Verifica si los datos están listos para ser leídos</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="in">    if scd30.get_data_ready():</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="in">        # Lee las mediciones del sensor</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="in">        CO2, T, HR = scd30.read_measurement()</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="in">        # Redondea cada valor a dos decimales</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="in">        CO2 = round(CO2, 2)</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="in">        T = round(T, 2)</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="in">        HR = round(HR, 2)</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="in">        return CO2, T, HR</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna:</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">        tuple: (CO2, T, HR) donde</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">            CO2: concentración de CO2 en ppm</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">            T: temperatura en grados Celsius</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">            HR: humedad relativa en porcentaje</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Inicializa el sensor SCD30</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    scd30 <span class="op">=</span> SCD30()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Espera para asegurarse de que el sensor esté listo</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">2</span>)  </span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verifica si los datos están listos para ser leídos</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> scd30.get_data_ready():</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Lee las mediciones del sensor</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        CO2, T, HR <span class="op">=</span> scd30.read_measurement()</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Redondea cada valor a dos decimales</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        CO2 <span class="op">=</span> <span class="bu">round</span>(CO2, <span class="dv">2</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        T <span class="op">=</span> <span class="bu">round</span>(T, <span class="dv">2</span>)</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>        HR <span class="op">=</span> <span class="bu">round</span>(HR, <span class="dv">2</span>)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> CO2, T, HR</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="arducam-5mp-ov5647-ultra-wide-angle" class="level4">
 <h4 class="anchored" data-anchor-id="arducam-5mp-ov5647-ultra-wide-angle">Arducam 5MP OV5647 Ultra Wide Angle</h4>
@@ -1028,52 +1058,57 @@ Figura&nbsp;3.5: Diagrama de conexión para la cámara OV5647
 <li>Corriente pico: 300 mA</li>
 </ul>
 <p>A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<div id="67350518" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>DATE=$(date +"%Y-%m-%d_%H%M")</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>IMG_DIR="/home/hdeza/Luminance/images"</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>HDR_IMG="/home/hdeza/Luminance/HDR_images"</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>MAPS_DIR="/home/hdeza/Luminance/maps"</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR="/home/hdeza/Luminance"</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>DATE<span class="op">=</span>$(date <span class="op">+</span><span class="st">"%Y-%m-</span><span class="sc">%d</span><span class="st">_%H%M"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>IMG_DIR<span class="op">=</span><span class="st">"/home/hdeza/Luminance/images"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>HDR_IMG<span class="op">=</span><span class="st">"/home/hdeza/Luminance/HDR_images"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>MAPS_DIR<span class="op">=</span><span class="st">"/home/hdeza/Luminance/maps"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>OUTPUT_DIR<span class="op">=</span><span class="st">"/home/hdeza/Luminance"</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>#Loop through shutter speeds and capture images</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>SHUTTERS=(100 500 1000 5000 10000 50000 100000 500000 1000000 2000000)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Loop through shutter speeds and capture images</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>SHUTTERS<span class="op">=</span>(<span class="dv">100</span> <span class="dv">500</span> <span class="dv">1000</span> <span class="dv">5000</span> <span class="dv">10000</span> <span class="dv">50000</span> <span class="dv">100000</span> <span class="dv">500000</span> <span class="dv">1000000</span> <span class="dv">2000000</span>)</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>for i in "${!SHUTTERS<span class="co">[</span><span class="ot">@</span><span class="co">]</span>}"; do</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  rpicam-still --raw -n --gain 1 -t 500 --shutter "${SHUTTERS<span class="co">[</span><span class="ot">$i</span><span class="co">]</span>}" -o "$IMG_DIR/$(printf "%02d" $((i+1))).jpg"</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="st">"${!SHUTTERS[@]}"</span><span class="op">;</span> do</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  rpicam<span class="op">-</span>still <span class="op">--</span>raw <span class="op">-</span>n <span class="op">--</span>gain <span class="dv">1</span> <span class="op">-</span>t <span class="dv">500</span> <span class="op">--</span>shutter <span class="st">"$</span><span class="sc">{SHUTTERS[$i]}</span><span class="st">"</span> <span class="op">-</span>o <span class="st">"$IMG_DIR/$(printf "</span><span class="op">%</span><span class="dv">0</span><span class="er">2d</span><span class="st">" $((i+1))).jpg"</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>done</span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>#Run raw2hdr with the path to the images and save as image.hdr</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>raw2hdr -a -e -g -f -h -w -o "$HDR_IMG/image_$DATE.hdr" "$IMG_DIR"/*dng</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Run raw2hdr with the path to the images and save as image.hdr</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>raw2hdr <span class="op">-</span>a <span class="op">-</span>e <span class="op">-</span>g <span class="op">-</span>f <span class="op">-</span>h <span class="op">-</span>w <span class="op">-</span>o <span class="st">"$HDR_IMG/image_$DATE.hdr"</span> <span class="st">"$IMG_DIR"</span><span class="op">/*</span>dng</span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>#Get info about the final HDR</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>getinfo "$HDR_IMG/image_$DATE.hdr"</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Get info about the final HDR</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>getinfo <span class="st">"$HDR_IMG/image_$DATE.hdr"</span></span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>#Nullify exposure value</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>ra_xyze -r -o "$HDR_IMG/image_$DATE.hdr" &gt; "$OUTPUT_DIR/image_nullEV_$DATE.hdr"</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Nullify exposure value</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>ra_xyze <span class="op">-</span>r <span class="op">-</span>o <span class="st">"$HDR_IMG/image_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$OUTPUT_DIR/image_nullEV_$DATE.hdr"</span></span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>#Resize image</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>pfilt -1 -x 1000 -y 1000 "$OUTPUT_DIR/image_nullEV_$DATE.hdr" &gt; "$OUTPUT_DIR/image_resize_$DATE.hdr"</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#Resize image</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>pfilt <span class="op">-</span><span class="dv">1</span> <span class="op">-</span>x <span class="dv">1000</span> <span class="op">-</span>y <span class="dv">1000</span> <span class="st">"$OUTPUT_DIR/image_nullEV_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$OUTPUT_DIR/image_resize_$DATE.hdr"</span></span>
 <span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>#Make photometric adjustment</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>pcomb -s 1.8 "$OUTPUT_DIR/image_resize_$DATE.hdr" &gt; "$OUTPUT_DIR/image_photometric_$DATE.hdr"</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#Make photometric adjustment</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>pcomb <span class="op">-</span>s <span class="fl">1.8</span> <span class="st">"$OUTPUT_DIR/image_resize_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$OUTPUT_DIR/image_photometric_$DATE.hdr"</span></span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>#Change view angle for fisheye</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>getinfo -a "VIEW= -vta -vv 160 -vh 160" &lt; "$OUTPUT_DIR/image_photometric_$DATE.hdr" &gt; "$IMG_DIR/image_final_$DATE.hdr"</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Change view angle for fisheye</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>getinfo <span class="op">-</span>a <span class="st">"VIEW= -vta -vv 160 -vh 160"</span> <span class="op">&lt;</span> <span class="st">"$OUTPUT_DIR/image_photometric_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$IMG_DIR/image_final_$DATE.hdr"</span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>#Print illuminance value</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>echo "Total illuminance is: "</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>evalglare -V "$IMG_DIR/image_final_$DATE.hdr"</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>evalglare -V "$IMG_DIR/image_final_$DATE.hdr" &gt; "$OUTPUT_DIR/illuminance_$DATE.txt"</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#Print illuminance value</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>echo <span class="st">"Total illuminance is: "</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>evalglare <span class="op">-</span>V <span class="st">"$IMG_DIR/image_final_$DATE.hdr"</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>evalglare <span class="op">-</span>V <span class="st">"$IMG_DIR/image_final_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$OUTPUT_DIR/illuminance_$DATE.txt"</span></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>#Move final HDR image to HDR_images</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>mv "$IMG_DIR/image_final_$DATE.hdr" "$HDR_IMG/image_final_$DATE.hdr"</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#Move final HDR image to HDR_images</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>mv <span class="st">"$IMG_DIR/image_final_$DATE.hdr"</span> <span class="st">"$HDR_IMG/image_final_$DATE.hdr"</span></span>
 <span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>#Crop to a 160</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>pcomb -e 'Cx:xmax/2;Cy:ymax/2;R:444.44;sq(x):x*x' -e 'inC=sq(R)-sq(x-Cx)-sq(y-Cy)' -e 'ro=if(inC,ri(1),0);go=if(inC,gi(1),0);bo=if(inC,bi(1),0)' "$HDR_IMG/image_final_$DATE.hdr" &gt; "$HDR_IMG/image_crop_$DATE.hdr"</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#Crop to a 160</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>pcomb <span class="op">-</span>e <span class="st">'Cx:xmax/2;Cy:ymax/2;R:444.44;sq(x):x*x'</span> <span class="op">-</span>e <span class="st">'inC=sq(R)-sq(x-Cx)-sq(y-Cy)'</span> <span class="op">-</span>e <span class="st">'ro=if(inC,ri(1),0);go=if(inC,gi(1),0);bo=if(inC,bi(1),0)'</span> <span class="st">"$HDR_IMG/image_final_$DATE.hdr"</span> <span class="op">&gt;</span> <span class="st">"$HDR_IMG/image_crop_$DATE.hdr"</span></span>
 <span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>#Make the luminance map with configurations and save it</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 &gt; "$MAPS_DIR/image_map_$DATE.hdr"</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="co">#Make the luminance map with configurations and save it</span></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>falsecolor <span class="op">-</span>s <span class="dv">5000</span> <span class="op">-</span>d <span class="dv">1</span> <span class="op">-</span>i <span class="st">"$HDR_IMG/image_crop_$DATE.hdr"</span> <span class="op">--</span>log <span class="dv">3</span> <span class="op">&gt;</span> <span class="st">"$MAPS_DIR/image_map_$DATE.hdr"</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 <section id="micrófono-ambiental-usb" class="level4">
 <h4 class="anchored" data-anchor-id="micrófono-ambiental-usb">Micrófono ambiental USB</h4>
@@ -1096,65 +1131,90 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </ul>
 <p>A continuación, se presentan los códigos utilizados para la captura y análisis de sonido. Estos scripts permiten grabar el audio, extraer parámetros clave de la señal y convertirlos a valores en decibeles (dB).</p>
 <p>El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<div id="2f4b6ffb" class="cell" data-execution_count="8">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>grabar="/home/hdeza/Sonido/audio.wav"</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>grabar<span class="op">=</span><span class="st">"/home/hdeza/Sonido/audio.wav"</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>arecord -D plughw:3,0 -f cd -t wav -d 15 -r 44100 $grabar</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>arecord <span class="op">-</span>D plughw:<span class="dv">3</span>,<span class="dv">0</span> <span class="op">-</span>f cd <span class="op">-</span>t wav <span class="op">-</span>d <span class="dv">15</span> <span class="op">-</span>r <span class="dv">44100</span> $grabar</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<div id="0f2a7f68" class="cell" data-execution_count="9">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>maximo="/home/hdeza/Sonido/dBmax.txt"</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>maximo<span class="op">=</span><span class="st">"/home/hdeza/Sonido/dBmax.txt"</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2&gt;&amp;1 | /usr/bin/grep "Maximum amplitude:" | /usr/bin/awk '{print $3}'  &gt; $maximo</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>sox <span class="op">/</span>home<span class="op">/</span>hdeza<span class="op">/</span>Sonido<span class="op">/</span>audio.wav <span class="op">-</span>n stat <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>grep <span class="st">"Maximum amplitude:"</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>awk <span class="st">'{print $3}'</span>  <span class="op">&gt;</span> $maximo</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<div id="715dd2f4" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>minimo="/home/hdeza/Sonido/dBmin.txt"</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>minimo<span class="op">=</span><span class="st">"/home/hdeza/Sonido/dBmin.txt"</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2&gt;&amp;1 | /usr/bin/grep "Minimum amplitude:" | /usr/bin/awk '{print $3}' &gt; $minimo</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>sox <span class="op">/</span>home<span class="op">/</span>hdeza<span class="op">/</span>Sonido<span class="op">/</span>audio.wav <span class="op">-</span>n stat <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>grep <span class="st">"Minimum amplitude:"</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>awk <span class="st">'{print $3}'</span> <span class="op">&gt;</span> $minimo</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>#!/bin/bash</span>
+<div id="9738895b" class="cell" data-execution_count="11">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>media="/home/hdeza/Sonido/rms.txt"</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>media<span class="op">=</span><span class="st">"/home/hdeza/Sonido/rms.txt"</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2&gt;&amp;1 | /usr/bin/grep "RMS     amplitude:" | /usr/bin/awk '{print $3}' &gt; $media</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>sox <span class="op">/</span>home<span class="op">/</span>hdeza<span class="op">/</span>Sonido<span class="op">/</span>audio.wav <span class="op">-</span>n stat <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>grep <span class="st">"RMS     amplitude:"</span> <span class="op">|</span> <span class="op">/</span>usr<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>awk <span class="st">'{print $3}'</span> <span class="op">&gt;</span> $media</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:</p>
 <p><span class="math display">\[dB = 20 \log_{10}(\text{amplitud}) + 120\]</span></p>
 <p>Los valores resultantes son almacenados en un diccionario para su posterior uso:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>import numpy as np</span>
+<div id="bc90e0ee" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>def sound_data():</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    """</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    Función para obtener los datos de sonido desde archivos y calcular sus valores en dB.</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sound_data():</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Función para obtener los datos de sonido desde archivos y calcular sus valores en dB.</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="in">    Retorna:</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="in">        dict: Datos de sonido en dB (RMS_dB, dBmax_dB, dBmin_dB).</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="in">    """</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="in">    archivos = [</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="in">        '/home/dthisc/dthis-c/sound/rms.txt',</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="in">        '/home/dthisc/dthis-c/sound/dBmax.txt',</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="in">        '/home/dthisc/dthis-c/sound/dBmin.txt'</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="in">    ]</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="in">    </span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="in">    rms_x = ""</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="in">    dBmax_x = ""</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="in">    dBmin_x = ""</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">    Retorna:</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">        dict: Datos de sonido en dB (RMS_dB, dBmax_dB, dBmin_dB).</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    archivos <span class="op">=</span> [</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">'/home/dthisc/dthis-c/sound/rms.txt'</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">'/home/dthisc/dthis-c/sound/dBmax.txt'</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'/home/dthisc/dthis-c/sound/dBmin.txt'</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    rms_x <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    dBmax_x <span class="op">=</span> <span class="st">""</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    dBmin_x <span class="op">=</span> <span class="st">""</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="in">    for archivo in archivos:</span></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="in">        with open(archivo, 'r', encoding='utf-8') as f:</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="in">            if archivo == '/home/dthisc/dthis-c/sound/rms.txt':</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="in">                rms_x = round(float(f.read().strip()), 4)</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="in">            elif archivo == '/home/dthisc/dthis-c/sound/dBmax.txt':</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="in">                dBmax_x = round(float(f.read().strip()), 4)</span></span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="in">            elif archivo == '/home/dthisc/dthis-c/sound/dBmin.txt':</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="in">                dBmin_x = round(float(f.read().strip()), 4)</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> archivo <span class="kw">in</span> archivos:</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">with</span> <span class="bu">open</span>(archivo, <span class="st">'r'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> f:</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> archivo <span class="op">==</span> <span class="st">'/home/dthisc/dthis-c/sound/rms.txt'</span>:</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>                rms_x <span class="op">=</span> <span class="bu">round</span>(<span class="bu">float</span>(f.read().strip()), <span class="dv">4</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> archivo <span class="op">==</span> <span class="st">'/home/dthisc/dthis-c/sound/dBmax.txt'</span>:</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                dBmax_x <span class="op">=</span> <span class="bu">round</span>(<span class="bu">float</span>(f.read().strip()), <span class="dv">4</span>)</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>            <span class="cf">elif</span> archivo <span class="op">==</span> <span class="st">'/home/dthisc/dthis-c/sound/dBmin.txt'</span>:</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>                dBmin_x <span class="op">=</span> <span class="bu">round</span>(<span class="bu">float</span>(f.read().strip()), <span class="dv">4</span>)</span>
 <span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="in">    rms_db = round(20 * np.log10(float(rms_x)) + 120, 4)</span></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="in">    dBmax_db = round(20 * np.log10(float(dBmax_x)) + 120, 4)</span></span>
-<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="in">    dBmin_db = round(20 * np.log10(abs(float(dBmin_x))) + 120, 4)</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    rms_db <span class="op">=</span> <span class="bu">round</span>(<span class="dv">20</span> <span class="op">*</span> np.log10(<span class="bu">float</span>(rms_x)) <span class="op">+</span> <span class="dv">120</span>, <span class="dv">4</span>)</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    dBmax_db <span class="op">=</span> <span class="bu">round</span>(<span class="dv">20</span> <span class="op">*</span> np.log10(<span class="bu">float</span>(dBmax_x)) <span class="op">+</span> <span class="dv">120</span>, <span class="dv">4</span>)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    dBmin_db <span class="op">=</span> <span class="bu">round</span>(<span class="dv">20</span> <span class="op">*</span> np.log10(<span class="bu">abs</span>(<span class="bu">float</span>(dBmin_x))) <span class="op">+</span> <span class="dv">120</span>, <span class="dv">4</span>)</span>
 <span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="in">    return {'RMS': rms_db, 'dBmax': dBmax_db, 'dBmin': dBmin_db}</span></span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">'RMS'</span>: rms_db, <span class="st">'dBmax'</span>: dBmax_db, <span class="st">'dBmin'</span>: dBmin_db}</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 </section>
 </section>
 </section>
@@ -1190,9 +1250,9 @@ Tabla&nbsp;3.4: Lista de materiales para la construcción del DTHIS-C.
 <tr class="even">
 <td>Arduino</td>
 <td>Arduino UNO WiFi Rev2</td>
-<td>2</td>
+<td>1</td>
 <td>$1,268.10</td>
-<td>$2,536.20</td>
+<td>$1,268.10</td>
 <td><a href="https://www.agelectronica.com/detalle?busca=ABX00021">AG Electrónica</a></td>
 </tr>
 <tr class="odd">

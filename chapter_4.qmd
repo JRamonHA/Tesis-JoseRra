@@ -1,7 +1,29 @@
 # Calibración y caracterización del DTHIS-C
 
+En este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
+
 ## Presentación de los resultados
 
 ## Análisis e interpretación de resultados
 
 ## Visualización de datos
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+#| code-fold: true
+#| code-overflow: wrap
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```

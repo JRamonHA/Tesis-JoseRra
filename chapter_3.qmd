@@ -58,7 +58,11 @@ En la tabla @tbl-arduino se muestran sus especificaciones.
 
 El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #include <WiFiNINA.h>
 #include <PubSubClient.h>
 
@@ -183,7 +187,7 @@ void sendWS(float* windspeed) {
                    ", \"TEMP\":" + String(windspeed[1]) + "}";
   mqttClient.publish(topic.c_str(), payload.c_str());
 }
-````
+```
 
 #### Termopar Tipo T 
 
@@ -216,7 +220,11 @@ Acorde a @pwf sus específicaciones son las siguientes:
 
 Igualmente se proporciona el código de Arduino empleado:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
 #include <PWFusion_MAX31856.h>
 
 // Definición de los pines chip select para cada termopar
@@ -270,7 +278,7 @@ float* ThermocoupleTemp() {
   
   return tc_temps;
 }
-````
+```
 
 #### Fuehler Systeme TPF1/E-20 PT1000
 Se empleó el TPF1/E-20 PT1000, diseñado para medir la temperatura radiante en un rango de temperaturas de -30 °C a +75 °C. Su sonda de temperatura, basada en la tecnología PT1000, se puede montar como un péndulo libremente suspendido, lo que permite obtener mediciones precisas de la temperatura de sensación térmica en entornos donde la convección natural y la estratificación del aire pueden influir en los resultados. @fuehler
@@ -302,7 +310,11 @@ El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital.
 
 A continuación se muestra el código de Arduino:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
 #include <Adafruit_MAX31865.h>
 
 // Usamos software SPI: CS, DI, DO, CLK
@@ -334,7 +346,7 @@ float TPF1Temp() {
   
   return radiant_temp;
 }
-````
+```
 
 #### Modern Device Wind Sensor Rev. P6
 
@@ -349,7 +361,11 @@ El sensor de viento Rev. P6 es un anemómetro de hilo caliente. Incorpora un pot
 - Velocidades de viento medidas: 0–150 mph.
 - Compensación de temperatura ambiente.
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
 #include <math.h>
 
 const int OutPin  = A0;   // Pin analógico para el sensor de viento ("OUT")
@@ -381,7 +397,7 @@ float* WindSensor() {
   
   return ws;
 }
-````
+```
 
 
 ### Raspberry Pi 4 Model B
@@ -407,7 +423,11 @@ En la tabla @tbl-raspberry se muestran sus especificaciones.
 
 El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería `paho-mqtt` para la comunicación y está diseñado para operar de manera continua::
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
 import paho.mqtt.client as mqtt
 import json
 import time
@@ -456,7 +476,7 @@ except KeyboardInterrupt:
 # Detiene el loop del cliente MQTT y desconecta del servidor
 client.loop_stop()
 client.disconnect()
-````
+```
 
 #### Sensirion SCD30
 
@@ -494,7 +514,11 @@ El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por 
 
 A continuación se muestra el código de Python empleado para us incorpación al DTHIS-C:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
 import time
 import board
 import busio
@@ -524,7 +548,7 @@ def scd30_measurements():
         T = round(T, 2)
         HR = round(HR, 2)
         return CO2, T, HR
-````
+```
 
 #### Arducam 5MP OV5647 Ultra Wide Angle
 
@@ -552,7 +576,11 @@ La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que of
 
 A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #!/bin/bash
 
 DATE=$(date +"%Y-%m-%d_%H%M")
@@ -599,7 +627,7 @@ pcomb -e 'Cx:xmax/2;Cy:ymax/2;R:444.44;sq(x):x*x' -e 'inC=sq(R)-sq(x-Cx)-sq(y-Cy
 
 #Make the luminance map with configurations and save it
 falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 > "$MAPS_DIR/image_map_$DATE.hdr"
-````
+```
 
 #### Micrófono ambiental USB
 
@@ -617,42 +645,58 @@ A continuación, se presentan los códigos utilizados para la captura y análisi
 
 El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #!/bin/bash
 
 grabar="/home/hdeza/Sonido/audio.wav"
 
 arecord -D plughw:3,0 -f cd -t wav -d 15 -r 44100 $grabar
-````
+```
 Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #!/bin/bash
 
 maximo="/home/hdeza/Sonido/dBmax.txt"
 
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Maximum amplitude:" | /usr/bin/awk '{print $3}'  > $maximo
-````
+```
 
 Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #!/bin/bash
 
 minimo="/home/hdeza/Sonido/dBmin.txt"
 
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Minimum amplitude:" | /usr/bin/awk '{print $3}' > $minimo
-````
+```
 
 Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 #!/bin/bash
 
 media="/home/hdeza/Sonido/rms.txt"
 
 /usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "RMS     amplitude:" | /usr/bin/awk '{print $3}' > $media
-````
+```
 
 El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:
 
@@ -660,7 +704,11 @@ $$dB = 20 \log_{10}(\text{amplitud}) + 120$$
 
 Los valores resultantes son almacenados en un diccionario para su posterior uso:
 
-```` markdown
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
 import numpy as np
 
 def sound_data():
@@ -694,7 +742,7 @@ def sound_data():
     dBmin_db = round(20 * np.log10(abs(float(dBmin_x))) + 120, 4)
 
     return {'RMS': rms_db, 'dBmax': dBmax_db, 'dBmin': dBmin_db}
-````
+```
 
 ## Lista de materiales
 
@@ -703,7 +751,7 @@ La tabla @tbl-materiales muestra la lista de materiales necesarios para la const
 | **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                        |
 |-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | Adaptador USB               | UGREEN Adaptador USB C Hembra a USB Macho 3                           | 1            | $199.00                  | $199.00               | [Amazon](https://a.co/d/arZqIaH)                                                                                                            |
-| Arduino                     | Arduino UNO WiFi Rev2                                                 | 2            | $1,268.10                | $2,536.20             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                      |
+| Arduino                     | Arduino UNO WiFi Rev2                                                 | 1            | $1,268.10                | $1,268.10             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                      |
 | Cable para cámara Raspberry | OKY9053                                                               | 1            | $27.59                   | $27.59                | [AG Electrónica](https://www.agelectronica.com/detalle?busca=OKY9053)                                                                       |
 | Carcasa                     | Carcasa ABS para Raspberry Pi 4 con ventilador y disipadores de calor | 1            | $188.00                  | $188.00               | [330ohms](https://www.330ohms.com/collections/carcasas-rpi/products/carcasa-abs-para-raspberry-pi-4-con-ventilador-y-disipadores-de-calor)  |
 | Fisheye                     | 5MP OV5647 Wide Angle Fisheye Camera                                  | 1            | $502.59                  | $502.59               | [AG Electrónica](https://www.agelectronica.com/detalle?busca=SKU10344*)                                                                     |
