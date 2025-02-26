@@ -1,3 +1,8 @@
+```{python}
+#| echo: false
+import thesis_tools as tt
+```
+
 # Calibración y caracterización del DTHIS-C
 
 En este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
@@ -9,29 +14,21 @@ En este capítulo se detalla el proceso de calibración y caracterización del d
 ## Visualización de datos
 
 ```{python}
-#| code-fold: true
-#| code-overflow: wrap
+#| echo: false
+tt.scatter_plot('data/temp.parquet', ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4'])
+```
 
-import thesis_tools as tt
+```{python}
+#| echo: false
+tt.scatter_plot('data/trad.parquet', ['temp', 'globo'])
+```
 
-# Scatter plot desde un archivo Parquet
+```{python}
+#| echo: false
+tt.columns_plot('data/ws.parquet', 'voltage', 'ws', resample_interval="10s")
+```
+
+```{python}
+#| echo: false
 tt.scatter_plot('data/scd30.parquet', ['HR', 'T', 'CO2', 'HR_F', 'T_F', 'CO2_F'])
-print('\n')
-
-# Calcular errores con resampleo
-tt.calculate_error('data/trad.parquet', 'temp', 'globo', resample_interval='1s')
-print('\n')
-
-# Calibrar windsensor
-tt.wind_calibration('data/ws.parquet', ws='ws', v='voltage', t='temp', resample_interval='10s')
-print('\n')
-
-# Calibrar termopares con intervalos de tiempo
-time_intervals = [("15:44:01", "15:52:31", 10.),
-                  ("16:02:06", "16:11:52", 20.),
-                  ("16:20:44", "16:28:58", 30.),
-                  ("16:39:23", "16:49:57", 40.),
-                  ("16:58:24", "17:08:25", 50.)]
-columns = ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4']
-tt.thermo_calibration('data/temp.parquet', columns, time_intervals)
 ```

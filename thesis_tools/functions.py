@@ -6,7 +6,8 @@ from sklearn.linear_model import LinearRegression
 
 def scatter_plot(filepath, columns):
     """
-    Genera un scatter plot a partir de un archivo usando las columnas especificadas.
+    Genera un scatter plot a partir de un archivo, utilizando las columnas 
+    especificadas en función del índice temporal del conjunto de datos.
 
     Parámetros:
     - filepath (str): Ruta al archivo Parquet.
@@ -20,6 +21,45 @@ def scatter_plot(filepath, columns):
     pio.renderers.default = "iframe"
 
     fig = px.scatter(data, x=data.index, y=columns)
+    fig.update_layout(hovermode='x unified')
+    fig.show()
+
+
+def columns_plot(filepath, x_col, y_col, resample_interval=None):
+    """
+    Genera un scatter plot usando las columnas especificadas para los ejes X e Y.
+    Opcionalmente, permite resamplear el DataFrame antes de graficarlo.
+
+    Parámetros:
+    - filepath (str): Ruta al archivo Parquet.
+    - x_col (str): Nombre de la columna a graficar en el eje X.
+    - y_col (str): Nombre de la columna a graficar en el eje Y.
+    - resample_interval (str, opcional): Intervalo de resampleo (ej. '10s'). Si no se proporciona, no se resamplea.
+
+    Retorna:
+    - None: Muestra el scatter plot interactivo.
+    """
+    data = pd.read_parquet(filepath)
+    
+    # Verificar si existen las columnas
+    if x_col not in data.columns or y_col not in data.columns:
+        raise ValueError(f'Las columnas {x_col} y {y_col} no existen en el DataFrame.')
+    
+    # Aplicar corrección si la columna 'voltage' está presente
+    if 'voltage' in data.columns:
+        data['voltage'] = data['voltage'] - 1.1621
+    
+    # Verificar si se debe resamplear
+    if resample_interval:
+        if not isinstance(data.index, pd.DatetimeIndex):
+            raise ValueError('El índice del DataFrame debe ser de tipo DatetimeIndex para resamplear.')
+        data = data.resample(resample_interval).mean()
+    
+    # Configurar el renderer de Plotly
+    pio.renderers.default = "iframe"
+    
+    # Crear y mostrar el scatter plot
+    fig = px.scatter(data, x=x_col, y=y_col)
     fig.update_layout(hovermode='x unified')
     fig.show()
 
