@@ -98,17 +98,10 @@ def wind_calibration(filepath, ws='WS', v='V', t='T', resample_interval=None):
     equation = f'WS = {a:.4f} * {v}^({b:.4f}) * {t}^({c:.4f})'
     r2 = modelo.score(X, y)
 
-    # Redondear los parámetros a 4 decimales
-    a_r = round(a, 4)
-    b_r = round(b, 4)
-    c_r = round(c, 4)
     r2_r = round(r2, 4)
 
     # Imprimir resultados
-    print(f"a: {a_r}")
-    print(f"b: {b_r}")
-    print(f"c: {c_r}")
-    print(f"r2: {r2_r}")
+    print(f"Correlación: {r2_r}")
     print(f"{equation}")
 
 
