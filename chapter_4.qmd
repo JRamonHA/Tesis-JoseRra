@@ -9,21 +9,29 @@ En este capítulo se detalla el proceso de calibración y caracterización del d
 ## Visualización de datos
 
 ```{python}
-#| label: fig-polar
-#| fig-cap: "A line plot on a polar axis"
 #| code-fold: true
 #| code-overflow: wrap
 
-import numpy as np
-import matplotlib.pyplot as plt
+import thesis_tools as tt
 
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
+# Scatter plot desde un archivo Parquet
+tt.scatter_plot('data/scd30.parquet', ['HR', 'T', 'CO2', 'HR_F', 'T_F', 'CO2_F'])
+print('\n')
+
+# Calcular errores con resampleo
+tt.calculate_error('data/trad.parquet', 'temp', 'globo', resample_interval='1s')
+print('\n')
+
+# Calibrar windsensor
+tt.wind_calibration('data/ws.parquet', ws='ws', v='voltage', t='temp', resample_interval='10s')
+print('\n')
+
+# Calibrar termopares con intervalos de tiempo
+time_intervals = [("15:44:01", "15:52:31", 10.),
+                  ("16:02:06", "16:11:52", 20.),
+                  ("16:20:44", "16:28:58", 30.),
+                  ("16:39:23", "16:49:57", 40.),
+                  ("16:58:24", "17:08:25", 50.)]
+columns = ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4']
+tt.thermo_calibration('data/temp.parquet', columns, time_intervals)
 ```
