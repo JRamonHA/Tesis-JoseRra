@@ -7,11 +7,7 @@ import thesis_tools as tt
 
 En este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
 
-## Presentación de los resultados
-
-## Análisis e interpretación de resultados
-
-## Visualización de datos
+## Presentación de los datos
 
 ```{python}
 #| echo: false
@@ -25,10 +21,49 @@ tt.scatter_plot('data/trad.parquet', ['temp', 'globo'])
 
 ```{python}
 #| echo: false
-tt.columns_plot('data/ws.parquet', 'voltage', 'ws', resample_interval="10s")
+tt.scatter_plot('data/ws.parquet', ['ws', 'voltage'])
 ```
 
 ```{python}
 #| echo: false
 tt.scatter_plot('data/scd30.parquet', ['HR', 'T', 'CO2', 'HR_F', 'T_F', 'CO2_F'])
+```
+
+## Análisis e interpretación
+
+## Visualización de los resultados
+
+```{python}
+#| echo: false
+time_intervals = [("15:44:01", "15:52:31", 10.),
+                  ("16:02:06", "16:11:52", 20.),
+                  ("16:20:44", "16:28:58", 30.),
+                  ("16:39:23", "16:49:57", 40.),
+                  ("16:58:24", "17:08:25", 50.)]
+
+columns = ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4']
+
+tt.linear_reg_plot('data/temp.parquet', columns, time_intervals)
+```
+
+```{python}
+#| echo: false
+tt.scatter_plot('data/cal_trad.parquet', ['temp', 'globo', 'calibrated'])
+```
+
+```{python}
+#| echo: false
+tt.scatter_plot('data/cal_ws.parquet', ['ws', '10s'])
+```
+
+```{python}
+#| echo: false
+tt.dropdowns_plot(
+    filepath='data/scd30.parquet',
+    trace_labels=["Temperatura", "Humedad relativa", "CO2"],
+    x_cols=["T", "HR", "CO2"],
+    y_cols=["T_F", "HR_F", "CO2_F"],
+    x_axis_title="SCD30",
+    y_axis_title="Fluke"
+)
 ```

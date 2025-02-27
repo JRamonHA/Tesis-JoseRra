@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import plotly.graph_objects as go
 import plotly.express as px
 import plotly.io as pio
 from sklearn.linear_model import LinearRegression
@@ -25,42 +26,187 @@ def scatter_plot(filepath, columns):
     fig.show()
 
 
-def columns_plot(filepath, x_col, y_col, resample_interval=None):
+def columns_plot(filepath, x_col, y_col):
     """
     Genera un scatter plot usando las columnas especificadas para los ejes X e Y.
-    Opcionalmente, permite resamplear el DataFrame antes de graficarlo.
 
     Parámetros:
     - filepath (str): Ruta al archivo Parquet.
     - x_col (str): Nombre de la columna a graficar en el eje X.
     - y_col (str): Nombre de la columna a graficar en el eje Y.
-    - resample_interval (str, opcional): Intervalo de resampleo (ej. '10s'). Si no se proporciona, no se resamplea.
 
     Retorna:
     - None: Muestra el scatter plot interactivo.
     """
     data = pd.read_parquet(filepath)
-    
-    # Verificar si existen las columnas
-    if x_col not in data.columns or y_col not in data.columns:
-        raise ValueError(f'Las columnas {x_col} y {y_col} no existen en el DataFrame.')
-    
-    # Aplicar corrección si la columna 'voltage' está presente
-    if 'voltage' in data.columns:
-        data['voltage'] = data['voltage'] - 1.1621
-    
-    # Verificar si se debe resamplear
-    if resample_interval:
-        if not isinstance(data.index, pd.DatetimeIndex):
-            raise ValueError('El índice del DataFrame debe ser de tipo DatetimeIndex para resamplear.')
-        data = data.resample(resample_interval).mean()
-    
-    # Configurar el renderer de Plotly
+        
     pio.renderers.default = "iframe"
     
-    # Crear y mostrar el scatter plot
     fig = px.scatter(data, x=x_col, y=y_col)
     fig.update_layout(hovermode='x unified')
+    fig.show()
+
+
+def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_title):
+    """
+    Genera un gráfico scatter interactivo con un menú desplegable para alternar entre diferentes trazas.
+
+    Parámetros:
+    - filepath (str): Ruta al archivo Parquet.
+    - trace_labels (list of str): Lista con los labels de cada traza.
+    - x_cols (list of str): Lista con el nombre de la columna para el eje X de cada traza.
+    - y_cols (list of str): Lista con el nombre de la columna para el eje Y de cada traza.
+    - x_axis_title (str): Título que se asignará al eje X en el layout.
+    - y_axis_title (str): Título que se asignará al eje Y en el layout.
+
+    Retorna:
+    - None: Muestra los scatter plots interactivos.
+    """
+    data = pd.read_parquet(filepath)
+    
+    pio.renderers.default = "iframe"
+
+    colors = ["#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A",
+              "#19D3F3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"]
+    
+    fig = go.Figure()
+    
+    n_traces = len(trace_labels)
+    # Agregar cada traza con su respectivo color (se reinicia la cuenta si hay más de 10 trazas)
+    for i in range(n_traces):
+        fig.add_trace(go.Scatter(
+            x=data[x_cols[i]],
+            y=data[y_cols[i]],
+            mode='markers',
+            marker=dict(color=colors[i % len(colors)]),
+            name=trace_labels[i]
+        ))
+    
+    for i in range(n_traces):
+        fig.data[i].visible = (i == 0)
+    
+    # Crear botones para el menú desplegable
+    buttons = []
+    for i in range(n_traces):
+        visibility = [True if j == i else False for j in range(n_traces)]
+        button = {
+            "label": trace_labels[i],
+            "method": "update",
+            "args": [{"visible": visibility}]
+        }
+        buttons.append(button)
+    
+    fig.update_layout(
+        updatemenus=[
+            {
+                "buttons": buttons,
+                "direction": "down",
+                "showactive": True,
+                "x": 0.0,
+                "xanchor": "left",
+                "y": 1.15,
+                "yanchor": "top"
+            }
+        ],
+        xaxis_title=x_axis_title,
+        yaxis_title=y_axis_title
+    )
+    
+    fig.show()
+
+
+def linear_reg_plot(filepath, columns, time_intervals):
+    """
+    Genera gráficos de dispersión con líneas de regresión para cada termopar.
+
+    Parámetros:
+    - filepath (str): Ruta al archivo Parquet.
+    - columns (list): Lista de nombres de columnas para la regresión.
+    - time_intervals (list): Lista de tuplas (inicio, fin, valor_Tref).
+
+    Retorna:
+    - None: Muestra los gráficos interactivos en un dropdown.
+    """
+    data = pd.read_parquet(filepath)
+
+    pio.renderers.default = "iframe"
+
+    if not isinstance(data.index, pd.DatetimeIndex):
+        raise ValueError('El índice del DataFrame debe ser de tipo DatetimeIndex.')
+
+    # Crear columna Tref con valores nulos
+    data['Tref'] = np.nan
+    for start, end, tref_value in time_intervals:
+        indices = data.between_time(start, end).index
+        data.loc[indices, 'Tref'] = tref_value
+
+    # Filtrar datos con Tref
+    data_all = data.dropna(subset=['Tref'])
+
+    # Paleta de colores Plotly
+    colors = ["#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A",
+              "#19D3F3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"]
+
+    fig = go.Figure()
+
+    # Calcular regresiones y agregar trazas
+    for i, col in enumerate(columns):
+        temp = data_all[[col, 'Tref']].dropna()
+        X = temp[col].values.reshape(-1, 1)
+        y = temp['Tref'].values
+        model = LinearRegression()
+        model.fit(X, y)
+        coef = model.coef_[0]
+        intercepto = model.intercept_
+        y_pred = coef * X.flatten() + intercepto
+
+        # Scatter plot
+        fig.add_trace(go.Scatter(
+            x=X.flatten(),
+            y=y,
+            mode='markers',
+            marker=dict(color='#0D2A63'),
+            name='Datos',
+            visible=(i == 0)
+        ))
+
+        # Línea de regresión (color cíclico)
+        fig.add_trace(go.Scatter(
+            x=X.flatten(),
+            y=y_pred,
+            mode='lines',
+            line=dict(color=colors[i % len(colors)], width=2),
+            name='Ajuste lineal',
+            visible=(i == 0)
+        ))
+
+    # Crear menú desplegable
+    buttons = []
+    for i, col in enumerate(columns):
+        visibility = [False] * (2 * len(columns))
+        visibility[2*i] = True  # Activar scatter
+        visibility[2*i + 1] = True  # Activar línea de regresión
+
+        buttons.append({
+            "label": col,
+            "method": "update",
+            "args": [{"visible": visibility}]
+        })
+
+    fig.update_layout(
+        updatemenus=[{
+            "buttons": buttons,
+            "direction": "down",
+            "showactive": True,
+            "x": 0.0,
+            "xanchor": "left",
+            "y": 1.15,
+            "yanchor": "top"
+        }],
+        xaxis_title="Temperatura medida",
+        yaxis_title="Tref"
+    )
+
     fig.show()
 
 
@@ -92,10 +238,8 @@ def calculate_error(filepath, col1, col2, resample_interval=None):
     ME = round(error.mean(), 4)
     MAE = round(error.abs().mean(), 4)
 
-    # Imprimir resultados
     print(f'ME: {ME}')
     print(f'MAE: {MAE}')
-
 
 
 def wind_calibration(filepath, ws='WS', v='V', t='T', resample_interval=None):
@@ -140,7 +284,6 @@ def wind_calibration(filepath, ws='WS', v='V', t='T', resample_interval=None):
 
     r2_r = round(r2, 4)
 
-    # Imprimir resultados
     print(f"Correlación: {r2_r}")
     print(f"{equation}")
 
@@ -182,5 +325,6 @@ def thermo_calibration(filepath, columns, time_intervals):
         modelo.fit(X, y)
         coef = modelo.coef_[0]
         intercepto = modelo.intercept_
+
         print(f'{col}:')
         print(f'Tref = {coef:.4f} * {col} + {intercepto:.4f}\n')

@@ -164,27 +164,27 @@
     "href": "chapter_4.html",
     "title": "4  Calibración y caracterización del DTHIS-C",
     "section": "",
-    "text": "4.1 Presentación de los resultados\nEn este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.",
+    "text": "4.1 Presentación de los datos\nEn este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
     ]
   },
   {
-    "objectID": "chapter_4.html#análisis-e-interpretación-de-resultados",
-    "href": "chapter_4.html#análisis-e-interpretación-de-resultados",
+    "objectID": "chapter_4.html#análisis-e-interpretación",
+    "href": "chapter_4.html#análisis-e-interpretación",
     "title": "4  Calibración y caracterización del DTHIS-C",
-    "section": "4.2 Análisis e interpretación de resultados",
-    "text": "4.2 Análisis e interpretación de resultados",
+    "section": "4.2 Análisis e interpretación",
+    "text": "4.2 Análisis e interpretación",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
     ]
   },
   {
-    "objectID": "chapter_4.html#visualización-de-datos",
-    "href": "chapter_4.html#visualización-de-datos",
+    "objectID": "chapter_4.html#visualización-de-los-resultados",
+    "href": "chapter_4.html#visualización-de-los-resultados",
     "title": "4  Calibración y caracterización del DTHIS-C",
-    "section": "4.3 Visualización de datos",
-    "text": "4.3 Visualización de datos",
+    "section": "4.3 Visualización de los resultados",
+    "text": "4.3 Visualización de los resultados",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
     ]
