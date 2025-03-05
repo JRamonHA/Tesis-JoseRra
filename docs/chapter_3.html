@@ -300,10 +300,10 @@ window.Quarto = {
 </header>
 
 
-<p>En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.</p>
+<p>En este capítulo se presenta una descripción detallada del DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.</p>
 <section id="especificaciones-del-dthis-c" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="especificaciones-del-dthis-c"><span class="header-section-number">3.1</span> Especificaciones del DTHIS-C</h2>
-<p>En la tabla <a href="#tbl-componentes" class="quarto-xref">Tabla&nbsp;<span>3.1</span></a> se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.</p>
+<p>En la <a href="#tbl-componentes" class="quarto-xref">Tabla&nbsp;<span>3.1</span></a> se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.</p>
 <div id="tbl-componentes" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-componentes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -393,7 +393,7 @@ Frente a equipos especializados, la utilización de estos microcontroladores con
 <section id="arduino-uno-wifi-rev2" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="arduino-uno-wifi-rev2"><span class="header-section-number">3.2.1</span> Arduino UNO WiFi Rev2</h3>
 <p>El Arduino UNO WiFi Rev2 es una placa de microcontrolador diseñada para proyectos de Internet de las Cosas (IoT), integrando conectividad WiFi y Bluetooth mediante el módulo u-blox NINA-W102 y un sensor IMU de 6 ejes (LSM6DS3TR) para detección de movimientos. Equipada con el microcontrolador ATmega4809, ofrece una óptima capacidad de memoria, y mantiene compatibilidad con el formato estándar UNO, facilitando su uso con shields existentes. Su diseño eficiente y versátil lo hace ideal para la adquisición de datos de sensores y la comunicación inalámbrica en tiempo real, como se requiere en el DTHIS-C. <span class="citation" data-cites="arduino">Arduino (<a href="references.html#ref-arduino" role="doc-biblioref">2023</a>)</span></p>
-<p>En la tabla <a href="#tbl-arduino" class="quarto-xref">Tabla&nbsp;<span>3.2</span></a> se muestran sus especificaciones.</p>
+<p>En la <a href="#tbl-arduino" class="quarto-xref">Tabla&nbsp;<span>3.2</span></a> se muestran sus especificaciones.</p>
 <div id="tbl-arduino" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-arduino-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -466,7 +466,7 @@ Tabla&nbsp;3.2: Especificaciones del Arduino UNO WiFi Rev2.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:</p>
-<div id="50f56c12" class="cell" data-execution_count="1">
+<div id="f33781e0" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;WiFiNINA.h&gt;</span></span>
@@ -629,7 +629,7 @@ Figura&nbsp;3.1: Diagrama de conexión para el shield MAX31856 SEN-30007
 <li>Rango de voltaje de alimentación: 3.3 V a 5.0 V.</li>
 </ul>
 <p>Igualmente se proporciona el código de Arduino empleado:</p>
-<div id="6c88640f" class="cell" data-execution_count="2">
+<div id="e1bb4f3b" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;PWFusion_MAX31856.h&gt;</span></span>
@@ -725,7 +725,7 @@ Figura&nbsp;3.2: Diagrama de conexión para el PT1000 RTD-MAX31865
 <li>Tiempo máximo de conversión es de 21 ms.</li>
 </ul>
 <p>A continuación se muestra el código de Arduino:</p>
-<div id="6997aabd" class="cell" data-execution_count="3">
+<div id="36f468e0" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;Adafruit_MAX31865.h&gt;</span></span>
@@ -785,7 +785,7 @@ Figura&nbsp;3.3: Diagrama de conexión para el Wind Sensor Rev.&nbsp;P6
 <li>Velocidades de viento medidas: 0–150 mph.</li>
 <li>Compensación de temperatura ambiente.</li>
 </ul>
-<div id="81c18993" class="cell" data-execution_count="4">
+<div id="59b0af22" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;math.h&gt;</span></span>
@@ -826,7 +826,7 @@ Figura&nbsp;3.3: Diagrama de conexión para el Wind Sensor Rev.&nbsp;P6
 <section id="raspberry-pi-4-model-b" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="raspberry-pi-4-model-b"><span class="header-section-number">3.2.2</span> Raspberry Pi 4 Model B</h3>
 <p>El Raspberry Pi 4 Model B es una computadora de placa única de alto rendimiento, diseñada para tareas de procesamiento avanzado y conectividad eficiente en un formato compacto. Equipada con un procesador de 64 bits de cuatro núcleos y opciones de RAM de hasta 8 GB, ofrece soporte para salida de video dual 4K y conectividad avanzada mediante Wi-Fi de doble banda, Bluetooth 5.0, Ethernet Gigabit y puertos USB 3.0, con capacidad para Power over Ethernet (PoE) mediante un accesorio adicional. Su diseño versátil y eficiente la hace ideal para la integración y gestión de datos en el sistema DTHIS-C. <span class="citation" data-cites="raspberry">Raspberry (<a href="references.html#ref-raspberry" role="doc-biblioref">2019</a>)</span></p>
-<p>En la tabla <a href="#tbl-raspberry" class="quarto-xref">Tabla&nbsp;<span>3.3</span></a> se muestran sus especificaciones.</p>
+<p>En la <a href="#tbl-raspberry" class="quarto-xref">Tabla&nbsp;<span>3.3</span></a> se muestran sus especificaciones.</p>
 <div id="tbl-raspberry" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-raspberry-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -895,7 +895,7 @@ Tabla&nbsp;3.3: Especificaciones del Raspberry Pi 4 Model B.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería <code>paho-mqtt</code> para la comunicación y está diseñado para operar de manera continua::</p>
-<div id="870f00fc" class="cell" data-execution_count="5">
+<div id="97c18281" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paho.mqtt.client <span class="im">as</span> mqtt</span>
@@ -989,7 +989,7 @@ Figura&nbsp;3.4: Diagrama de conexión para el SCD30
 <li>Dimensiones: 35 × 23 × 7 mm</li>
 </ul>
 <p>A continuación se muestra el código de Python empleado para us incorpación al DTHIS-C:</p>
-<div id="ba2883d1" class="cell" data-execution_count="6">
+<div id="c0209608" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
@@ -1058,7 +1058,7 @@ Figura&nbsp;3.5: Diagrama de conexión para la cámara OV5647
 <li>Corriente pico: 300 mA</li>
 </ul>
 <p>A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:</p>
-<div id="379245d1" class="cell" data-execution_count="7">
+<div id="58eabb46" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1131,7 +1131,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </ul>
 <p>A continuación, se presentan los códigos utilizados para la captura y análisis de sonido. Estos scripts permiten grabar el audio, extraer parámetros clave de la señal y convertirlos a valores en decibeles (dB).</p>
 <p>El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:</p>
-<div id="8c29d58b" class="cell" data-execution_count="8">
+<div id="4e3ae26d" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1142,7 +1142,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </details>
 </div>
 <p>Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:</p>
-<div id="d39cc863" class="cell" data-execution_count="9">
+<div id="b2b30982" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1153,7 +1153,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </details>
 </div>
 <p>Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:</p>
-<div id="52f6556a" class="cell" data-execution_count="10">
+<div id="a8675d32" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1164,7 +1164,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </details>
 </div>
 <p>Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:</p>
-<div id="8ec353c6" class="cell" data-execution_count="11">
+<div id="1c84e62a" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1177,7 +1177,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 <p>El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:</p>
 <p><span class="math display">\[dB = 20 \log_{10}(\text{amplitud}) + 120\]</span></p>
 <p>Los valores resultantes son almacenados en un diccionario para su posterior uso:</p>
-<div id="e0439606" class="cell" data-execution_count="12">
+<div id="7417d60f" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1220,7 +1220,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono
 </section>
 <section id="lista-de-materiales" class="level2" data-number="3.3">
 <h2 data-number="3.3" class="anchored" data-anchor-id="lista-de-materiales"><span class="header-section-number">3.3</span> Lista de materiales</h2>
-<p>La tabla <a href="#tbl-materiales" class="quarto-xref">Tabla&nbsp;<span>3.4</span></a> muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.</p>
+<p>La <a href="#tbl-materiales" class="quarto-xref">Tabla&nbsp;<span>3.4</span></a> muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.</p>
 <div id="tbl-materiales" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-materiales-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

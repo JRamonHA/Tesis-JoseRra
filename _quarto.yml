@@ -40,7 +40,7 @@ format:
       light: cosmo
     smooth-scroll: true
     code-link: true
-  pdf:
-    documentclass: scrreprt
+  latex:
+    documentclass: scrbook
 
 bibliography: references.bib

@@ -1,10 +1,10 @@
 # Diseño y construcción del DTHIS-C
 
-En este capítulo se presenta una descripción detallada del dispositivo DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.
+En este capítulo se presenta una descripción detallada del DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.
 
 ## Especificaciones del DTHIS-C
 
-En la tabla @tbl-componentes se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.
+En la @tbl-componentes se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.
 
 | **Sensor**                                    | **Variable**                       | **Comunicación** | **Microcontrolador**     | **Acondicionador de señal**  |
 |-----------------------------------------------|------------------------------------|------------------|--------------------------|------------------------------|
@@ -38,7 +38,7 @@ A continuación, se detallan las especificaciones técnicas y el código impleme
 
 El Arduino UNO WiFi Rev2 es una placa de microcontrolador diseñada para proyectos de Internet de las Cosas (IoT), integrando conectividad WiFi y Bluetooth mediante el módulo u-blox NINA-W102 y un sensor IMU de 6 ejes (LSM6DS3TR) para detección de movimientos. Equipada con el microcontrolador ATmega4809, ofrece una óptima capacidad de memoria, y mantiene compatibilidad con el formato estándar UNO, facilitando su uso con shields existentes. Su diseño eficiente y versátil lo hace ideal para la adquisición de datos de sensores y la comunicación inalámbrica en tiempo real, como se requiere en el DTHIS-C. @arduino
 
-En la tabla @tbl-arduino se muestran sus especificaciones.
+En la @tbl-arduino se muestran sus especificaciones.
 
 | **Parámetro**              | **Detalle**                                   |
 |----------------------------|-----------------------------------------------|
@@ -407,7 +407,7 @@ float* WindSensor() {
 
 El Raspberry Pi 4 Model B es una computadora de placa única de alto rendimiento, diseñada para tareas de procesamiento avanzado y conectividad eficiente en un formato compacto. Equipada con un procesador de 64 bits de cuatro núcleos y opciones de RAM de hasta 8 GB, ofrece soporte para salida de video dual 4K y conectividad avanzada mediante Wi-Fi de doble banda, Bluetooth 5.0, Ethernet Gigabit y puertos USB 3.0, con capacidad para Power over Ethernet (PoE) mediante un accesorio adicional. Su diseño versátil y eficiente la hace ideal para la integración y gestión de datos en el sistema DTHIS-C. @raspberry
 
-En la tabla @tbl-raspberry se muestran sus especificaciones.
+En la @tbl-raspberry se muestran sus especificaciones.
 
 | **Parámetro**              | **Detalle**                                     |
 |----------------------------|-------------------------------------------------|
@@ -749,7 +749,7 @@ def sound_data():
 
 ## Lista de materiales
 
-La tabla @tbl-materiales muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.
+La @tbl-materiales muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.
 
 | **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                        |
 |-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|

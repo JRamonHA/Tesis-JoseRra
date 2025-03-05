@@ -5,9 +5,29 @@ import thesis_tools as tt
 
 # Calibración y caracterización del DTHIS-C
 
-En este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
+En este capítulo se detalla el proceso de calibración y caracterización del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
 
-## Presentación de los datos
+## Metodología experimental
+
+Dado que cada sensor mide variables físicas de forma particular, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.
+
+La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos estandarizados apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
+
+La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.
+
+A continuación se muestra en la @tbl-instrumentos la información de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:
+
+| **Sensor**                            | **Instrumento**                | **Variable**                             |
+|---------------------------------------|--------------------------------|------------------------------------------|
+| Termopar tipo T                       | AMETEK Jofra PTC-155           | Temperatura ambiente                     |
+| TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 32 | Temperatura radiante                     |
+| Wind Sensor Rev P6                    | Gill Instruments WindMaster    | Velocidad del viento                     |
+| SCD30 Sensirion                       | Fluke 975 AirMeter             | CO<sub>2</sub> y humedad relativa        |
+| 5MP OV5647 Wide Angle Fisheye Camera  |                                | Luminancia                               |
+| Micrófono ambiental USB               |                                | Sonido                                   |
+: Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C. {#tbl-instrumentos .hover .sm}
+
+## Obtención de los datos
 
 ```{python}
 #| echo: false
@@ -29,9 +49,7 @@ tt.scatter_plot('data/ws.parquet', ['ws', 'voltage'])
 tt.scatter_plot('data/scd30.parquet', ['HR', 'T', 'CO2', 'HR_F', 'T_F', 'CO2_F'])
 ```
 
-## Análisis e interpretación
-
-## Visualización de los resultados
+## Análisis e interpretación de resultados
 
 ```{python}
 #| echo: false

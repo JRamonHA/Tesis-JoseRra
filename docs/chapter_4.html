@@ -176,9 +176,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#presentación-de-los-datos" id="toc-presentación-de-los-datos" class="nav-link active" data-scroll-target="#presentación-de-los-datos"><span class="header-section-number">4.1</span> Presentación de los datos</a></li>
-  <li><a href="#análisis-e-interpretación" id="toc-análisis-e-interpretación" class="nav-link" data-scroll-target="#análisis-e-interpretación"><span class="header-section-number">4.2</span> Análisis e interpretación</a></li>
-  <li><a href="#visualización-de-los-resultados" id="toc-visualización-de-los-resultados" class="nav-link" data-scroll-target="#visualización-de-los-resultados"><span class="header-section-number">4.3</span> Visualización de los resultados</a></li>
+  <li><a href="#metodología-experimental" id="toc-metodología-experimental" class="nav-link active" data-scroll-target="#metodología-experimental"><span class="header-section-number">4.1</span> Metodología experimental</a></li>
+  <li><a href="#obtención-de-los-datos" id="toc-obtención-de-los-datos" class="nav-link" data-scroll-target="#obtención-de-los-datos"><span class="header-section-number">4.2</span> Obtención de los datos</a></li>
+  <li><a href="#análisis-e-interpretación-de-resultados" id="toc-análisis-e-interpretación-de-resultados" class="nav-link" data-scroll-target="#análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</a></li>
   </ul>
 </nav>
     </div>
@@ -204,51 +204,110 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>En este capítulo se detalla el proceso de calibración y caracterización del dispositivo DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.</p>
-<section id="presentación-de-los-datos" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="presentación-de-los-datos"><span class="header-section-number">4.1</span> Presentación de los datos</h2>
-<div id="3d87f452" class="cell" data-execution_count="2">
+<p>En este capítulo se detalla el proceso de calibración y caracterización del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.</p>
+<section id="metodología-experimental" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="metodología-experimental"><span class="header-section-number">4.1</span> Metodología experimental</h2>
+<p>Dado que cada sensor mide variables físicas de forma particular, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.</p>
+<p>La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos estandarizados apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.</p>
+<p>La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.</p>
+<p>A continuación se muestra en la <a href="#tbl-instrumentos" class="quarto-xref">Tabla&nbsp;<span>4.1</span></a> la información de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:</p>
+<div id="tbl-instrumentos" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-instrumentos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C.
+</figcaption>
+<div aria-describedby="tbl-instrumentos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-hover table-sm small caption-top table">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 28%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Sensor</strong></th>
+<th><strong>Instrumento</strong></th>
+<th><strong>Variable</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Termopar tipo T</td>
+<td>AMETEK Jofra PTC-155</td>
+<td>Temperatura ambiente</td>
+</tr>
+<tr class="even">
+<td>TPF1/E-20 PT1000</td>
+<td>Quest Technologies QUESTemp 32</td>
+<td>Temperatura radiante</td>
+</tr>
+<tr class="odd">
+<td>Wind Sensor Rev P6</td>
+<td>Gill Instruments WindMaster</td>
+<td>Velocidad del viento</td>
+</tr>
+<tr class="even">
+<td>SCD30 Sensirion</td>
+<td>Fluke 975 AirMeter</td>
+<td>CO<sub>2</sub> y humedad relativa</td>
+</tr>
+<tr class="odd">
+<td>5MP OV5647 Wide Angle Fisheye Camera</td>
+<td></td>
+<td>Luminancia</td>
+</tr>
+<tr class="even">
+<td>Micrófono ambiental USB</td>
+<td></td>
+<td>Sonido</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+</section>
+<section id="obtención-de-los-datos" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="obtención-de-los-datos"><span class="header-section-number">4.2</span> Obtención de los datos</h2>
+<div id="4d734ea4" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_2.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="01d8f52c" class="cell" data-execution_count="3">
+<div id="6c761388" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="65543a80" class="cell" data-execution_count="4">
+<div id="6bc9aee1" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="9d65b451" class="cell" data-execution_count="5">
+<div id="988c80f8" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
 </section>
-<section id="análisis-e-interpretación" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="análisis-e-interpretación"><span class="header-section-number">4.2</span> Análisis e interpretación</h2>
-</section>
-<section id="visualización-de-los-resultados" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="visualización-de-los-resultados"><span class="header-section-number">4.3</span> Visualización de los resultados</h2>
-<div id="90d9982a" class="cell" data-execution_count="6">
+<section id="análisis-e-interpretación-de-resultados" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</h2>
+<div id="c5e284f0" class="cell" data-execution_count="6">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_6.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="88bba18f" class="cell" data-execution_count="7">
+<div id="c626a979" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_7.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="c8efd84b" class="cell" data-execution_count="8">
+<div id="5babc0b1" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_8.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 </div>
-<div id="2189e7d6" class="cell" data-execution_count="9">
+<div id="d7f871df" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_9.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
