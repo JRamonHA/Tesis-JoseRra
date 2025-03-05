@@ -1,161 +1,26 @@
 {
   "index.qmd": {
-    "index.html": "543ce35d"
-  },
-  "intro.qmd": {
-    "intro.html": "d755070a"
-  },
-  "summary.qmd": {
-    "summary.html": "51899503"
-  },
-  "references.qmd": {
-    "references.html": "ec1d9636"
-  },
-  "caps/intro.qmd": {
-    "intro.html": "5af98ae4"
-  },
-  "./caps/intro.qmd": {
-    "intro.html": "e3a5e958"
-  },
-  "./introduccion/intro.qmd": {
-    "intro.html": "9844efb7"
-  },
-  "./caps/introduccion/intro.qmd": {
-    "intro.html": "ee04e9ac"
-  },
-  "anexos.qmd": {
-    "anexos.html": "96eedcb0"
-  },
-  "caps/introduccion/intro.qmd": {
-    "intro.html": "986eac19"
-  },
-  "./caps/marco/marco.qmd": {
-    "marco.html": "54252620"
-  },
-  "./caps/metodologia/metodologia.qmd": {
-    "metodologia.html": "2db0a609"
-  },
-  "./caps/resultados/resultados.qmd": {
-    "resultados.html": "00129457"
-  },
-  "./caps/discusion/discusion.qmd": {
-    "discusion.html": "54e81280"
-  },
-  "./caps/conclusiones/conclusiones.qmd": {
-    "conclusiones.html": "58fc2730"
-  },
-  "caps/marco/marco.qmd": {
-    "marco.html": "f9589bea"
-  },
-  "caps/metodologia/metodologia.qmd": {
-    "metodologia.html": "fbcc03a7"
-  },
-  "caps/resultados/resultados.qmd": {
-    "resultados.html": "b01de09f"
-  },
-  "caps/discusion/discusion.qmd": {
-    "discusion.html": "5764df93"
-  },
-  "caps/conclusiones/conclusiones.qmd": {
-    "conclusiones.html": "8b78d20c"
-  },
-  "./caps/introduccion/contexto.qmd": {
-    "contexto.html": "11bcd8d6"
-  },
-  "./caps/introduccion/planteamiento.qmd": {
-    "planteamiento.html": "0e6ca1c5"
-  },
-  "./caps/introduccion/objetivos.qmd": {
-    "objetivos.html": "d77ed7a1"
-  },
-  "./caps/introduccion/justificacion.qmd": {
-    "justificacion.html": "2fdc0c08"
-  },
-  "./caps/marco/concepto_confort.qmd": {
-    "concepto_confort.html": "46ed8ce3"
-  },
-  "./caps/marco/variables_dthisc.qmd": {
-    "variables_dthisc.html": "596c21db"
-  },
-  "./caps/marco/sistemas_medicion.qmd": {
-    "sistemas_medicion.html": "4da65d94"
-  },
-  "./caps/metodologia/diseno_dthisc.qmd": {
-    "diseno_dthisc.html": "4e0675cf"
-  },
-  "./caps/metodologia/funcionamiento.qmd": {
-    "funcionamiento.html": "2ec77461"
-  },
-  "./caps/metodologia/validacion_pruebas.qmd": {
-    "validacion_pruebas.html": "ba66c8c8"
-  },
-  "./caps/resultados/mediciones.qmd": {
-    "mediciones.html": "8f470af0"
-  },
-  "./caps/resultados/analisis.qmd": {
-    "analisis.html": "38416007"
-  },
-  "./caps/discusion/impacto.qmd": {
-    "impacto.html": "9cea21fe"
-  },
-  "./caps/discusion/limitaciones.qmd": {
-    "limitaciones.html": "ecdba66f"
-  },
-  "caps/introduccion/contexto.qmd": {
-    "contexto.html": "64027ea4"
-  },
-  "caps/introduccion/planteamiento.qmd": {
-    "planteamiento.html": "c5ba6109"
-  },
-  "caps/introduccion/objetivos.qmd": {
-    "objetivos.html": "86c65cb5"
-  },
-  "caps/introduccion/justificacion.qmd": {
-    "justificacion.html": "5b3c24a5"
-  },
-  "caps/marco/concepto_confort.qmd": {
-    "concepto_confort.html": "dc79a384"
-  },
-  "caps/marco/variables_dthisc.qmd": {
-    "variables_dthisc.html": "b03a650c"
-  },
-  "caps/marco/sistemas_medicion.qmd": {
-    "sistemas_medicion.html": "18654528"
-  },
-  "caps/metodologia/diseno_dthisc.qmd": {
-    "diseno_dthisc.html": "c5d933a5"
-  },
-  "caps/metodologia/funcionamiento.qmd": {
-    "funcionamiento.html": "0bbb6e0f"
-  },
-  "caps/metodologia/validacion_pruebas.qmd": {
-    "validacion_pruebas.html": "9ca128cb"
-  },
-  "caps/resultados/mediciones.qmd": {
-    "mediciones.html": "f8a402eb"
-  },
-  "caps/resultados/analisis.qmd": {
-    "analisis.html": "db21f8bf"
-  },
-  "caps/discusion/impacto.qmd": {
-    "impacto.html": "979f135c"
-  },
-  "caps/discusion/limitaciones.qmd": {
-    "limitaciones.html": "6f86f638"
+    "index.html": "977bb045"
   },
   "chapter_1.qmd": {
-    "chapter_1.html": "042a6b1f"
+    "chapter_1.html": "83f473c5"
   },
   "chapter_2.qmd": {
-    "chapter_2.html": "510a9402"
+    "chapter_2.html": "b8ea39ff"
   },
   "chapter_3.qmd": {
-    "chapter_3.html": "24ec00e6"
+    "chapter_3.html": "2c90c845"
   },
   "chapter_4.qmd": {
-    "chapter_4.html": "fed5a2b9"
+    "chapter_4.html": "45cada28"
   },
   "chapter_5.qmd": {
-    "chapter_5.html": "05a06ea9"
+    "chapter_5.html": "ae8ef383"
+  },
+  "references.qmd": {
+    "references.html": "99963dee"
+  },
+  "anexos.qmd": {
+    "anexos.html": "dac10e3c"
   }
 }
