@@ -27,7 +27,7 @@ A continuación se muestra en la @tbl-instrumentos la información de los sensor
 | Micrófono ambiental USB               |                                | Sonido                                   |
 : Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C. {#tbl-instrumentos .hover .sm}
 
-## Visualización y obtención de los datos
+##  Obtención y visualización de los datos
 
 ```{python}
 #| echo: false
