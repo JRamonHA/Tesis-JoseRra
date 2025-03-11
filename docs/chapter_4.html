@@ -177,8 +177,20 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#metodología-experimental" id="toc-metodología-experimental" class="nav-link active" data-scroll-target="#metodología-experimental"><span class="header-section-number">4.1</span> Metodología experimental</a></li>
-  <li><a href="#obtención-y-visualización-de-los-datos" id="toc-obtención-y-visualización-de-los-datos" class="nav-link" data-scroll-target="#obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</a></li>
-  <li><a href="#análisis-e-interpretación-de-resultados" id="toc-análisis-e-interpretación-de-resultados" class="nav-link" data-scroll-target="#análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</a></li>
+  <li><a href="#obtención-y-visualización-de-los-datos" id="toc-obtención-y-visualización-de-los-datos" class="nav-link" data-scroll-target="#obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</a>
+  <ul>
+  <li><a href="#temperatura-ambiente" id="toc-temperatura-ambiente" class="nav-link" data-scroll-target="#temperatura-ambiente">Temperatura ambiente</a></li>
+  <li><a href="#temperatura-radiante" id="toc-temperatura-radiante" class="nav-link" data-scroll-target="#temperatura-radiante">Temperatura radiante</a></li>
+  <li><a href="#velocidad-del-viento" id="toc-velocidad-del-viento" class="nav-link" data-scroll-target="#velocidad-del-viento">Velocidad del viento</a></li>
+  <li><a href="#humedad-relativa-y-co2" id="toc-humedad-relativa-y-co2" class="nav-link" data-scroll-target="#humedad-relativa-y-co2">Humedad relativa y CO<sub>2</sub></a></li>
+  </ul></li>
+  <li><a href="#análisis-e-interpretación-de-resultados" id="toc-análisis-e-interpretación-de-resultados" class="nav-link" data-scroll-target="#análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</a>
+  <ul>
+  <li><a href="#temperatura-ambiente-1" id="toc-temperatura-ambiente-1" class="nav-link" data-scroll-target="#temperatura-ambiente-1">Temperatura ambiente</a></li>
+  <li><a href="#temperatura-radiante-1" id="toc-temperatura-radiante-1" class="nav-link" data-scroll-target="#temperatura-radiante-1">Temperatura radiante</a></li>
+  <li><a href="#velocidad-del-viento-1" id="toc-velocidad-del-viento-1" class="nav-link" data-scroll-target="#velocidad-del-viento-1">Velocidad del viento</a></li>
+  <li><a href="#humedad-relativa-y-co2-1" id="toc-humedad-relativa-y-co2-1" class="nav-link" data-scroll-target="#humedad-relativa-y-co2-1">Humedad relativa y CO<sub>2</sub></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -207,10 +219,10 @@ ul.task-list li input[type="checkbox"] {
 <p>En este capítulo se detalla el proceso de calibración y caracterización del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.</p>
 <section id="metodología-experimental" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="metodología-experimental"><span class="header-section-number">4.1</span> Metodología experimental</h2>
-<p>Dado que cada sensor mide variables físicas de forma particular, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.</p>
-<p>La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos estandarizados apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.</p>
+<p>Dado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.</p>
+<p>La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.</p>
 <p>La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.</p>
-<p>A continuación se muestra en la <a href="#tbl-instrumentos" class="quarto-xref">Tabla&nbsp;<span>4.1</span></a> la información de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:</p>
+<p>A continuación se muestra en la <a href="#tbl-instrumentos" class="quarto-xref">Tabla&nbsp;<span>4.1</span></a> la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:</p>
 <div id="tbl-instrumentos" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-instrumentos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -221,7 +233,7 @@ Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores
 <colgroup>
 <col style="width: 34%">
 <col style="width: 28%">
-<col style="width: 37%">
+<col style="width: 36%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -252,14 +264,14 @@ Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores
 <td>CO<sub>2</sub> y humedad relativa</td>
 </tr>
 <tr class="odd">
+<td>Micrófono ambiental USB</td>
+<td>TES-1356 Sound Level Calibrator</td>
+<td>Sonido</td>
+</tr>
+<tr class="even">
 <td>5MP OV5647 Wide Angle Fisheye Camera</td>
 <td></td>
 <td>Luminancia</td>
-</tr>
-<tr class="even">
-<td>Micrófono ambiental USB</td>
-<td></td>
-<td>Sonido</td>
 </tr>
 </tbody>
 </table>
@@ -269,51 +281,131 @@ Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores
 </section>
 <section id="obtención-y-visualización-de-los-datos" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</h2>
-<div id="c0d9662f" class="cell" data-execution_count="2">
-<div class="cell-output cell-output-display">
+<section id="temperatura-ambiente" class="level4">
+<h4 class="anchored" data-anchor-id="temperatura-ambiente">Temperatura ambiente</h4>
+<div id="cell-fig-Termopares-a" class="cell" data-execution_count="2">
+<div id="fig-termopares-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-termopares-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_2.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-</div>
-<div id="185459e8" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
-</div>
-</div>
-<div id="2bdf0aa5" class="cell" data-execution_count="4">
-<div class="cell-output cell-output-display">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
-</div>
-</div>
-<div id="c54062f1" class="cell" data-execution_count="5">
-<div class="cell-output cell-output-display">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Rangos de temperatura utilizados para la calibración de los termopares.
+</figcaption>
+</figure>
 </div>
 </div>
 </section>
+<section id="temperatura-radiante" class="level4">
+<h4 class="anchored" data-anchor-id="temperatura-radiante">Temperatura radiante</h4>
+<div id="cell-fig-Radiante-a" class="cell" data-execution_count="3">
+<div id="fig-radiante-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-radiante-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="velocidad-del-viento" class="level4">
+<h4 class="anchored" data-anchor-id="velocidad-del-viento">Velocidad del viento</h4>
+<div id="cell-fig-Viento-a" class="cell" data-execution_count="4">
+<div id="fig-viento-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viento-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.3: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="humedad-relativa-y-co2" class="level4">
+<h4 class="anchored" data-anchor-id="humedad-relativa-y-co2">Humedad relativa y CO<sub>2</sub></h4>
+<div id="cell-fig-Calidad-a" class="cell" data-execution_count="5">
+<div id="fig-calidad-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-calidad-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.4: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.
+</figcaption>
+</figure>
+</div>
+</div>
+</section>
+</section>
 <section id="análisis-e-interpretación-de-resultados" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</h2>
-<div id="7ca31018" class="cell" data-execution_count="6">
-<div class="cell-output cell-output-display">
+<section id="temperatura-ambiente-1" class="level4">
+<h4 class="anchored" data-anchor-id="temperatura-ambiente-1">Temperatura ambiente</h4>
+<div id="cell-fig-Termopares-b" class="cell" data-execution_count="6">
+<div id="fig-termopares-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-termopares-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_6.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.5: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.
+</figcaption>
+</figure>
 </div>
-<div id="149c2245" class="cell" data-execution_count="7">
-<div class="cell-output cell-output-display">
+</div>
+</section>
+<section id="temperatura-radiante-1" class="level4">
+<h4 class="anchored" data-anchor-id="temperatura-radiante-1">Temperatura radiante</h4>
+<div id="cell-fig-Radiante-b" class="cell" data-execution_count="7">
+<div id="fig-radiante-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-radiante-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_7.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.6: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración.
+</figcaption>
+</figure>
 </div>
-<div id="24fa0cd2" class="cell" data-execution_count="8">
-<div class="cell-output cell-output-display">
+</div>
+</section>
+<section id="velocidad-del-viento-1" class="level4">
+<h4 class="anchored" data-anchor-id="velocidad-del-viento-1">Velocidad del viento</h4>
+<div id="cell-fig-Viento-b" class="cell" data-execution_count="8">
+<div id="fig-viento-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-viento-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_8.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.7: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.
+</figcaption>
+</figure>
 </div>
-<div id="709cb002" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display">
+</div>
+</section>
+<section id="humedad-relativa-y-co2-1" class="level4">
+<h4 class="anchored" data-anchor-id="humedad-relativa-y-co2-1">Humedad relativa y CO<sub>2</sub></h4>
+<div id="cell-fig-Calidad-b" class="cell" data-execution_count="9">
+<div id="fig-calidad-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-calidad-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_9.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.8: Correlación de las mediciones de temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.
+</figcaption>
+</figure>
+</div>
 </div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

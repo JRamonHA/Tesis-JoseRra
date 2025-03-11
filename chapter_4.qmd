@@ -9,79 +9,148 @@ En este capítulo se detalla el proceso de calibración y caracterización del D
 
 ## Metodología experimental
 
-Dado que cada sensor mide variables físicas de forma particular, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.
+Dado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.
 
-La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos estandarizados apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
+La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
 
 La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.
 
-A continuación se muestra en la @tbl-instrumentos la información de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:
+A continuación se muestra en la @tbl-instrumentos la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:
 
-| **Sensor**                            | **Instrumento**                | **Variable**                             |
-|---------------------------------------|--------------------------------|------------------------------------------|
-| Termopar tipo T                       | AMETEK Jofra PTC-155           | Temperatura ambiente                     |
-| TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 32 | Temperatura radiante                     |
-| Wind Sensor Rev P6                    | Gill Instruments WindMaster    | Velocidad del viento                     |
-| SCD30 Sensirion                       | Fluke 975 AirMeter             | CO<sub>2</sub> y humedad relativa        |
-| 5MP OV5647 Wide Angle Fisheye Camera  |                                | Luminancia                               |
-| Micrófono ambiental USB               |                                | Sonido                                   |
+| **Sensor**                            | **Instrumento**                 | **Variable**                             |
+|---------------------------------------|---------------------------------|------------------------------------------|
+| Termopar tipo T                       | AMETEK Jofra PTC-155            | Temperatura ambiente                     |
+| TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 32  | Temperatura radiante                     |
+| Wind Sensor Rev P6                    | Gill Instruments WindMaster     | Velocidad del viento                     |
+| SCD30 Sensirion                       | Fluke 975 AirMeter              | CO<sub>2</sub> y humedad relativa        |
+| Micrófono ambiental USB               | TES-1356 Sound Level Calibrator | Sonido                                   |
+| 5MP OV5647 Wide Angle Fisheye Camera  |                                 | Luminancia                               |
 : Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C. {#tbl-instrumentos .hover .sm}
 
-##  Obtención y visualización de los datos
+## Obtención y visualización de los datos
+
+#### Temperatura ambiente
 
 ```{python}
 #| echo: false
-tt.scatter_plot('data/temp.parquet', ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4'])
+#| label: fig-Termopares-a
+#| fig-cap: Rangos de temperatura utilizados para la calibración de los termopares.
+tt.scatter_plot('data/temp.parquet', ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4'], 'Tiempo', 'Temperatura (°C)')
 ```
 
-```{python}
-#| echo: false
-tt.scatter_plot('data/trad.parquet', ['temp', 'globo'])
-```
+#### Temperatura radiante
 
 ```{python}
 #| echo: false
-tt.scatter_plot('data/ws.parquet', ['ws', 'voltage'])
+#| label: fig-Radiante-a
+#| fig-cap: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.
+tt.scatter_plot('data/trad.parquet',
+                columns=['temp', 'globo'],
+                x_label='Tiempo',
+                y_label='Temperatura (°C)',
+                legend_labels=['TPF1', 'QUESTemp 32'])
 ```
+
+#### Velocidad del viento
 
 ```{python}
 #| echo: false
-tt.scatter_plot('data/scd30.parquet', ['HR', 'T', 'CO2', 'HR_F', 'T_F', 'CO2_F'])
+#| label: fig-Viento-a
+#| fig-cap: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.
+tt.scatter_plot('data/ws.parquet',
+                columns=['ws', 'voltage'],
+                x_label='Tiempo',
+                y_label='Voltaje (V)<br>Velocidad de viento (m/s)',
+                legend_labels=['WindMaster', 'Wind Sensor'])
+```
+
+#### Humedad relativa y CO<sub>2</sub>
+
+```{python}
+#| echo: false
+#| label: fig-Calidad-a
+#| fig-cap: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.
+group_dict = {
+    'Humedad relativa': ('HR', 'HR_F'),
+    'CO<sub>2</sub>': ('CO2', 'CO2_F'),
+    'Temperatura': ('T', 'T_F')
+}
+
+y_label = {
+    'Humedad relativa': 'Humedad relativa (%)',
+    'CO<sub>2</sub>': 'CO<sub>2</sub> (ppm)',
+    'Temperatura': 'Temperatura (°C)'
+}
+
+legend_labels = {
+    'Humedad relativa': ('SCD30', 'Fluke'),
+    'CO<sub>2</sub>': ('SCD30', 'Fluke'),
+    'Temperatura': ('SCD30', 'Fluke')
+}
+
+tt.compare_plot('data/scd30.parquet',
+                group_dict,
+                y_label=y_label,
+                legend_labels=legend_labels)
 ```
 
 ## Análisis e interpretación de resultados
 
+#### Temperatura ambiente
+
 ```{python}
 #| echo: false
-time_intervals = [("15:44:01", "15:52:31", 10.),
-                  ("16:02:06", "16:11:52", 20.),
-                  ("16:20:44", "16:28:58", 30.),
-                  ("16:39:23", "16:49:57", 40.),
-                  ("16:58:24", "17:08:25", 50.)]
+#| label: fig-Termopares-b
+#| fig-cap: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.
+time_intervals = [('15:44:01', '15:52:31', 10.),
+                  ('16:02:06', '16:11:52', 20.),
+                  ('16:20:44', '16:28:58', 30.),
+                  ('16:39:23', '16:49:57', 40.),
+                  ('16:58:24', '17:08:25', 50.)]
 
 columns = ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4']
 
 tt.linear_reg_plot('data/temp.parquet', columns, time_intervals)
 ```
 
-```{python}
-#| echo: false
-tt.scatter_plot('data/cal_trad.parquet', ['temp', 'globo', 'calibrated'])
-```
+#### Temperatura radiante
 
 ```{python}
 #| echo: false
-tt.scatter_plot('data/cal_ws.parquet', ['ws', '10s'])
+#| label: fig-Radiante-b
+#| fig-cap: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración.
+tt.scatter_plot('data/cal_trad.parquet',
+                columns=['temp', 'calibrated', 'globo'],
+                x_label='Tiempo',
+                y_label='Temperatura (°C)',
+                legend_labels=['TPF1', 'TPF1 (Calibrado)' ,'QUESTemp 32'])
 ```
+
+#### Velocidad del viento
 
 ```{python}
 #| echo: false
+#| label: fig-Viento-b
+#| fig-cap: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.
+tt.scatter_plot('data/cal_ws.parquet',
+                columns=['ws', '10s'],
+                x_label='Tiempo',
+                y_label='Velocidad de viento (m/s)',
+                legend_labels=['WindMaster', 'Wind Sensor'])
+```
+
+#### Humedad relativa y CO<sub>2</sub>
+
+```{python}
+#| echo: false
+#| label: fig-Calidad-b
+#| fig-cap: Correlación de las mediciones de temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.
 tt.dropdowns_plot(
     filepath='data/scd30.parquet',
-    trace_labels=["Temperatura", "Humedad relativa", "CO2"],
-    x_cols=["T", "HR", "CO2"],
-    y_cols=["T_F", "HR_F", "CO2_F"],
-    x_axis_title="SCD30",
-    y_axis_title="Fluke"
+    trace_labels=['Humedad relativa (%)','CO<sub>2</sub> (ppm)', 'Temperatura (°C)'],
+    x_cols=['HR', 'CO2', 'T'],
+    y_cols=['HR_F', 'CO2_F', 'T_F'],
+    x_axis_title='SCD30',
+    y_axis_title='Fluke'
 )
 ```

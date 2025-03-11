@@ -844,7 +844,7 @@ cual se caracteriza por su baja amplitud.
 }
 
 \caption{\label{fig-MAX31856}Diagrama de conexión para el shield
-MAX31856 SEN-30007}
+MAX31856 SEN-30007.}
 
 \end{figure}%
 
@@ -966,7 +966,7 @@ El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital.
 }
 
 \caption{\label{fig-MAX31865}Diagrama de conexión para el PT1000
-RTD-MAX31865}
+RTD-MAX31865.}
 
 \end{figure}%
 
@@ -1059,7 +1059,7 @@ mediante resistencias de alta precisión. ModernDevice (s.~f.)
 }
 
 \caption{\label{fig-WindSensor}Diagrama de conexión para el Wind Sensor
-Rev.~P6}
+Rev.~P6.}
 
 \end{figure}%
 
@@ -1170,7 +1170,7 @@ Model B en el DTHIS-C, encargado de gestionar la conexión al servidor
 ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes
 de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito
 en Python, utiliza la librería \texttt{paho-mqtt} para la comunicación y
-está diseñado para operar de manera continua::
+está diseñado para operar de manera continua:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1240,7 +1240,7 @@ la lectura) en un rango de 400 a 10,000 ppm. Sensirion (s.~f.)
 
 }
 
-\caption{\label{fig-SCD30}Diagrama de conexión para el SCD30}
+\caption{\label{fig-SCD30}Diagrama de conexión para el SCD30.}
 
 \end{figure}%
 
@@ -1298,7 +1298,7 @@ la lectura) en un rango de 400 a 10,000 ppm. Sensirion (s.~f.)
   Dimensiones: 35 × 23 × 7 mm
 \end{itemize}
 
-A continuación se muestra el código de Python empleado para us
+A continuación se muestra el código de Python empleado para su
 incorpación al DTHIS-C:
 
 \begin{Shaded}
@@ -1349,7 +1349,7 @@ que ofrece un campo de visión horizontal de 220°. Arducam (s.~f.)
 
 }
 
-\caption{\label{fig-Camara}Diagrama de conexión para la cámara OV5647}
+\caption{\label{fig-Camara}Diagrama de conexión para la cámara OV5647.}
 
 \end{figure}%
 
@@ -1462,7 +1462,7 @@ direccional optimiza la focalización de la fuente sonora. Steren (s.~f.)
 
 }
 
-\caption{\label{fig-Microfono}Diagrama de conexión para el micrófono}
+\caption{\label{fig-Microfono}Diagrama de conexión para el micrófono.}
 
 \end{figure}%
 
@@ -1697,32 +1697,32 @@ interpretación de los datos recopilados.
 
 \section{Metodología experimental}\label{metodologuxeda-experimental}
 
-Dado que cada sensor mide variables físicas de forma particular, se han
-diseñado campañas de calibración y referenciación adaptadas a las
-características propias de cada instrumento. Este proceso responde a la
-necesidad de garantizar la exactitud, confiabilidad y trazabilidad de
-los datos recopilados.
+Dado que cada sensor mide diferentes variables físicas y sus mediciones
+se obtienen de manera distinta, se han diseñado campañas de calibración
+y referenciación adaptadas a las características propias de cada
+instrumento. Este proceso responde a la necesidad de garantizar la
+exactitud, confiabilidad y trazabilidad de los datos recopilados.
 
 La metodología experimental se basa en obtener mediciones precisas que
 permitan validar el desempeño del dispositivo en condiciones reales.
-Para ello, se definieron procedimientos estandarizados apoyados en
-equipos de referencia certificados, lo que facilita la detección y
-corrección de desviaciones inherentes a cada sensor, asegurando
-resultados consistentes tanto en condiciones controladas como en
-situaciones de campo.
+Para ello, se definieron procedimientos apoyados en equipos de
+referencia certificados, lo que facilita la detección y corrección de
+desviaciones inherentes a cada sensor, asegurando resultados
+consistentes tanto en condiciones controladas como en situaciones de
+campo.
 
 La aplicación de estos procedimientos refuerza la integridad de la
 adquisición de datos y favorece una optimización continua del sistema,
 facilitando su integración en diversos contextos de aplicación.
 
-A continuación se muestra en la Tabla~\ref{tbl-instrumentos} la
-información de los sensores y sus respectivos instrumentos de referencia
-utilizados para la calibración y referenciación:
+A continuación se muestra en la Tabla~\ref{tbl-instrumentos} la lista de
+los sensores y sus respectivos instrumentos de referencia utilizados
+para la calibración y referenciación:
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3451}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2832}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3717}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3421}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2895}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3684}}@{}}
 \caption{Instrumentos de calibración y referenciación para los sensores
 que consitutyen al DTHIS-C.}\label{tbl-instrumentos}\tabularnewline
 \toprule\noalign{}
@@ -1753,47 +1753,153 @@ radiante \\
 Wind Sensor Rev P6 & Gill Instruments WindMaster & Velocidad del
 viento \\
 SCD30 Sensirion & Fluke 975 AirMeter & CO2 y humedad relativa \\
+Micrófono ambiental USB & TES-1356 Sound Level Calibrator & Sonido \\
 5MP OV5647 Wide Angle Fisheye Camera & & Luminancia \\
-Micrófono ambiental USB & & Sonido \\
 \end{longtable}
 
 \section{Obtención y visualización de los
 datos}\label{obtenciuxf3n-y-visualizaciuxf3n-de-los-datos}
 
-\begin{verbatim}
-Unable to display output for mime type(s): text/html
-\end{verbatim}
+\subsubsection{Temperatura ambiente}\label{temperatura-ambiente}
+
+\begin{figure}
+
+\centering{
 
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
 
-\begin{verbatim}
-Unable to display output for mime type(s): text/html
-\end{verbatim}
+}
+
+\caption{\label{fig-termopares-a}Rangos de temperatura utilizados para
+la calibración de los termopares.}
+
+\end{figure}%
+
+\subsubsection{Temperatura radiante}\label{temperatura-radiante}
+
+\begin{figure}
+
+\centering{
 
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
+
+}
+
+\caption{\label{fig-radiante-a}Intervalo de medición del QUESTemp 32 y
+el TPF1 para su calibración.}
+
+\end{figure}%
+
+\subsubsection{Velocidad del viento}\label{velocidad-del-viento}
+
+\begin{figure}
+
+\centering{
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+}
+
+\caption{\label{fig-viento-a}Comparación de la velocidad del viento
+registrada por el WindMaster y el voltaje del Wind Sensor para su
+calibración.}
+
+\end{figure}%
+
+\subsubsection{Humedad relativa y CO2}\label{humedad-relativa-y-co2}
+
+\begin{figure}
+
+\centering{
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+}
+
+\caption{\label{fig-calidad-a}Comparación de las mediciones del Fluke y
+el SCD30 durante su campaña de referenciación.}
+
+\end{figure}%
 
 \section{Análisis e interpretación de
 resultados}\label{anuxe1lisis-e-interpretaciuxf3n-de-resultados}
 
-\begin{verbatim}
-Unable to display output for mime type(s): text/html
-\end{verbatim}
+\subsubsection{Temperatura ambiente}\label{temperatura-ambiente-1}
+
+\begin{figure}
+
+\centering{
 
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
 
-\begin{verbatim}
-Unable to display output for mime type(s): text/html
-\end{verbatim}
+}
+
+\caption{\label{fig-termopares-b}Resultados de las mediciones de
+temperatura después de aplicar la ecuación de calibración.}
+
+\end{figure}%
+
+\subsubsection{Temperatura radiante}\label{temperatura-radiante-1}
+
+\begin{figure}
+
+\centering{
 
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
+
+}
+
+\caption{\label{fig-radiante-b}Comparación de las mediciones del
+QUESTemp 32, el TPF1 y sus datos tras la calibración.}
+
+\end{figure}%
+
+\subsubsection{Velocidad del viento}\label{velocidad-del-viento-1}
+
+\begin{figure}
+
+\centering{
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+}
+
+\caption{\label{fig-viento-b}Comparación de las mediciones de velocidad
+del viento registradas por el WindMaster y el Wind Sensor tras su
+calibración.}
+
+\end{figure}%
+
+\subsubsection{Humedad relativa y CO2}\label{humedad-relativa-y-co2-1}
+
+\begin{figure}
+
+\centering{
+
+\begin{verbatim}
+Unable to display output for mime type(s): text/html
+\end{verbatim}
+
+}
+
+\caption{\label{fig-calidad-b}Correlación de las mediciones de
+temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.}
+
+\end{figure}%
 
 \bookmarksetup{startatroot}
 

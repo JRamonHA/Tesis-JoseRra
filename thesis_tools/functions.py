@@ -5,7 +5,7 @@ import plotly.express as px
 import plotly.io as pio
 from sklearn.linear_model import LinearRegression
 
-def scatter_plot(filepath, columns):
+def scatter_plot(filepath, columns, x_label=None, y_label=None, legend_labels=None):
     """
     Genera un scatter plot a partir de un archivo, utilizando las columnas 
     especificadas en función del índice temporal del conjunto de datos.
@@ -13,16 +13,34 @@ def scatter_plot(filepath, columns):
     Parámetros:
     - filepath (str): Ruta al archivo Parquet.
     - columns (list): Lista de nombres de columnas a graficar en el eje Y.
+    - x_label (str, opcional): Etiqueta para el eje X.
+    - y_label (str, opcional): Etiqueta para el eje Y.
+    - legend_labels (list, opcional): Lista de nombres personalizados para la leyenda.
 
     Retorna:
     - None: Muestra el scatter plot interactivo.
     """
     data = pd.read_parquet(filepath)
-
     pio.renderers.default = "iframe"
 
+    # Si no se proporcionan etiquetas de la leyenda, se usan los nombres de las columnas
+    if legend_labels is None or len(legend_labels) != len(columns):
+        legend_labels = columns
+
     fig = px.scatter(data, x=data.index, y=columns)
+
+    # Renombrar las trazas con los nombres personalizados de la leyenda
+    for trace, legend_name in zip(fig.data, legend_labels):
+        trace.name = legend_name
+
     fig.update_layout(hovermode='x unified')
+
+    if x_label is None:
+        x_label = 'Índice'
+    if y_label is None:
+        y_label = ', '.join(columns) if isinstance(columns, list) else columns
+
+    fig.update_layout(xaxis_title=x_label, yaxis_title=y_label)
     fig.show()
 
 
@@ -66,7 +84,7 @@ def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_
     
     pio.renderers.default = "iframe"
 
-    colors = ["#636EFA", "#EF553B", "#00CC96", "#AB63FA", "#FFA15A",
+    colors = ["#636EFA", "#00CC96", "#EF553B", "#AB63FA", "#FFA15A",
               "#19D3F3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"]
     
     fig = go.Figure()
@@ -112,6 +130,108 @@ def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_
         yaxis_title=y_axis_title
     )
     
+    fig.show()
+
+
+def compare_plot(filepath, group_dict, x_label="Tiempo", y_label=None, legend_labels=None):
+    """
+    Genera un gráfico scatter interactivo con un menú desplegable para alternar entre diferentes variables.
+
+    Parámetros:
+    - filepath (str): Ruta al archivo Parquet.
+    - group_dict (dict): Diccionario donde cada clave es la etiqueta del menú (ej. "Temperatura (°C)") y
+      el valor es una tupla o lista con dos elementos: (columna_sensor, columna_referencia).
+    - x_label (str): Título del eje X (por defecto "Tiempo").
+    - y_label (dict, opcional): Diccionario con los títulos personalizados del eje Y para cada menú.
+    - legend_labels (dict, opcional): Diccionario donde cada clave es una etiqueta del menú y su valor
+      es una tupla con los nombres personalizados para la leyenda de las dos trazas.
+
+    Retorna:
+    - None: Muestra el gráfico interactivo.
+    """
+    data = pd.read_parquet(filepath)
+    pio.renderers.default = "iframe"
+
+    # Definir los pares de colores:
+    group_colors = [
+        ("#636EFA", "#AB63FA"),  
+        ("#00CC96", "#19D3F3"),
+        ("#EF553B", "#FFA15A"),   
+        ("#FF6692", "#B6E880"),  
+        ("#FF97FF", "#FECB52")  
+    ]
+    num_color_groups = len(group_colors)
+
+    fig = go.Figure()
+    group_labels = list(group_dict.keys())
+    traces_per_group = 2
+    total_traces = len(group_labels) * traces_per_group
+
+    # Agregar trazas para cada grupo
+    for i, group in enumerate(group_labels):
+        sensor_col, ref_col = group_dict[group]
+        sensor_color, ref_color = group_colors[i % num_color_groups]
+
+        # Obtener nombres personalizados para la leyenda si se proporcionan
+        sensor_legend = legend_labels[group][0] if legend_labels and group in legend_labels else sensor_col
+        ref_legend = legend_labels[group][1] if legend_labels and group in legend_labels else ref_col
+
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data[sensor_col],
+            mode='markers',
+            marker=dict(color=sensor_color),
+            name=sensor_legend
+        ))
+        fig.add_trace(go.Scatter(
+            x=data.index,
+            y=data[ref_col],
+            mode='markers',
+            marker=dict(color=ref_color),
+            name=ref_legend
+        ))
+
+    # Inicialmente, solo se muestran las trazas del primer grupo
+    for j in range(total_traces):
+        fig.data[j].visible = (j < traces_per_group)
+
+    # Si no se proporciona `y_label`, se usan los nombres de los menús
+    if y_label is None:
+        y_label = {group: group for group in group_labels}
+
+    # Crear botones para el menú desplegable
+    buttons = []
+    for i, group in enumerate(group_labels):
+        visibility = [False] * total_traces
+        start = i * traces_per_group
+        visibility[start] = True
+        visibility[start + 1] = True
+
+        button = {
+            "label": group,
+            "method": "update",
+            "args": [
+                {"visible": visibility},
+                {"yaxis": {"title": {"text": y_label.get(group, group)}}}  # Cambia el título dinámicamente
+            ]
+        }
+        buttons.append(button)
+
+    fig.update_layout(
+        hovermode='x unified',
+        updatemenus=[{
+            "buttons": buttons,
+            "direction": "down",
+            "showactive": True,
+            "x": 0.0,
+            "xanchor": "left",
+            "y": 1.15,
+            "yanchor": "top"
+        }],
+        xaxis_title=x_label,
+        yaxis_title=y_label.get(group_labels[0], group_labels[0])  # Título inicial del eje Y
+    )
+
     fig.show()
 
 
@@ -203,8 +323,8 @@ def linear_reg_plot(filepath, columns, time_intervals):
             "y": 1.15,
             "yanchor": "top"
         }],
-        xaxis_title="Temperatura medida",
-        yaxis_title="Tref"
+        xaxis_title="Temperatura de termopar (°C)",
+        yaxis_title="Temperatura de referencia (°C)"
     )
 
     fig.show()
