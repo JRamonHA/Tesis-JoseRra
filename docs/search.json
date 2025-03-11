@@ -162,41 +162,41 @@
   {
     "objectID": "chapter_4.html",
     "href": "chapter_4.html",
-    "title": "4  Calibración y caracterización del DTHIS-C",
+    "title": "4  Calibración y referenciación del DTHIS-C",
     "section": "",
-    "text": "4.1 Metodología experimental\nEn este capítulo se detalla el proceso de calibración y caracterización del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.\nDado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.\nLa metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.\nLa aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.\nA continuación se muestra en la Tabla 4.1 la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:",
+    "text": "4.1 Metodología experimental\nEn este capítulo se detalla el proceso de calibración y referenciación del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.\nDado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.\nLa metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en instrumentos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.\nLa aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.\nA continuación se muestra en la Tabla 4.1 la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y referenciación del DTHIS-C</span>"
     ]
   },
   {
     "objectID": "chapter_4.html#metodología-experimental",
     "href": "chapter_4.html#metodología-experimental",
-    "title": "4  Calibración y caracterización del DTHIS-C",
+    "title": "4  Calibración y referenciación del DTHIS-C",
     "section": "",
-    "text": "Tabla 4.1: Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C.\n\n\n\n\n\n\n\n\n\n\nSensor\nInstrumento\nVariable\n\n\n\n\nTermopar tipo T\nAMETEK Jofra PTC-155\nTemperatura ambiente\n\n\nTPF1/E-20 PT1000\nQuest Technologies QUESTemp 32\nTemperatura radiante\n\n\nWind Sensor Rev P6\nGill Instruments WindMaster\nVelocidad del viento\n\n\nSCD30 Sensirion\nFluke 975 AirMeter\nCO2 y humedad relativa\n\n\nMicrófono ambiental USB\nTES-1356 Sound Level Calibrator\nSonido\n\n\n5MP OV5647 Wide Angle Fisheye Camera\n\nLuminancia",
+    "text": "Tabla 4.1: Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C.\n\n\n\n\n\n\n\n\n\n\n\nVariable\nSensor\nInstrumento\nProcedimiento\n\n\n\n\nTemperatura ambiente\nTermopar tipo T\nAMETEK Jofra PTC-155\nCalibración\n\n\nTemperatura radiante\nTPF1/E-20 PT1000\nQuest Technologies QUESTemp 32\nCalibración\n\n\nVelocidad del viento\nWind Sensor Rev P6\nGill Instruments WindMaster\nCalibración\n\n\nCO2 y humedad relativa\nSCD30 Sensirion\nFluke 975 AirMeter\nReferenciación\n\n\nSonido\nMicrófono ambiental USB\nTES-1356 Sound Level Calibrator\nCalibración\n\n\nLuminancia\n5MP OV5647 Wide Angle Fisheye Camera\n\nReferenciación",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y referenciación del DTHIS-C</span>"
     ]
   },
   {
     "objectID": "chapter_4.html#obtención-y-visualización-de-los-datos",
     "href": "chapter_4.html#obtención-y-visualización-de-los-datos",
-    "title": "4  Calibración y caracterización del DTHIS-C",
+    "title": "4  Calibración y referenciación del DTHIS-C",
     "section": "4.2 Obtención y visualización de los datos",
-    "text": "4.2 Obtención y visualización de los datos\n\nTemperatura ambiente\n\n\n\n\n\n\n\nFigura 4.1: Rangos de temperatura utilizados para la calibración de los termopares.\n\n\n\n\n\n\nTemperatura radiante\n\n\n\n\n\n\n\nFigura 4.2: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.\n\n\n\n\n\n\nVelocidad del viento\n\n\n\n\n\n\n\nFigura 4.3: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.\n\n\n\n\n\n\nHumedad relativa y CO2\n\n\n\n\n\n\n\nFigura 4.4: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.",
+    "text": "4.2 Obtención y visualización de los datos\n\nTemperatura ambiente\n\n\n\n\n\n\nFigura 4.1: AMETEK Jofra PTC-155.\n\n\n\n\n\n\n\n\n\n\nFigura 4.2: Rangos de temperatura utilizados para la calibración de los termopares.\n\n\n\n\n\n\nTemperatura radiante\n\n\n\n\n\n\nFigura 4.3: Quest Technologies QUESTemp 32.\n\n\n\n\n\n\n\n\n\n\nFigura 4.4: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.\n\n\n\n\n\n\nVelocidad del viento\n\n\n\n\n\n\nFigura 4.5: Gill Instruments WindMaster.\n\n\n\n\n\n\n\n\n\n\nFigura 4.6: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.\n\n\n\n\n\n\nHumedad relativa y CO2\n\n\n\n\n\n\nFigura 4.7: Fluke 975 AirMeter.\n\n\n\n\n\n\n\n\n\n\nFigura 4.8: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.\n\n\n\n\n\n\nSonido\n\n\n\n\n\n\nFigura 4.9: TES-1356 Sound Level Calibrator.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y referenciación del DTHIS-C</span>"
     ]
   },
   {
     "objectID": "chapter_4.html#análisis-e-interpretación-de-resultados",
     "href": "chapter_4.html#análisis-e-interpretación-de-resultados",
-    "title": "4  Calibración y caracterización del DTHIS-C",
+    "title": "4  Calibración y referenciación del DTHIS-C",
     "section": "4.3 Análisis e interpretación de resultados",
-    "text": "4.3 Análisis e interpretación de resultados\n\nTemperatura ambiente\n\n\n\n\n\n\n\nFigura 4.5: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.\n\n\n\n\n\n\nTemperatura radiante\n\n\n\n\n\n\n\nFigura 4.6: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración.\n\n\n\n\n\n\nVelocidad del viento\n\n\n\n\n\n\n\nFigura 4.7: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.\n\n\n\n\n\n\nHumedad relativa y CO2\n\n\n\n\n\n\n\nFigura 4.8: Correlación de las mediciones de temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.",
+    "text": "4.3 Análisis e interpretación de resultados\n\nTemperatura ambiente\n\n\n\n\n\n\n\nFigura 4.10: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.\n\n\n\n\n\n\nTemperatura radiante\n\n\n\n\n\n\n\nFigura 4.11: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración.\n\n\n\n\n\n\nVelocidad del viento\n\n\n\n\n\n\n\nFigura 4.12: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.\n\n\n\n\n\n\nHumedad relativa y CO2\n\n\n\n\n\n\n\nFigura 4.13: Correlación de las mediciones de humedad relativa, CO2 y temperatura entre el Fluke y el SCD30.\n\n\n\n\n\n\nSonido",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y caracterización del DTHIS-C</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Calibración y referenciación del DTHIS-C</span>"
     ]
   },
   {

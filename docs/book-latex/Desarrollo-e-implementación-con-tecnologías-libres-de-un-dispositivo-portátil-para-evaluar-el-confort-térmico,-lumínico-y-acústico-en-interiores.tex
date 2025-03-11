@@ -1683,10 +1683,10 @@ cambios según el destino del producto.}
 
 \bookmarksetup{startatroot}
 
-\chapter{Calibración y caracterización del
-DTHIS-C}\label{calibraciuxf3n-y-caracterizaciuxf3n-del-dthis-c}
+\chapter{Calibración y referenciación del
+DTHIS-C}\label{calibraciuxf3n-y-referenciaciuxf3n-del-dthis-c}
 
-En este capítulo se detalla el proceso de calibración y caracterización
+En este capítulo se detalla el proceso de calibración y referenciación
 del DTHIS-C. Se describen las metodologías experimentales empleadas para
 validar su precisión, así como las pruebas realizadas en diferentes
 escenarios. Además, se presentan y analizan los resultados obtenidos en
@@ -1705,7 +1705,7 @@ exactitud, confiabilidad y trazabilidad de los datos recopilados.
 
 La metodología experimental se basa en obtener mediciones precisas que
 permitan validar el desempeño del dispositivo en condiciones reales.
-Para ello, se definieron procedimientos apoyados en equipos de
+Para ello, se definieron procedimientos apoyados en instrumentos de
 referencia certificados, lo que facilita la detección y corrección de
 desviaciones inherentes a cada sensor, asegurando resultados
 consistentes tanto en condiciones controladas como en situaciones de
@@ -1720,47 +1720,67 @@ los sensores y sus respectivos instrumentos de referencia utilizados
 para la calibración y referenciación:
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3421}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.2895}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3684}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2910}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2910}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2463}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.1716}}@{}}
 \caption{Instrumentos de calibración y referenciación para los sensores
 que consitutyen al DTHIS-C.}\label{tbl-instrumentos}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Variable}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Sensor}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Instrumento}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Variable}
+\textbf{Procedimiento}
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
+\textbf{Variable}
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Sensor}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 \textbf{Instrumento}
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-\textbf{Variable}
+\textbf{Procedimiento}
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Termopar tipo T & AMETEK Jofra PTC-155 & Temperatura ambiente \\
-TPF1/E-20 PT1000 & Quest Technologies QUESTemp 32 & Temperatura
-radiante \\
-Wind Sensor Rev P6 & Gill Instruments WindMaster & Velocidad del
-viento \\
-SCD30 Sensirion & Fluke 975 AirMeter & CO2 y humedad relativa \\
-Micrófono ambiental USB & TES-1356 Sound Level Calibrator & Sonido \\
-5MP OV5647 Wide Angle Fisheye Camera & & Luminancia \\
+Temperatura ambiente & Termopar tipo T & AMETEK Jofra PTC-155 &
+Calibración \\
+Temperatura radiante & TPF1/E-20 PT1000 & Quest Technologies QUESTemp 32
+& Calibración \\
+Velocidad del viento & Wind Sensor Rev P6 & Gill Instruments WindMaster
+& Calibración \\
+CO2 y humedad relativa & SCD30 Sensirion & Fluke 975 AirMeter &
+Referenciación \\
+Sonido & Micrófono ambiental USB & TES-1356 Sound Level Calibrator &
+Calibración \\
+Luminancia & 5MP OV5647 Wide Angle Fisheye Camera & & Referenciación \\
 \end{longtable}
 
 \section{Obtención y visualización de los
 datos}\label{obtenciuxf3n-y-visualizaciuxf3n-de-los-datos}
 
 \subsubsection{Temperatura ambiente}\label{temperatura-ambiente}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.25\linewidth,height=\textheight,keepaspectratio]{images/ametek.jpg}
+
+}
+
+\caption{\label{fig-AMETEK}AMETEK Jofra PTC-155.}
+
+\end{figure}%
 
 \begin{figure}
 
@@ -1783,6 +1803,18 @@ la calibración de los termopares.}
 
 \centering{
 
+\includegraphics[width=0.3\linewidth,height=\textheight,keepaspectratio]{images/quest.jpeg}
+
+}
+
+\caption{\label{fig-QUEST}Quest Technologies QUESTemp 32.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
@@ -1795,6 +1827,18 @@ el TPF1 para su calibración.}
 \end{figure}%
 
 \subsubsection{Velocidad del viento}\label{velocidad-del-viento}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.3\linewidth,height=\textheight,keepaspectratio]{images/windmaster.png}
+
+}
+
+\caption{\label{fig-WIND}Gill Instruments WindMaster.}
+
+\end{figure}%
 
 \begin{figure}
 
@@ -1818,6 +1862,18 @@ calibración.}
 
 \centering{
 
+\includegraphics[width=0.15\linewidth,height=\textheight,keepaspectratio]{images/fluke.png}
+
+}
+
+\caption{\label{fig-FLUKE}Fluke 975 AirMeter.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
 \begin{verbatim}
 Unable to display output for mime type(s): text/html
 \end{verbatim}
@@ -1826,6 +1882,20 @@ Unable to display output for mime type(s): text/html
 
 \caption{\label{fig-calidad-a}Comparación de las mediciones del Fluke y
 el SCD30 durante su campaña de referenciación.}
+
+\end{figure}%
+
+\subsubsection{Sonido}\label{sonido}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.2\linewidth,height=\textheight,keepaspectratio]{images/tes.jpg}
+
+}
+
+\caption{\label{fig-TES}TES-1356 Sound Level Calibrator.}
 
 \end{figure}%
 
@@ -1896,10 +1966,12 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-calidad-b}Correlación de las mediciones de
-temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.}
+\caption{\label{fig-calidad-b}Correlación de las mediciones de humedad
+relativa, CO2 y temperatura entre el Fluke y el SCD30.}
 
 \end{figure}%
+
+\subsubsection{Sonido}\label{sonido-1}
 
 \bookmarksetup{startatroot}
 

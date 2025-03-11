@@ -84,9 +84,9 @@ def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_
     
     pio.renderers.default = "iframe"
 
-    colors = ["#636EFA", "#00CC96", "#EF553B", "#AB63FA", "#FFA15A",
-              "#19D3F3", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"]
-    
+    colors = ["#AB63FA", "#19D3F3", "#FFA15A", "#636EFA", "#00CC96",
+              "#EF553B", "#FF6692", "#B6E880", "#FF97FF", "#FECB52"]
+
     fig = go.Figure()
     
     n_traces = len(trace_labels)

@@ -3,33 +3,35 @@
 import thesis_tools as tt
 ```
 
-# Calibración y caracterización del DTHIS-C
+# Calibración y referenciación del DTHIS-C
 
-En este capítulo se detalla el proceso de calibración y caracterización del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
+En este capítulo se detalla el proceso de calibración y referenciación del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
 
 ## Metodología experimental
 
 Dado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.
 
-La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en equipos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
+La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en instrumentos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
 
 La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.
 
 A continuación se muestra en la @tbl-instrumentos la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:
 
-| **Sensor**                            | **Instrumento**                 | **Variable**                             |
-|---------------------------------------|---------------------------------|------------------------------------------|
-| Termopar tipo T                       | AMETEK Jofra PTC-155            | Temperatura ambiente                     |
-| TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 32  | Temperatura radiante                     |
-| Wind Sensor Rev P6                    | Gill Instruments WindMaster     | Velocidad del viento                     |
-| SCD30 Sensirion                       | Fluke 975 AirMeter              | CO<sub>2</sub> y humedad relativa        |
-| Micrófono ambiental USB               | TES-1356 Sound Level Calibrator | Sonido                                   |
-| 5MP OV5647 Wide Angle Fisheye Camera  |                                 | Luminancia                               |
+| **Variable**                          | **Sensor**                            | **Instrumento**                 | **Procedimiento**     |
+|---------------------------------------|---------------------------------------|---------------------------------|-----------------------|
+| Temperatura ambiente                  | Termopar tipo T                       | AMETEK Jofra PTC-155            | Calibración           |
+| Temperatura radiante                  | TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 32  | Calibración           |
+| Velocidad del viento                  | Wind Sensor Rev P6                    | Gill Instruments WindMaster     | Calibración           |
+| CO<sub>2</sub> y humedad relativa     | SCD30 Sensirion                       | Fluke 975 AirMeter              | Referenciación        |
+| Sonido                                | Micrófono ambiental USB               | TES-1356 Sound Level Calibrator | Calibración           |
+| Luminancia                            | 5MP OV5647 Wide Angle Fisheye Camera  |                                 | Referenciación        |
 : Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C. {#tbl-instrumentos .hover .sm}
 
 ## Obtención y visualización de los datos
 
 #### Temperatura ambiente
+
+![AMETEK Jofra PTC-155.](/images/ametek.jpg){#fig-AMETEK width="25%"}
 
 ```{python}
 #| echo: false
@@ -39,6 +41,8 @@ tt.scatter_plot('data/temp.parquet', ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4'], 'Tiem
 ```
 
 #### Temperatura radiante
+
+![Quest Technologies QUESTemp 32.](/images/quest.jpeg){#fig-QUEST width="30%"}
 
 ```{python}
 #| echo: false
@@ -53,6 +57,8 @@ tt.scatter_plot('data/trad.parquet',
 
 #### Velocidad del viento
 
+![Gill Instruments WindMaster.](/images/windmaster.png){#fig-WIND width="30%"}
+
 ```{python}
 #| echo: false
 #| label: fig-Viento-a
@@ -65,6 +71,8 @@ tt.scatter_plot('data/ws.parquet',
 ```
 
 #### Humedad relativa y CO<sub>2</sub>
+
+![Fluke 975 AirMeter.](/images/fluke.png){#fig-FLUKE width="15%"}
 
 ```{python}
 #| echo: false
@@ -93,6 +101,10 @@ tt.compare_plot('data/scd30.parquet',
                 y_label=y_label,
                 legend_labels=legend_labels)
 ```
+
+#### Sonido
+
+![TES-1356 Sound Level Calibrator.](/images/tes.jpg){#fig-TES width="20%"}
 
 ## Análisis e interpretación de resultados
 
@@ -144,7 +156,7 @@ tt.scatter_plot('data/cal_ws.parquet',
 ```{python}
 #| echo: false
 #| label: fig-Calidad-b
-#| fig-cap: Correlación de las mediciones de temperatura, humedad relativa y CO2 entre el Fluke y el SCD30.
+#| fig-cap: Correlación de las mediciones de humedad relativa, CO<sub>2</sub> y temperatura entre el Fluke y el SCD30.
 tt.dropdowns_plot(
     filepath='data/scd30.parquet',
     trace_labels=['Humedad relativa (%)','CO<sub>2</sub> (ppm)', 'Temperatura (°C)'],
@@ -154,3 +166,5 @@ tt.dropdowns_plot(
     y_axis_title='Fluke'
 )
 ```
+
+#### Sonido
