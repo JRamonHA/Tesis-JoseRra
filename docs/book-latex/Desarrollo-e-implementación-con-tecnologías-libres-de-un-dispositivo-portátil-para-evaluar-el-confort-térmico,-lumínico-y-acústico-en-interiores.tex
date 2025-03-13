@@ -1770,6 +1770,10 @@ datos}\label{obtenciuxf3n-y-visualizaciuxf3n-de-los-datos}
 
 \subsubsection{Temperatura ambiente}\label{temperatura-ambiente}
 
+En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155
+(Figura~\ref{fig-AMETEK}), un calibrador de temperatura que permite
+evaluar sensores en un rango de -25°C a 155°C.
+
 \begin{figure}
 
 \centering{
@@ -1782,6 +1786,16 @@ datos}\label{obtenciuxf3n-y-visualizaciuxf3n-de-los-datos}
 
 \end{figure}%
 
+El instrumento mencionado se utilizó junto a cuatro termopares tipo T,
+estableciendo cinco puntos de referencia de temperatura en el intervalo
+de 10°C a 50°C.
+
+Para cada punto de calibración, se esperó aproximadamente 5 minutos para
+que el calibrador alcanzara y estabilizara la temperatura deseada. Una
+vez estabilizada, se registraron los datos durante 10 minutos antes de
+proceder al siguiente punto. Los resultados obtenidos en esta campaña se
+pueden observar en la Figura~\ref{fig-termopares}.
+
 \begin{figure}
 
 \centering{
@@ -1792,12 +1806,17 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-termopares-a}Rangos de temperatura utilizados para
-la calibración de los termopares.}
+\caption{\label{fig-termopares}Rangos de temperatura utilizados para la
+calibración de los termopares.}
 
 \end{figure}%
 
 \subsubsection{Temperatura radiante}\label{temperatura-radiante}
+
+Para la medición de la temperatura radiante se empleó el QUESTemp 32
+(Figura~\ref{fig-quest}), un confortímetro diseñado para evaluar el
+estrés térmico en el ambiente, ya que permite medir la temperatura
+radiante, la temperatura del aire y la humedad relativa.
 
 \begin{figure}
 
@@ -1807,9 +1826,19 @@ la calibración de los termopares.}
 
 }
 
-\caption{\label{fig-QUEST}Quest Technologies QUESTemp 32.}
+\caption{\label{fig-quest}Quest Technologies QUESTemp 32.}
 
 \end{figure}%
+
+El experimento consistió en ubicar el QUESTemp 32 dentro de una caja
+diseñada para limitar la incidencia directa de la radiación solar, lo
+que minimizó la influencia de la radiación externa y redujo el efecto de
+la convección forzada del viento, permitiendo así que la medición se
+centrara en la radiación térmica del entorno inmediato. Paralelamente,
+se colocó el sensor TPF1 en condiciones similares para garantizar que
+ambos dispositivos registraran la temperatura con la menor perturbación
+posible. Se tomaron datos cada minuto durante 23 horas. Los datos
+obtenidos se pueden observar en la Figura~\ref{fig-radiante}.
 
 \begin{figure}
 
@@ -1821,24 +1850,42 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-radiante-a}Intervalo de medición del QUESTemp 32 y
-el TPF1 para su calibración.}
+\caption{\label{fig-radiante}Intervalo de medición del QUESTemp 32 y el
+TPF1 para su calibración.}
 
 \end{figure}%
 
 \subsubsection{Velocidad del viento}\label{velocidad-del-viento}
 
+El WindMaster de Gill Instruments (Figura~\ref{fig-wind}) es un
+anemómetro ultrasónico de alta precisión diseñado para medir la
+velocidad y dirección del viento en tres direcciones (u, v, w). En esta
+campaña se utilizó como instrumento de referencia para la calibración
+del Wind Sensor.
+
 \begin{figure}
 
 \centering{
 
-\includegraphics[width=0.3\linewidth,height=\textheight,keepaspectratio]{images/windmaster.png}
+\includegraphics[width=0.35\linewidth,height=\textheight,keepaspectratio]{images/windmaster.jpg}
 
 }
 
-\caption{\label{fig-WIND}Gill Instruments WindMaster.}
+\caption{\label{fig-wind}Gill Instruments WindMaster.}
 
 \end{figure}%
+
+La campaña de calibración tuvo una duración de 1 hora, durante la cual
+se capturaron datos a una frecuencia de 1 muestra por segundo.
+Aprovechando las dimensiones del WindSensor (2230 x 680 mm), se
+posicionó estratégicamente en la parte superior central del WindMaster,
+previa verificación de que su presencia no interfiriera con las
+mediciones del anemómetro. En un entorno abierto, el WindSensor registró
+datos de voltaje, los cuales se utilizaron junto con los datos de
+velocidad del viento obtenidos del WindMaster para desarrollar una
+ecuación de calibración que permitiera convertir el voltaje medido a
+m/s. Los resultados de la campaña se pueden visualizar en la
+Figura~\ref{fig-viento}.
 
 \begin{figure}
 
@@ -1850,13 +1897,19 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-viento-a}Comparación de la velocidad del viento
+\caption{\label{fig-viento}Comparación de la velocidad del viento
 registrada por el WindMaster y el voltaje del Wind Sensor para su
 calibración.}
 
 \end{figure}%
 
 \subsubsection{Humedad relativa y CO2}\label{humedad-relativa-y-co2}
+
+Para la campaña de referenciación del SCD30, el instrumento utilizado
+fue el Fluke 975 AirMeter (Figura~\ref{fig-fluke}), este es un
+instrumento portátil de diagnóstico de la calidad del aire interior.
+Este dispositivo mide simultáneamente temperatura, humedad relativa,
+dióxido de carbono (CO2) y monóxido de carbono (CO).
 
 \begin{figure}
 
@@ -1866,9 +1919,17 @@ calibración.}
 
 }
 
-\caption{\label{fig-FLUKE}Fluke 975 AirMeter.}
+\caption{\label{fig-fluke}Fluke 975 AirMeter.}
 
 \end{figure}%
+
+La campaña consistió en realizar mediciones simultáneas del Fluke 975
+AirMeter y del SCD30 durante un período total de 7 horas y 45 minutos,
+registrando una muestra cada minuto. Para minimizar posibles
+interferencias, ambos dispositivos se ubicaron lo más próximos posible y
+se instalaron en una zona aislada de un espacio cerrado, de modo que la
+presencia humana no afectara los resultados. Los datos obtenidos se
+muestran en la Figura~\ref{fig-calidad}.
 
 \begin{figure}
 
@@ -1880,8 +1941,8 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-calidad-a}Comparación de las mediciones del Fluke y
-el SCD30 durante su campaña de referenciación.}
+\caption{\label{fig-calidad}Comparación de las mediciones del Fluke y el
+SCD30 durante su campaña de referenciación.}
 
 \end{figure}%
 
@@ -1895,7 +1956,7 @@ el SCD30 durante su campaña de referenciación.}
 
 }
 
-\caption{\label{fig-TES}TES-1356 Sound Level Calibrator.}
+\caption{\label{fig-tes}TES-1356 Sound Level Calibrator.}
 
 \end{figure}%
 
@@ -1914,7 +1975,7 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-termopares-b}Resultados de las mediciones de
+\caption{\label{fig-ctermopares}Resultados de las mediciones de
 temperatura después de aplicar la ecuación de calibración.}
 
 \end{figure}%
@@ -1931,8 +1992,8 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-radiante-b}Comparación de las mediciones del
-QUESTemp 32, el TPF1 y sus datos tras la calibración.}
+\caption{\label{fig-cradiante}Comparación de las mediciones del QUESTemp
+32, el TPF1 y sus datos tras la calibración.}
 
 \end{figure}%
 
@@ -1948,7 +2009,7 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-viento-b}Comparación de las mediciones de velocidad
+\caption{\label{fig-cviento}Comparación de las mediciones de velocidad
 del viento registradas por el WindMaster y el Wind Sensor tras su
 calibración.}
 
@@ -1966,7 +2027,7 @@ Unable to display output for mime type(s): text/html
 
 }
 
-\caption{\label{fig-calidad-b}Correlación de las mediciones de humedad
+\caption{\label{fig-ccalidad}Correlación de las mediciones de humedad
 relativa, CO2 y temperatura entre el Fluke y el SCD30.}
 
 \end{figure}%

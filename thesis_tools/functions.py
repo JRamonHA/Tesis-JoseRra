@@ -21,6 +21,7 @@ def scatter_plot(filepath, columns, x_label=None, y_label=None, legend_labels=No
     - None: Muestra el scatter plot interactivo.
     """
     data = pd.read_parquet(filepath)
+
     pio.renderers.default = "iframe"
 
     # Si no se proporcionan etiquetas de la leyenda, se usan los nombres de las columnas
@@ -41,7 +42,8 @@ def scatter_plot(filepath, columns, x_label=None, y_label=None, legend_labels=No
         y_label = ', '.join(columns) if isinstance(columns, list) else columns
 
     fig.update_layout(xaxis_title=x_label, yaxis_title=y_label)
-    fig.show()
+    
+    return fig 
 
 
 def columns_plot(filepath, x_col, y_col):
@@ -62,7 +64,8 @@ def columns_plot(filepath, x_col, y_col):
     
     fig = px.scatter(data, x=x_col, y=y_col)
     fig.update_layout(hovermode='x unified')
-    fig.show()
+    
+    return fig
 
 
 def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_title):
@@ -130,7 +133,7 @@ def dropdowns_plot(filepath, trace_labels, x_cols, y_cols, x_axis_title, y_axis_
         yaxis_title=y_axis_title
     )
     
-    fig.show()
+    return fig
 
 
 def compare_plot(filepath, group_dict, x_label="Tiempo", y_label=None, legend_labels=None):
@@ -150,6 +153,7 @@ def compare_plot(filepath, group_dict, x_label="Tiempo", y_label=None, legend_la
     - None: Muestra el gráfico interactivo.
     """
     data = pd.read_parquet(filepath)
+
     pio.renderers.default = "iframe"
 
     # Definir los pares de colores:
@@ -232,7 +236,7 @@ def compare_plot(filepath, group_dict, x_label="Tiempo", y_label=None, legend_la
         yaxis_title=y_label.get(group_labels[0], group_labels[0])  # Título inicial del eje Y
     )
 
-    fig.show()
+    return fig
 
 
 def linear_reg_plot(filepath, columns, time_intervals):
@@ -327,7 +331,7 @@ def linear_reg_plot(filepath, columns, time_intervals):
         yaxis_title="Temperatura de referencia (°C)"
     )
 
-    fig.show()
+    return fig
 
 
 def calculate_error(filepath, col1, col2, resample_interval=None):

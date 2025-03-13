@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.40">
+<meta name="generator" content="quarto-1.6.42">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -37,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-8da5b4427184b79ecddefad3d342027e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -293,6 +293,7 @@ Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores
 <h2 data-number="4.2" class="anchored" data-anchor-id="obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</h2>
 <section id="temperatura-ambiente" class="level4">
 <h4 class="anchored" data-anchor-id="temperatura-ambiente">Temperatura ambiente</h4>
+<p>En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155 (<a href="#fig-AMETEK" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>), un calibrador de temperatura que permite evaluar sensores en un rango de -25°C a 155°C.</p>
 <div id="fig-AMETEK" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-AMETEK-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -303,13 +304,15 @@ Figura&nbsp;4.1: AMETEK Jofra PTC-155.
 </figcaption>
 </figure>
 </div>
-<div id="cell-fig-Termopares-a" class="cell" data-execution_count="2">
-<div id="fig-termopares-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<p>El instrumento mencionado se utilizó junto a cuatro termopares tipo T, estableciendo cinco puntos de referencia de temperatura en el intervalo de 10°C a 50°C.</p>
+<p>Para cada punto de calibración, se esperó aproximadamente 5 minutos para que el calibrador alcanzara y estabilizara la temperatura deseada. Una vez estabilizada, se registraron los datos durante 10 minutos antes de proceder al siguiente punto. Los resultados obtenidos en esta campaña se pueden observar en la <a href="#fig-termopares" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>.</p>
+<div id="cell-fig-termopares" class="cell" data-execution_count="2">
+<div id="fig-termopares" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-termopares-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-termopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_2.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.2: Rangos de temperatura utilizados para la calibración de los termopares.
 </figcaption>
 </figure>
@@ -318,23 +321,25 @@ Figura&nbsp;4.2: Rangos de temperatura utilizados para la calibración de los te
 </section>
 <section id="temperatura-radiante" class="level4">
 <h4 class="anchored" data-anchor-id="temperatura-radiante">Temperatura radiante</h4>
-<div id="fig-QUEST" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Para la medición de la temperatura radiante se empleó el QUESTemp 32 (<a href="#fig-quest" class="quarto-xref">Figura&nbsp;<span>4.3</span></a>), un confortímetro diseñado para evaluar el estrés térmico en el ambiente, ya que permite medir la temperatura radiante, la temperatura del aire y la humedad relativa.</p>
+<div id="fig-quest" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-QUEST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-quest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src=".\images/quest.jpeg" class="img-fluid figure-img" style="width:30.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-QUEST-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-quest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.3: Quest Technologies QUESTemp 32.
 </figcaption>
 </figure>
 </div>
-<div id="cell-fig-Radiante-a" class="cell" data-execution_count="3">
-<div id="fig-radiante-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<p>El experimento consistió en ubicar el QUESTemp 32 dentro de una caja diseñada para limitar la incidencia directa de la radiación solar, lo que minimizó la influencia de la radiación externa y redujo el efecto de la convección forzada del viento, permitiendo así que la medición se centrara en la radiación térmica del entorno inmediato. Paralelamente, se colocó el sensor TPF1 en condiciones similares para garantizar que ambos dispositivos registraran la temperatura con la menor perturbación posible. Se tomaron datos cada minuto durante 23 horas. Los datos obtenidos se pueden observar en la <a href="#fig-radiante" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>.</p>
+<div id="cell-fig-radiante" class="cell" data-execution_count="3">
+<div id="fig-radiante" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-radiante-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-radiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.4: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.
 </figcaption>
 </figure>
@@ -343,23 +348,25 @@ Figura&nbsp;4.4: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibr
 </section>
 <section id="velocidad-del-viento" class="level4">
 <h4 class="anchored" data-anchor-id="velocidad-del-viento">Velocidad del viento</h4>
-<div id="fig-WIND" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>El WindMaster de Gill Instruments (<a href="#fig-wind" class="quarto-xref">Figura&nbsp;<span>4.5</span></a>) es un anemómetro ultrasónico de alta precisión diseñado para medir la velocidad y dirección del viento en tres direcciones (u, v, w). En esta campaña se utilizó como instrumento de referencia para la calibración del Wind Sensor.</p>
+<div id="fig-wind" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-WIND-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src=".\images/windmaster.png" class="img-fluid figure-img" style="width:30.0%">
+<div aria-describedby="fig-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src=".\images/windmaster.jpg" class="img-fluid figure-img" style="width:35.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-WIND-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wind-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.5: Gill Instruments WindMaster.
 </figcaption>
 </figure>
 </div>
-<div id="cell-fig-Viento-a" class="cell" data-execution_count="4">
-<div id="fig-viento-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<p>La campaña de calibración tuvo una duración de 1 hora, durante la cual se capturaron datos a una frecuencia de 1 muestra por segundo. Aprovechando las dimensiones del WindSensor (2230 x 680 mm), se posicionó estratégicamente en la parte superior central del WindMaster, previa verificación de que su presencia no interfiriera con las mediciones del anemómetro. En un entorno abierto, el WindSensor registró datos de voltaje, los cuales se utilizaron junto con los datos de velocidad del viento obtenidos del WindMaster para desarrollar una ecuación de calibración que permitiera convertir el voltaje medido a m/s. Los resultados de la campaña se pueden visualizar en la <a href="#fig-viento" class="quarto-xref">Figura&nbsp;<span>4.6</span></a>.</p>
+<div id="cell-fig-viento" class="cell" data-execution_count="4">
+<div id="fig-viento" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-viento-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.6: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.
 </figcaption>
 </figure>
@@ -368,23 +375,25 @@ Figura&nbsp;4.6: Comparación de la velocidad del viento registrada por el WindM
 </section>
 <section id="humedad-relativa-y-co2" class="level4">
 <h4 class="anchored" data-anchor-id="humedad-relativa-y-co2">Humedad relativa y CO<sub>2</sub></h4>
-<div id="fig-FLUKE" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>Para la campaña de referenciación del SCD30, el instrumento utilizado fue el Fluke 975 AirMeter (<a href="#fig-fluke" class="quarto-xref">Figura&nbsp;<span>4.7</span></a>), este es un instrumento portátil de diagnóstico de la calidad del aire interior. Este dispositivo mide simultáneamente temperatura, humedad relativa, dióxido de carbono (CO<sub>2</sub>) y monóxido de carbono (CO).</p>
+<div id="fig-fluke" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-FLUKE-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-fluke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src=".\images/fluke.png" class="img-fluid figure-img" style="width:15.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-FLUKE-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fluke-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.7: Fluke 975 AirMeter.
 </figcaption>
 </figure>
 </div>
-<div id="cell-fig-Calidad-a" class="cell" data-execution_count="5">
-<div id="fig-calidad-a" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<p>La campaña consistió en realizar mediciones simultáneas del Fluke 975 AirMeter y del SCD30 durante un período total de 7 horas y 45 minutos, registrando una muestra cada minuto. Para minimizar posibles interferencias, ambos dispositivos se ubicaron lo más próximos posible y se instalaron en una zona aislada de un espacio cerrado, de modo que la presencia humana no afectara los resultados. Los datos obtenidos se muestran en la <a href="#fig-calidad" class="quarto-xref">Figura&nbsp;<span>4.8</span></a>.</p>
+<div id="cell-fig-calidad" class="cell" data-execution_count="5">
+<div id="fig-calidad" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-calidad-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-a-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.8: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.
 </figcaption>
 </figure>
@@ -393,12 +402,12 @@ Figura&nbsp;4.8: Comparación de las mediciones del Fluke y el SCD30 durante su 
 </section>
 <section id="sonido" class="level4">
 <h4 class="anchored" data-anchor-id="sonido">Sonido</h4>
-<div id="fig-TES" class="quarto-float quarto-figure quarto-figure-center anchored">
+<div id="fig-tes" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-TES-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-tes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src=".\images/tes.jpg" class="img-fluid figure-img" style="width:20.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-TES-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tes-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.9: TES-1356 Sound Level Calibrator.
 </figcaption>
 </figure>
@@ -409,13 +418,13 @@ Figura&nbsp;4.9: TES-1356 Sound Level Calibrator.
 <h2 data-number="4.3" class="anchored" data-anchor-id="análisis-e-interpretación-de-resultados"><span class="header-section-number">4.3</span> Análisis e interpretación de resultados</h2>
 <section id="temperatura-ambiente-1" class="level4">
 <h4 class="anchored" data-anchor-id="temperatura-ambiente-1">Temperatura ambiente</h4>
-<div id="cell-fig-Termopares-b" class="cell" data-execution_count="6">
-<div id="fig-termopares-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<div id="cell-fig-ctermopares" class="cell" data-execution_count="6">
+<div id="fig-ctermopares" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-termopares-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-ctermopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_6.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ctermopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.10: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.
 </figcaption>
 </figure>
@@ -424,13 +433,13 @@ Figura&nbsp;4.10: Resultados de las mediciones de temperatura después de aplica
 </section>
 <section id="temperatura-radiante-1" class="level4">
 <h4 class="anchored" data-anchor-id="temperatura-radiante-1">Temperatura radiante</h4>
-<div id="cell-fig-Radiante-b" class="cell" data-execution_count="7">
-<div id="fig-radiante-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<div id="cell-fig-cradiante" class="cell" data-execution_count="7">
+<div id="fig-cradiante" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-radiante-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-cradiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_7.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cradiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.11: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración.
 </figcaption>
 </figure>
@@ -439,13 +448,13 @@ Figura&nbsp;4.11: Comparación de las mediciones del QUESTemp 32, el TPF1 y sus 
 </section>
 <section id="velocidad-del-viento-1" class="level4">
 <h4 class="anchored" data-anchor-id="velocidad-del-viento-1">Velocidad del viento</h4>
-<div id="cell-fig-Viento-b" class="cell" data-execution_count="8">
-<div id="fig-viento-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<div id="cell-fig-cviento" class="cell" data-execution_count="8">
+<div id="fig-cviento" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-viento-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-cviento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_8.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cviento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.12: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.
 </figcaption>
 </figure>
@@ -454,13 +463,13 @@ Figura&nbsp;4.12: Comparación de las mediciones de velocidad del viento registr
 </section>
 <section id="humedad-relativa-y-co2-1" class="level4">
 <h4 class="anchored" data-anchor-id="humedad-relativa-y-co2-1">Humedad relativa y CO<sub>2</sub></h4>
-<div id="cell-fig-Calidad-b" class="cell" data-execution_count="9">
-<div id="fig-calidad-b" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
+<div id="cell-fig-ccalidad" class="cell" data-execution_count="9">
+<div id="fig-ccalidad" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-calidad-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-ccalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_9.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-b-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ccalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.13: Correlación de las mediciones de humedad relativa, CO<sub>2</sub> y temperatura entre el Fluke y el SCD30.
 </figcaption>
 </figure>
