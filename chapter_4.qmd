@@ -128,6 +128,36 @@ tt.compare_plot('data/scd30.parquet',
 
 #### Temperatura ambiente
 
+Para la calibración de los termopares, se utilizó Python junto con la librería `scikit-learn`, una herramienta utilizada para el análisis y modelado de datos. En particular, se aplicó un ajuste por regresión lineal a los datos obtenidos durante la campaña, utilizando los siguientes rangos de tiempo y sus respectivas temperaturas de referencia (@tbl-temperaturas).
+
+| Temperatura (°C)| Inicio    | Final     |
+|-----------------|-----------|-----------|
+| 10              | 15:44:01  | 15:52:31  |
+| 20              | 16:02:06  | 16:11:52  |
+| 30              | 16:20:44  | 16:28:58  |
+| 40              | 16:39:23  | 16:49:57  |
+| 50              | 16:58:24  | 17:08:25  |
+:Temperaturas de referencia y rangos de tiempo. {#tbl-temperaturas .hover .sm}
+
+El ajuste por regresión lineal es una técnica estadística utilizada para modelar la relación entre una variable dependiente y una o más variables independientes. En este caso, la variable dependiente es la temperatura de referencia ($T_{ref}$), mientras que las variables independientes corresponden a las lecturas obtenidas por cada termopar. El modelo lineal (@eq-lineal) se expresa de la forma:
+
+$$
+T_{ref} = m \cdot T_{sensor} + b
+$${#eq-lineal}
+
+donde $m$ es la pendiente y $b$ es la ordenada al origen. La regresión lineal permite minimizar el error entre las mediciones del sensor y los valores de referencia, obteniendo ecuaciones de calibración (@eq-cal-termopares) que corrigen las lecturas del sensor.
+
+$$
+\begin{align}
+T_{ref} &= 1.0450 \cdot TEMP1 - 2.4327 \\
+T_{ref} &= 1.0602 \cdot TEMP2 - 2.8632 \\
+T_{ref} &= 1.0814 \cdot TEMP3 - 4.4316 \\
+T_{ref} &= 1.0554 \cdot TEMP4 - 3.9348
+\end{align}
+$${#eq-cal-termopares}
+
+Al aplicar estas ecuaciones a los datos obtenidos en la campaña, se obtienen los valores corregidos de temperatura para cada termopar. Los resultados de la calibración pueden observarse en la @fig-ctermopares.
+
 ```{python}
 #| echo: false
 #| label: fig-ctermopares
@@ -145,16 +175,32 @@ tt.linear_reg_plot('data/temp.parquet', columns, time_intervals)
 
 #### Temperatura radiante
 
+Para la calibración del TPF1/E-20, se aplicó un ajuste por regresión lineal utilizando la librería `scikit-learn` de Python, a partir de los datos de temperatura registrados simultáneamente por el QUESTemp 32 y el sensor TPF1/E-20. Empleando el mismo modelo lineal descrito en la @eq-lineal, se derivó la siguiente ecuación de calibración (@eq-cal-radiante):
+
+$$
+T_{ref} = 1.0582 \cdot temp - 1.5553
+$${#eq-cal-radiante}
+
+Al aplicar esta ecuación a los datos obtenidos durante la campaña, se calcularon los valores corregidos para el TPF1/E-20. Los resultados de esta calibración se pueden observar en la @fig-cradiante.
+
 ```{python}
 #| echo: false
 #| label: fig-cradiante
-#| fig-cap: "Comparación de las mediciones del QUESTemp 32, el TPF1 y sus datos tras la calibración."
+#| fig-cap: "Comparación de las mediciones del QUESTemp 32, el TPF1/E-20 y sus datos tras la calibración."
 tt.scatter_plot('data/cal_trad.parquet',
                 columns=['temp', 'calibrated', 'globo'],
                 x_label='Tiempo',
                 y_label='Temperatura (°C)',
-                legend_labels=['TPF1', 'TPF1 (Calibrado)' ,'QUESTemp 32'])
+                legend_labels=['TPF1/E-20', 'TPF1/E-20 (Calibrado)' ,'QUESTemp 32'])
 ```
+
+En la tabla @tbl-error-rad se observa que, antes de calibrar, el sensor TPF1/E-20 presentaba un error medio de -0.1124, lo que indica un sesgo sistemático que tendía a subestimar la temperatura en comparación con el QUESTemp 32. Tras la aplicación de la ecuación de calibración, el error medio se reduce drásticamente a 4.8948e-15, un valor prácticamente nulo que evidencia la eliminación casi total del sesgo sistemático. Paralelamente, el error medio absoluto disminuye de 0.1518 a 0.0344, lo que implica una mejora significativa en la precisión global de las mediciones. Estos resultados confirman que el proceso de calibración ha corregido eficazmente tanto el sesgo como la dispersión de los datos, permitiendo obtener mediciones de temperatura de alta fiabilidad y precisión, estrechamente alineadas con los valores de referencia del QUESTemp 32.
+
+| Fase                | Error medio  | Error medio absoluto |
+|---------------------|--------------|----------------------|
+| Antes de calibrar   | -0.1124      | 0.1518               |
+| Después de calibrar | 4.8948e-15   | 0.0344               |
+: Error medio y error medio absoluto antes y después de la calibración. {#tbl-error-rad .hover .sm}
 
 #### Velocidad del viento
 

@@ -1965,6 +1965,63 @@ resultados}\label{anuxe1lisis-e-interpretaciuxf3n-de-resultados}
 
 \subsubsection{Temperatura ambiente}\label{temperatura-ambiente-1}
 
+Para la calibración de los termopares, se utilizó Python junto con la
+librería \texttt{scikit-learn}, una herramienta utilizada para el
+análisis y modelado de datos. En particular, se aplicó un ajuste por
+regresión lineal a los datos obtenidos durante la campaña, utilizando
+los siguientes rangos de tiempo y sus respectivas temperaturas de
+referencia (Tabla~\ref{tbl-temperaturas}).
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{Temperaturas de referencia y rangos de
+tiempo.}\label{tbl-temperaturas}\tabularnewline
+\toprule\noalign{}
+Temperatura (°C) & Inicio & Final \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Temperatura (°C) & Inicio & Final \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+10 & 15:44:01 & 15:52:31 \\
+20 & 16:02:06 & 16:11:52 \\
+30 & 16:20:44 & 16:28:58 \\
+40 & 16:39:23 & 16:49:57 \\
+50 & 16:58:24 & 17:08:25 \\
+\end{longtable}
+
+El ajuste por regresión lineal es una técnica estadística utilizada para
+modelar la relación entre una variable dependiente y una o más variables
+independientes. En este caso, la variable dependiente es la temperatura
+de referencia (\(T_{ref}\)), mientras que las variables independientes
+corresponden a las lecturas obtenidas por cada termopar. El modelo
+lineal (Ecuación~\ref{eq-lineal}) se expresa de la forma:
+
+\begin{equation}\phantomsection\label{eq-lineal}{
+T_{ref} = m \cdot T_{sensor} + b
+}\end{equation}
+
+donde \(m\) es la pendiente y \(b\) es la ordenada al origen. La
+regresión lineal permite minimizar el error entre las mediciones del
+sensor y los valores de referencia, obteniendo ecuaciones de calibración
+(Ecuación~\ref{eq-cal-termopares}) que corrigen las lecturas del sensor.
+
+\begin{equation}\phantomsection\label{eq-cal-termopares}{
+\begin{align}
+T_{ref} &= 1.0450 \cdot TEMP1 - 2.4327 \\
+T_{ref} &= 1.0602 \cdot TEMP2 - 2.8632 \\
+T_{ref} &= 1.0814 \cdot TEMP3 - 4.4316 \\
+T_{ref} &= 1.0554 \cdot TEMP4 - 3.9348
+\end{align}
+}\end{equation}
+
+Al aplicar estas ecuaciones a los datos obtenidos en la campaña, se
+obtienen los valores corregidos de temperatura para cada termopar. Los
+resultados de la calibración pueden observarse en la
+Figura~\ref{fig-ctermopares}.
+
 \begin{figure}
 
 \centering{
@@ -1982,6 +2039,21 @@ temperatura después de aplicar la ecuación de calibración.}
 
 \subsubsection{Temperatura radiante}\label{temperatura-radiante-1}
 
+Para la calibración del TPF1/E-20, se aplicó un ajuste por regresión
+lineal utilizando la librería \texttt{scikit-learn} de Python, a partir
+de los datos de temperatura registrados simultáneamente por el QUESTemp
+32 y el sensor TPF1/E-20. Empleando el mismo modelo lineal descrito en
+la Ecuación~\ref{eq-lineal}, se derivó la siguiente ecuación de
+calibración (Ecuación~\ref{eq-cal-radiante}):
+
+\begin{equation}\phantomsection\label{eq-cal-radiante}{
+T_{ref} = 1.0582 \cdot temp - 1.5553
+}\end{equation}
+
+Al aplicar esta ecuación a los datos obtenidos durante la campaña, se
+calcularon los valores corregidos para el TPF1/E-20. Los resultados de
+esta calibración se pueden observar en la Figura~\ref{fig-cradiante}.
+
 \begin{figure}
 
 \centering{
@@ -1993,9 +2065,40 @@ Unable to display output for mime type(s): text/html
 }
 
 \caption{\label{fig-cradiante}Comparación de las mediciones del QUESTemp
-32, el TPF1 y sus datos tras la calibración.}
+32, el TPF1/E-20 y sus datos tras la calibración.}
 
 \end{figure}%
+
+En la tabla Tabla~\ref{tbl-error-rad} se observa que, antes de calibrar,
+el sensor TPF1/E-20 presentaba un error medio de -0.1124, lo que indica
+un sesgo sistemático que tendía a subestimar la temperatura en
+comparación con el QUESTemp 32. Tras la aplicación de la ecuación de
+calibración, el error medio se reduce drásticamente a 4.8948e-15, un
+valor prácticamente nulo que evidencia la eliminación casi total del
+sesgo sistemático. Paralelamente, el error medio absoluto disminuye de
+0.1518 a 0.0344, lo que implica una mejora significativa en la precisión
+global de las mediciones. Estos resultados confirman que el proceso de
+calibración ha corregido eficazmente tanto el sesgo como la dispersión
+de los datos, permitiendo obtener mediciones de temperatura de alta
+fiabilidad y precisión, estrechamente alineadas con los valores de
+referencia del QUESTemp 32.
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{Error medio y error medio absoluto antes y después de la
+calibración.}\label{tbl-error-rad}\tabularnewline
+\toprule\noalign{}
+Fase & Error medio & Error medio absoluto \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Fase & Error medio & Error medio absoluto \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Antes de calibrar & -0.1124 & 0.1518 \\
+Después de calibrar & 4.8948e-15 & 0.0344 \\
+\end{longtable}
 
 \subsubsection{Velocidad del viento}\label{velocidad-del-viento-1}
 
