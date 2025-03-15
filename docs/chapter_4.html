@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -497,7 +517,7 @@ Tabla&nbsp;4.2: Temperaturas de referencia y rangos de tiempo.
 <p><span id="eq-lineal"><span class="math display">\[
 T_{ref} = m \cdot T_{sensor} + b
 \tag{4.1}\]</span></span></p>
-<p>donde <span class="math inline">\(m\)</span> es la pendiente y <span class="math inline">\(b\)</span> es la ordenada al origen. La regresión lineal permite minimizar el error entre las mediciones del sensor y los valores de referencia, obteniendo ecuaciones de calibración (<a href="#eq-cal-termopares" class="quarto-xref">Ecuación&nbsp;<span>4.2</span></a>) que corrigen las lecturas del sensor.</p>
+<p>donde <span class="math inline">\(m\)</span> es la pendiente y <span class="math inline">\(b\)</span> es la ordenada al origen. La regresión lineal permite minimizar el error entre las mediciones del sensor y los valores de referencia, obteniendo ecuaciones de calibración (<a href="#eq-cal-termopares" class="quarto-xref">Ecuación&nbsp;<span>4.2</span></a>) que corrigen las lecturas de cada termopar.</p>
 <p><span id="eq-cal-termopares"><span class="math display">\[
 \begin{align}
 T_{ref} &amp;= 1.0450 \cdot TEMP1 - 2.4327 \\
@@ -573,6 +593,55 @@ Tabla&nbsp;4.3: Error medio y error medio absoluto antes y después de la calibr
 </section>
 <section id="velocidad-del-viento-1" class="level4">
 <h4 class="anchored" data-anchor-id="velocidad-del-viento-1">Velocidad del viento</h4>
+<p>Durante la calibración del Wind Sensor se siguió la metodología proporcionada por el fabricante <span class="citation" data-cites="windsensor">Device (<a href="references.html#ref-windsensor" role="doc-biblioref">2017</a>)</span> en su blog oficial. Según esta fuente, la relación entre la velocidad del viento (WS), el voltaje corregido y la temperatura sigue una ley de potencia descrita por la siguiente ecuación (<a href="#eq-potencia" class="quarto-xref">Ecuación&nbsp;<span>4.4</span></a>):</p>
+<p><span id="eq-potencia"><span class="math display">\[
+WS = a \cdot \text{voltaje}^b \cdot \text{temp}^c
+\tag{4.4}\]</span></span></p>
+<p>Adicionalmente, se identificó un error sistemático en las lecturas de voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor registraba un desfase de 1.1621 V. Este error se corrigió restando 1.1621 V a cada medición, de modo que el voltaje empleado en el análisis reflejara únicamente la contribución del viento.</p>
+<p>Para facilitar el ajuste mediante técnicas de regresión, se aplicó una transformación logarítmica a ambos lados de la ecuación, lo que permitió convertir el modelo en una forma lineal (<a href="#eq-potencia-ln" class="quarto-xref">Ecuación&nbsp;<span>4.5</span></a>):</p>
+<p><span id="eq-potencia-ln"><span class="math display">\[
+\ln(WS) = \ln(a) + b \cdot \ln(\text{voltaje}) + c \cdot \ln(\text{temp})
+\tag{4.5}\]</span></span></p>
+<p>Esta transformación es crucial, ya que permite emplear técnicas de regresión lineal para estimar los parámetros <span class="math inline">\(ln(a)\)</span>, <span class="math inline">\(b\)</span> y <span class="math inline">\(c\)</span> a partir de los datos experimentales. Una vez obtenidos, se recupera el parámetro <span class="math inline">\(a\)</span> mediante la función exponencial <span class="math inline">\((a = exp(ln(a)))\)</span> y se formula la ecuación de calibración en su forma original. En este dominio lineal, se utilizó la librería <code>scikit-learn</code> de Python para estimar los parámetros del modelo.</p>
+<p>Adicionalmente, se identificó un error sistemático en las lecturas de voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor registraba un desfase de 1.1621 V. Este error se corrigió restando 1.1621 V a cada medición, de modo que el voltaje empleado en el análisis reflejara únicamente la contribución del viento.</p>
+<p>Para el caso elegido, correspondiente a un remuestreo de 10 segundos, el proceso de regresión lineal en el dominio logarítmico produjo la siguiente ecuación de calibración (<a href="#eq-cal-viento" class="quarto-xref">Ecuación&nbsp;<span>4.6</span></a>):</p>
+<p><span id="eq-cal-viento"><span class="math display">\[
+WS = 26.3431 \cdot \text{voltage}^{1.4273} \cdot \text{temp}^{-0.7631}
+\tag{4.6}\]</span></span></p>
+<p>Esta ecuación se emplea para convertir las mediciones de voltaje (tras aplicar la corrección) y de temperatura en valores precisos de velocidad del viento (m/s).</p>
+<p>El coeficiente de correlación obtenido tras aplicar el modelo es un indicador de la calidad del ajuste. Valores de correlación cercanos a 1 implican una excelente concordancia entre las mediciones del Wind Sensor (tras la calibración) y las obtenidas con el WindMaster, lo que confirma que el modelo captura de manera adecuada la variabilidad de los datos. En la <a href="#tbl-corr-viento" class="quarto-xref">Tabla&nbsp;<span>4.4</span></a> se resumen los coeficientes de correlación para los diferentes intervalos de remuestreo.</p>
+<div id="tbl-corr-viento" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corr-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;4.4: Coeficientes de correlación para los distinto remuestreos.
+</figcaption>
+<div aria-describedby="tbl-corr-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-hover table-sm small caption-top table">
+<thead>
+<tr class="header">
+<th>Remuestreo</th>
+<th>Coeficiente de correlación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>3 segundos</td>
+<td>0.7622</td>
+</tr>
+<tr class="even">
+<td>5 segundos</td>
+<td>0.8079</td>
+</tr>
+<tr class="odd">
+<td>10 segundos</td>
+<td>0.8637</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>El aumento progresivo en el coeficiente de correlación, alcanzando 0.8637 para un remuestreo de 10 segundos, indica que el modelo de calibración y la corrección del desfase mejoran significativamente la consistencia de las mediciones del Wind Sensor con respecto al WindMaster. Estos hallazgos validan la eficacia del procedimiento de calibración y pueden observarse en la <a href="#fig-cviento" class="quarto-xref">Figura&nbsp;<span>4.12</span></a>.</p>
 <div id="cell-fig-cviento" class="cell" data-execution_count="8">
 <div id="fig-cviento" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -588,6 +657,46 @@ Figura&nbsp;4.12: Comparación de las mediciones de velocidad del viento registr
 </section>
 <section id="humedad-relativa-y-co2-1" class="level4">
 <h4 class="anchored" data-anchor-id="humedad-relativa-y-co2-1">Humedad relativa y CO<sub>2</sub></h4>
+<p>Para esta campaña de referenciación, se compararon directamente los datos de medición obtenidos por el SCD30 y el Fluke 975 AirMeter, dado que el SCD30 se calibra de forma independiente. Se realizó el cálculo de errores, en particular el error medio y el error medio absoluto, para evaluar la discrepancia entre las mediciones de ambos instrumentos. Estos errores permiten determinar si existe algún sesgo sistemático en las lecturas del SCD30 respecto al Fluke.</p>
+<p>El error medio se obtiene al calcular la diferencia promedio entre las mediciones del SCD30 y las del Fluke. Un valor negativo indica que, en promedio, el SCD30 tiende a subestimar la variable, mientras que un valor positivo indica una sobreestimación. El error medio absoluto cuantifica la magnitud promedio del error sin considerar el signo, ofreciendo una medida de la precisión global de las mediciones.</p>
+<p>La <a href="#tbl-error-calidad" class="quarto-xref">Tabla&nbsp;<span>4.5</span></a> resume los resultados obtenidos para cada variable:</p>
+<div id="tbl-error-calidad" class="hover sm quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-error-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Tabla&nbsp;4.5: Error medio y error medio absoluto para cada variable del SCD30 con respecto al Fluke.
+</figcaption>
+<div aria-describedby="tbl-error-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="table-hover table-sm small caption-top table">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Error medio</th>
+<th>Error medio absoluto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Humedad relativa</td>
+<td>-2.1681</td>
+<td>2.1681</td>
+</tr>
+<tr class="even">
+<td>CO<sub>2</sub></td>
+<td>9.6543</td>
+<td>13.1565</td>
+</tr>
+<tr class="odd">
+<td>Temperatura</td>
+<td>0.8853</td>
+<td>0.8853</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>La tabla indica que, para la humedad relativa, el SCD30 subestima en promedio 2.1681 unidades respecto al Fluke, mientras que para la concentración de CO<sub>2</sub> se observa una sobreestimación de 9.6543 unidades en promedio, con un error medio absoluto mayor que su error medio, lo que sugiere una mayor dispersión en las mediciones. En el caso de la temperatura, la discrepancia es menor, con un error medio de 0.8853.</p>
+<p>La correlación entre las mediciones de ambos instrumentos se visualiza en la <a href="#fig-ccalidad" class="quarto-xref">Figura&nbsp;<span>4.13</span></a>, lo que respalda la evaluación de precisión y consistencia. Un coeficiente de correlación elevado indicaría que, a pesar de los errores sistemáticos, la tendencia de las mediciones del SCD30 sigue de cerca la del Fluke.</p>
 <div id="cell-fig-ccalidad" class="cell" data-execution_count="9">
 <div id="fig-ccalidad" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -605,6 +714,11 @@ Figura&nbsp;4.13: Correlación de las mediciones de humedad relativa, CO<sub>2</
 <h4 class="anchored" data-anchor-id="sonido-1">Sonido</h4>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-windsensor" class="csl-entry" role="listitem">
+Device, Modern. 2017. <span>«Calibrating The Rev. P Wind Sensor From A New Regression»</span>. <a href="https://moderndevice.com/blogs/documentation/calibrating-the-rev-p-wind-sensor-from-a-new-regression">https://moderndevice.com/blogs/documentation/calibrating-the-rev-p-wind-sensor-from-a-new-regression</a>.
+</div>
+</div>
 </section>
 </section>
 

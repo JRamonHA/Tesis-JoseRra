@@ -2006,7 +2006,8 @@ T_{ref} = m \cdot T_{sensor} + b
 donde \(m\) es la pendiente y \(b\) es la ordenada al origen. La
 regresión lineal permite minimizar el error entre las mediciones del
 sensor y los valores de referencia, obteniendo ecuaciones de calibración
-(Ecuación~\ref{eq-cal-termopares}) que corrigen las lecturas del sensor.
+(Ecuación~\ref{eq-cal-termopares}) que corrigen las lecturas de cada
+termopar.
 
 \begin{equation}\phantomsection\label{eq-cal-termopares}{
 \begin{align}
@@ -2102,6 +2103,89 @@ Después de calibrar & 4.8948e-15 & 0.0344 \\
 
 \subsubsection{Velocidad del viento}\label{velocidad-del-viento-1}
 
+Durante la calibración del Wind Sensor se siguió la metodología
+proporcionada por el fabricante Device (2017) en su blog oficial. Según
+esta fuente, la relación entre la velocidad del viento (WS), el voltaje
+corregido y la temperatura sigue una ley de potencia descrita por la
+siguiente ecuación (Ecuación~\ref{eq-potencia}):
+
+\begin{equation}\phantomsection\label{eq-potencia}{
+WS = a \cdot \text{voltaje}^b \cdot \text{temp}^c
+}\end{equation}
+
+Adicionalmente, se identificó un error sistemático en las lecturas de
+voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor
+registraba un desfase de 1.1621 V. Este error se corrigió restando
+1.1621 V a cada medición, de modo que el voltaje empleado en el análisis
+reflejara únicamente la contribución del viento.
+
+Para facilitar el ajuste mediante técnicas de regresión, se aplicó una
+transformación logarítmica a ambos lados de la ecuación, lo que permitió
+convertir el modelo en una forma lineal (Ecuación~\ref{eq-potencia-ln}):
+
+\begin{equation}\phantomsection\label{eq-potencia-ln}{
+\ln(WS) = \ln(a) + b \cdot \ln(\text{voltaje}) + c \cdot \ln(\text{temp})
+}\end{equation}
+
+Esta transformación es crucial, ya que permite emplear técnicas de
+regresión lineal para estimar los parámetros \(ln(a)\), \(b\) y \(c\) a
+partir de los datos experimentales. Una vez obtenidos, se recupera el
+parámetro \(a\) mediante la función exponencial \((a = exp(ln(a)))\) y
+se formula la ecuación de calibración en su forma original. En este
+dominio lineal, se utilizó la librería \texttt{scikit-learn} de Python
+para estimar los parámetros del modelo.
+
+Adicionalmente, se identificó un error sistemático en las lecturas de
+voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor
+registraba un desfase de 1.1621 V. Este error se corrigió restando
+1.1621 V a cada medición, de modo que el voltaje empleado en el análisis
+reflejara únicamente la contribución del viento.
+
+Para el caso elegido, correspondiente a un remuestreo de 10 segundos, el
+proceso de regresión lineal en el dominio logarítmico produjo la
+siguiente ecuación de calibración (Ecuación~\ref{eq-cal-viento}):
+
+\begin{equation}\phantomsection\label{eq-cal-viento}{
+WS = 26.3431 \cdot \text{voltage}^{1.4273} \cdot \text{temp}^{-0.7631}
+}\end{equation}
+
+Esta ecuación se emplea para convertir las mediciones de voltaje (tras
+aplicar la corrección) y de temperatura en valores precisos de velocidad
+del viento (m/s).
+
+El coeficiente de correlación obtenido tras aplicar el modelo es un
+indicador de la calidad del ajuste. Valores de correlación cercanos a 1
+implican una excelente concordancia entre las mediciones del Wind Sensor
+(tras la calibración) y las obtenidas con el WindMaster, lo que confirma
+que el modelo captura de manera adecuada la variabilidad de los datos.
+En la Tabla~\ref{tbl-corr-viento} se resumen los coeficientes de
+correlación para los diferentes intervalos de remuestreo.
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Coeficientes de correlación para los distinto
+remuestreos.}\label{tbl-corr-viento}\tabularnewline
+\toprule\noalign{}
+Remuestreo & Coeficiente de correlación \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Remuestreo & Coeficiente de correlación \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+3 segundos & 0.7622 \\
+5 segundos & 0.8079 \\
+10 segundos & 0.8637 \\
+\end{longtable}
+
+El aumento progresivo en el coeficiente de correlación, alcanzando
+0.8637 para un remuestreo de 10 segundos, indica que el modelo de
+calibración y la corrección del desfase mejoran significativamente la
+consistencia de las mediciones del Wind Sensor con respecto al
+WindMaster. Estos hallazgos validan la eficacia del procedimiento de
+calibración y pueden observarse en la Figura~\ref{fig-cviento}.
+
 \begin{figure}
 
 \centering{
@@ -2119,6 +2203,55 @@ calibración.}
 \end{figure}%
 
 \subsubsection{Humedad relativa y CO2}\label{humedad-relativa-y-co2-1}
+
+Para esta campaña de referenciación, se compararon directamente los
+datos de medición obtenidos por el SCD30 y el Fluke 975 AirMeter, dado
+que el SCD30 se calibra de forma independiente. Se realizó el cálculo de
+errores, en particular el error medio y el error medio absoluto, para
+evaluar la discrepancia entre las mediciones de ambos instrumentos.
+Estos errores permiten determinar si existe algún sesgo sistemático en
+las lecturas del SCD30 respecto al Fluke.
+
+El error medio se obtiene al calcular la diferencia promedio entre las
+mediciones del SCD30 y las del Fluke. Un valor negativo indica que, en
+promedio, el SCD30 tiende a subestimar la variable, mientras que un
+valor positivo indica una sobreestimación. El error medio absoluto
+cuantifica la magnitud promedio del error sin considerar el signo,
+ofreciendo una medida de la precisión global de las mediciones.
+
+La Tabla~\ref{tbl-error-calidad} resume los resultados obtenidos para
+cada variable:
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{Error medio y error medio absoluto para cada variable del SCD30
+con respecto al Fluke.}\label{tbl-error-calidad}\tabularnewline
+\toprule\noalign{}
+Variable & Error medio & Error medio absoluto \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Variable & Error medio & Error medio absoluto \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Humedad relativa & -2.1681 & 2.1681 \\
+CO2 & 9.6543 & 13.1565 \\
+Temperatura & 0.8853 & 0.8853 \\
+\end{longtable}
+
+La tabla indica que, para la humedad relativa, el SCD30 subestima en
+promedio 2.1681 unidades respecto al Fluke, mientras que para la
+concentración de CO2 se observa una sobreestimación de 9.6543 unidades
+en promedio, con un error medio absoluto mayor que su error medio, lo
+que sugiere una mayor dispersión en las mediciones. En el caso de la
+temperatura, la discrepancia es menor, con un error medio de 0.8853.
+
+La correlación entre las mediciones de ambos instrumentos se visualiza
+en la Figura~\ref{fig-ccalidad}, lo que respalda la evaluación de
+precisión y consistencia. Un coeficiente de correlación elevado
+indicaría que, a pesar de los errores sistemáticos, la tendencia de las
+mediciones del SCD30 sigue de cerca la del Fluke.
 
 \begin{figure}
 
@@ -2199,6 +2332,11 @@ CIE. 2020a. {«Illuminance (17-21-060)»}.
 \bibitem[\citeproctext]{ref-cie_lum}
 ---------. 2020b. {«Luminance (17-21-050)»}.
 \url{https://cie.co.at/eilvterm/17-21-050}.
+
+\bibitem[\citeproctext]{ref-windsensor}
+Device, Modern. 2017. {«Calibrating The Rev. P Wind Sensor From A New
+Regression»}.
+\url{https://moderndevice.com/blogs/documentation/calibrating-the-rev-p-wind-sensor-from-a-new-regression}.
 
 \bibitem[\citeproctext]{ref-djongyang}
 Djongyang, Noël, René Tchinda, y Donatien Njomo. 2010. {«Thermal
