@@ -1,0 +1,49 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {chapter}{Portada}{1}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Introducción al confort en espacios espacios interiores y el desarrollo del DTHIS-C}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Importancia del confort en espacios interiores}{4}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Modelos de confort adaptativos}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}DTHIS-C}{4}{section.1.3}%
+\contentsline {chapter}{\numberline {2}Confort y calidad del aire en espacios interiores}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Confort térmico}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Variables físicas del confort térmico}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Confort acústico}{7}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Variables físicas del confort acústico}{7}{section.2.4}%
+\contentsline {section}{\numberline {2.5}Confort lumínico}{8}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Variables físicas del confort lumínico}{8}{section.2.6}%
+\contentsline {section}{\numberline {2.7}Calidad del aire}{10}{section.2.7}%
+\contentsline {section}{\numberline {2.8}Variables físicas de la calidad del aire}{10}{section.2.8}%
+\contentsline {chapter}{\numberline {3}Diseño y construcción del DTHIS-C}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Especificaciones del DTHIS-C}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Diseño del DTHIS-C}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Arduino UNO WiFi Rev2}{13}{subsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.1}Termopar Tipo T}{18}{subsubsection.3.2.1.1}%
+\contentsline {subsubsection}{\numberline {3.2.1.2}PWFusion MAX31856 SEN-30007}{19}{subsubsection.3.2.1.2}%
+\contentsline {subsubsection}{\numberline {3.2.1.3}Fuehler Systeme TPF1/E-20 PT1000}{22}{subsubsection.3.2.1.3}%
+\contentsline {subsubsection}{\numberline {3.2.1.4}Adafruit PT1000 RTD-MAX31865}{23}{subsubsection.3.2.1.4}%
+\contentsline {subsubsection}{\numberline {3.2.1.5}Modern Device Wind Sensor Rev.~P6}{25}{subsubsection.3.2.1.5}%
+\contentsline {subsection}{\numberline {3.2.2}Raspberry Pi 4 Model B}{27}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}Sensirion SCD30}{30}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}Arducam 5MP OV5647 Ultra Wide Angle}{32}{subsubsection.3.2.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.3}Micrófono ambiental USB}{35}{subsubsection.3.2.2.3}%
+\contentsline {section}{\numberline {3.3}Lista de materiales}{38}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Calibración y referenciación del DTHIS-C}{43}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Metodología experimental}{43}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Obtención y visualización de los datos}{45}{section.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.0.1}ThingsBoard}{45}{subsubsection.4.2.0.1}%
+\contentsline {subsubsection}{\numberline {4.2.0.2}Temperatura ambiente}{47}{subsubsection.4.2.0.2}%
+\contentsline {subsubsection}{\numberline {4.2.0.3}Temperatura radiante}{48}{subsubsection.4.2.0.3}%
+\contentsline {subsubsection}{\numberline {4.2.0.4}Velocidad del viento}{49}{subsubsection.4.2.0.4}%
+\contentsline {subsubsection}{\numberline {4.2.0.5}Humedad relativa y CO2}{50}{subsubsection.4.2.0.5}%
+\contentsline {subsubsection}{\numberline {4.2.0.6}Sonido}{52}{subsubsection.4.2.0.6}%
+\contentsline {section}{\numberline {4.3}Análisis e interpretación de resultados}{52}{section.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.0.1}Temperatura ambiente}{52}{subsubsection.4.3.0.1}%
+\contentsline {subsubsection}{\numberline {4.3.0.2}Temperatura radiante}{53}{subsubsection.4.3.0.2}%
+\contentsline {subsubsection}{\numberline {4.3.0.3}Velocidad del viento}{55}{subsubsection.4.3.0.3}%
+\contentsline {subsubsection}{\numberline {4.3.0.4}Humedad relativa y CO2}{57}{subsubsection.4.3.0.4}%
+\contentsline {subsubsection}{\numberline {4.3.0.5}Sonido}{58}{subsubsection.4.3.0.5}%
+\contentsline {chapter}{\numberline {5}Discusión y conclusiones}{59}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Trabajo a futuro}{59}{section.5.1}%
+\contentsline {chapter}{Bibliografía}{61}{chapter*.28}%
+\contentsline {chapter}{Anexos}{65}{chapter*.30}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

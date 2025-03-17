@@ -29,6 +29,62 @@ A continuación se muestra en la @tbl-instrumentos la lista de los sensores y su
 
 ## Obtención y visualización de los datos
 
+#### ThingsBoard
+
+ThingsBoard es una plataforma IoT de código abierto diseñada para la recopilación, procesamiento, visualización y gestión de dispositivos, @thingsboard. En el contexto de esta tesis, se utiliza para transmitir en tiempo real las mediciones obtenidas de los distintos sensores del DTHIS-C hacia un servidor central, donde se alojan y resguardan los datos en una base de datos dedicada a Internet de las Cosas.
+
+Según la documentación oficial de ThingsBoard, la plataforma admite la conectividad mediante protocolos estándares como MQTT, CoAP y HTTP, lo que facilita la integración de diversos dispositivos y sensores, @thingsboard. En este caso, las mediciones de los sensores se envían desde el DTHIS-C a ThingsBoard, que actúa como un repositorio seguro y escalable. La plataforma no solo almacena la información, sino que también permite la creación de dashboards interactivos y personalizables que posibilitan la visualización en tiempo real de las mediciones. Esto es fundamental durante las campañas de medición, ya que permite monitorizar de forma inmediata el desempeño de los sensores, identificar tendencias y detectar posibles anomalías en los datos.
+
+Para obtener datos directamente desde ThingsBoard, se desarrolló una función en el paquete instalable de Python denominado `iertools`, creado por el Grupo de Energía en Edificaciones. Este paquete se puede instalar desde la consola de su ordenador (previamente contando con una distribución de Python instalada) mediante el siguiente comando:
+```{python}
+#| eval: false
+pip install git+https://github.com/AltamarMx/iertools.git
+```
+
+Es importante señalar que, antes de proceder a la obtención y descarga de datos desde ThingsBoard, es necesario crear un archivo de configuración con extensión `.ini`. Un archivo .ini es un documento de texto plano que almacena parámetros y opciones en formato clave-valor, y se utiliza para definir la configuración necesaria (como la URL del servidor y el token de acceso) que el paquete `iertools` requiere para conectarse a ThingsBoard.
+
+A continuación, se presenta un ejemplo de cómo estructurar dicho archivo:
+```{python}
+#| eval: false
+[dthisc]
+token     = token
+device_id = device_id
+tenant    = lata_testing@ier.unam.mx
+password  = password
+host      = tb.ier.unam.mx
+port      = 8080 
+```
+
+Una vez instalado `iertools`, es posible recuperar datos desde un script o notebook. El siguiente fragmento de código ilustra cómo obtener los datos de medición de los termopares del DTHIS-C a partir de ThingsBoard; este ejemplo puede ser ajustado según las necesidades específicas, permitiendo extraer distintos conjuntos de datos o modificar parámetros conforme a los requerimientos del estudio:
+```{python}
+#| code-fold: true
+from iertools.tb import *
+import warnings
+warnings.filterwarnings("ignore")
+
+fecha1 = parse("2024-11-22") 
+fecha2 = fecha1 + pd.Timedelta("1D")
+
+tmp = TB(config_file='data/config.ini', device_name='dthisc')
+sensores = ["TEMP1", "TEMP2", "TEMP3", "TEMP4"]
+
+data = pd.concat([tmp.get_df(key=sensor,start_datetime=fecha1,end_datetime=fecha2) for sensor in sensores],axis=1)
+
+hora_inicio = "2024-11-22 15:42"
+hora_fin = "2024-11-22 17:09"
+
+data = data[(data.index >= hora_inicio) & (data.index <= hora_fin)]
+data.sort_index(inplace=True)
+
+data.head(10)
+```
+
+Finalmente, para almacenar los datos recuperados, se puede utilizar el siguiente comando para exportarlos a un archivo CSV:
+```{python}
+#| eval: false
+data.to_csv("ruta/de/su/preferencia.csv")
+```
+
 #### Temperatura ambiente
 
 En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155 (@fig-AMETEK), un calibrador de temperatura que permite evaluar sensores en un rango de -25°C a 155°C. 

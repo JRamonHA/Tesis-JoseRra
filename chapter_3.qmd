@@ -430,7 +430,7 @@ El siguiente código constituye el programa principal del Raspberry Pi 4 Model B
 #| eval: false
 #| code-overflow: wrap
 #| code-fold: true
-#| 
+
 import paho.mqtt.client as mqtt
 import json
 import time
@@ -521,7 +521,7 @@ A continuación se muestra el código de Python empleado para su incorpación al
 #| eval: false
 #| code-overflow: wrap
 #| code-fold: true
-#| 
+
 import time
 import board
 import busio

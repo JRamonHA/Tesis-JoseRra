@@ -1768,6 +1768,123 @@ Luminancia & 5MP OV5647 Wide Angle Fisheye Camera & & Referenciación \\
 \section{Obtención y visualización de los
 datos}\label{obtenciuxf3n-y-visualizaciuxf3n-de-los-datos}
 
+\subsubsection{ThingsBoard}\label{thingsboard}
+
+ThingsBoard es una plataforma IoT de código abierto diseñada para la
+recopilación, procesamiento, visualización y gestión de dispositivos,
+ThingsBoard (2023). En el contexto de esta tesis, se utiliza para
+transmitir en tiempo real las mediciones obtenidas de los distintos
+sensores del DTHIS-C hacia un servidor central, donde se alojan y
+resguardan los datos en una base de datos dedicada a Internet de las
+Cosas.
+
+Según la documentación oficial de ThingsBoard, la plataforma admite la
+conectividad mediante protocolos estándares como MQTT, CoAP y HTTP, lo
+que facilita la integración de diversos dispositivos y sensores,
+ThingsBoard (2023). En este caso, las mediciones de los sensores se
+envían desde el DTHIS-C a ThingsBoard, que actúa como un repositorio
+seguro y escalable. La plataforma no solo almacena la información, sino
+que también permite la creación de dashboards interactivos y
+personalizables que posibilitan la visualización en tiempo real de las
+mediciones. Esto es fundamental durante las campañas de medición, ya que
+permite monitorizar de forma inmediata el desempeño de los sensores,
+identificar tendencias y detectar posibles anomalías en los datos.
+
+Para obtener datos directamente desde ThingsBoard, se desarrolló una
+función en el paquete instalable de Python denominado \texttt{iertools},
+creado por el Grupo de Energía en Edificaciones. Este paquete se puede
+instalar desde la consola de su ordenador (previamente contando con una
+distribución de Python instalada) mediante el siguiente comando:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pip install git}\OperatorTok{+}\NormalTok{https:}\OperatorTok{//}\NormalTok{github.com}\OperatorTok{/}\NormalTok{AltamarMx}\OperatorTok{/}\NormalTok{iertools.git}
+\end{Highlighting}
+\end{Shaded}
+
+Es importante señalar que, antes de proceder a la obtención y descarga
+de datos desde ThingsBoard, es necesario crear un archivo de
+configuración con extensión \texttt{.ini}. Un archivo .ini es un
+documento de texto plano que almacena parámetros y opciones en formato
+clave-valor, y se utiliza para definir la configuración necesaria (como
+la URL del servidor y el token de acceso) que el paquete
+\texttt{iertools} requiere para conectarse a ThingsBoard.
+
+A continuación, se presenta un ejemplo de cómo estructurar dicho
+archivo:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[dthisc]}
+\NormalTok{token     }\OperatorTok{=}\NormalTok{ token}
+\NormalTok{device\_id }\OperatorTok{=}\NormalTok{ device\_id}
+\NormalTok{tenant    }\OperatorTok{=}\NormalTok{ lata\_testing}\OperatorTok{@}\NormalTok{ier.unam.mx}
+\NormalTok{password  }\OperatorTok{=}\NormalTok{ password}
+\NormalTok{host      }\OperatorTok{=}\NormalTok{ tb.ier.unam.mx}
+\NormalTok{port      }\OperatorTok{=} \DecValTok{8080} 
+\end{Highlighting}
+\end{Shaded}
+
+Una vez instalado \texttt{iertools}, es posible recuperar datos desde un
+script o notebook. El siguiente fragmento de código ilustra cómo obtener
+los datos de medición de los termopares del DTHIS-C a partir de
+ThingsBoard; este ejemplo puede ser ajustado según las necesidades
+específicas, permitiendo extraer distintos conjuntos de datos o
+modificar parámetros conforme a los requerimientos del estudio:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{from}\NormalTok{ iertools.tb }\ImportTok{import} \OperatorTok{*}
+\ImportTok{import}\NormalTok{ warnings}
+\NormalTok{warnings.filterwarnings(}\StringTok{"ignore"}\NormalTok{)}
+
+\NormalTok{fecha1 }\OperatorTok{=}\NormalTok{ parse(}\StringTok{"2024{-}11{-}22"}\NormalTok{) }
+\NormalTok{fecha2 }\OperatorTok{=}\NormalTok{ fecha1 }\OperatorTok{+}\NormalTok{ pd.Timedelta(}\StringTok{"1D"}\NormalTok{)}
+
+\NormalTok{tmp }\OperatorTok{=}\NormalTok{ TB(config\_file}\OperatorTok{=}\StringTok{\textquotesingle{}data/config.ini\textquotesingle{}}\NormalTok{, device\_name}\OperatorTok{=}\StringTok{\textquotesingle{}dthisc\textquotesingle{}}\NormalTok{)}
+\NormalTok{sensores }\OperatorTok{=}\NormalTok{ [}\StringTok{"TEMP1"}\NormalTok{, }\StringTok{"TEMP2"}\NormalTok{, }\StringTok{"TEMP3"}\NormalTok{, }\StringTok{"TEMP4"}\NormalTok{]}
+
+\NormalTok{data }\OperatorTok{=}\NormalTok{ pd.concat([tmp.get\_df(key}\OperatorTok{=}\NormalTok{sensor,start\_datetime}\OperatorTok{=}\NormalTok{fecha1,end\_datetime}\OperatorTok{=}\NormalTok{fecha2) }\ControlFlowTok{for}\NormalTok{ sensor }\KeywordTok{in}\NormalTok{ sensores],axis}\OperatorTok{=}\DecValTok{1}\NormalTok{)}
+
+\NormalTok{hora\_inicio }\OperatorTok{=} \StringTok{"2024{-}11{-}22 15:42"}
+\NormalTok{hora\_fin }\OperatorTok{=} \StringTok{"2024{-}11{-}22 17:09"}
+
+\NormalTok{data }\OperatorTok{=}\NormalTok{ data[(data.index }\OperatorTok{\textgreater{}=}\NormalTok{ hora\_inicio) }\OperatorTok{\&}\NormalTok{ (data.index }\OperatorTok{\textless{}=}\NormalTok{ hora\_fin)]}
+\NormalTok{data.sort\_index(inplace}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{data.head(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+& TEMP1 & TEMP2 & TEMP3 & TEMP4 \\
+ts & & & & \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+2024-11-22 15:42:00.774 & 12.42 & 12.63 & 13.81 & 13.48 \\
+2024-11-22 15:42:03.505 & 12.37 & 12.57 & 13.81 & 13.46 \\
+2024-11-22 15:42:06.235 & 12.44 & 12.61 & 13.75 & 13.48 \\
+2024-11-22 15:42:08.965 & 12.46 & 12.59 & 13.79 & 13.45 \\
+2024-11-22 15:42:11.697 & 12.38 & 12.51 & 13.75 & 13.44 \\
+2024-11-22 15:42:14.427 & 12.35 & 12.56 & 13.77 & 13.41 \\
+2024-11-22 15:42:17.159 & 12.41 & 12.63 & 13.73 & 13.40 \\
+2024-11-22 15:42:19.892 & 12.41 & 12.52 & 13.66 & 13.38 \\
+2024-11-22 15:42:22.620 & 12.38 & 12.56 & 13.66 & 13.40 \\
+2024-11-22 15:42:25.351 & 12.34 & 12.52 & 13.72 & 13.34 \\
+\end{longtable}
+
+Finalmente, para almacenar los datos recuperados, se puede utilizar el
+siguiente comando para exportarlos a un archivo CSV:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data.to\_csv(}\StringTok{"ruta/de/su/preferencia.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \subsubsection{Temperatura ambiente}\label{temperatura-ambiente}
 
 En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155
@@ -2381,6 +2498,11 @@ Part 1: Indoor work places»}. \emph{NS-EN 12464-1: 2011}.
 \bibitem[\citeproctext]{ref-steren}
 Steren. s.~f. {«Micrófono USB C de solapa para celular»}.
 \url{https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html}.
+
+\bibitem[\citeproctext]{ref-thingsboard}
+ThingsBoard. 2023. {«ThingsBoard: Open-source IoT platform for data
+collection, processing, visualization, and device management»}.
+\url{https://thingsboard.io/}.
 
 \bibitem[\citeproctext]{ref-vasquez}
 Vásquez, Natalia Giraldo, Maíra Longhinotti Felippe, Fernando O. R.

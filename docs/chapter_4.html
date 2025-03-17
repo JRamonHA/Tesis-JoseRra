@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -228,6 +262,7 @@ window.Quarto = {
   <li><a href="#metodología-experimental" id="toc-metodología-experimental" class="nav-link active" data-scroll-target="#metodología-experimental"><span class="header-section-number">4.1</span> Metodología experimental</a></li>
   <li><a href="#obtención-y-visualización-de-los-datos" id="toc-obtención-y-visualización-de-los-datos" class="nav-link" data-scroll-target="#obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</a>
   <ul>
+  <li><a href="#thingsboard" id="toc-thingsboard" class="nav-link" data-scroll-target="#thingsboard">ThingsBoard</a></li>
   <li><a href="#temperatura-ambiente" id="toc-temperatura-ambiente" class="nav-link" data-scroll-target="#temperatura-ambiente">Temperatura ambiente</a></li>
   <li><a href="#temperatura-radiante" id="toc-temperatura-radiante" class="nav-link" data-scroll-target="#temperatura-radiante">Temperatura radiante</a></li>
   <li><a href="#velocidad-del-viento" id="toc-velocidad-del-viento" class="nav-link" data-scroll-target="#velocidad-del-viento">Velocidad del viento</a></li>
@@ -340,6 +375,152 @@ Tabla&nbsp;4.1: Instrumentos de calibración y referenciación para los sensores
 </section>
 <section id="obtención-y-visualización-de-los-datos" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="obtención-y-visualización-de-los-datos"><span class="header-section-number">4.2</span> Obtención y visualización de los datos</h2>
+<section id="thingsboard" class="level4">
+<h4 class="anchored" data-anchor-id="thingsboard">ThingsBoard</h4>
+<p>ThingsBoard es una plataforma IoT de código abierto diseñada para la recopilación, procesamiento, visualización y gestión de dispositivos, <span class="citation" data-cites="thingsboard">ThingsBoard (<a href="references.html#ref-thingsboard" role="doc-biblioref">2023</a>)</span>. En el contexto de esta tesis, se utiliza para transmitir en tiempo real las mediciones obtenidas de los distintos sensores del DTHIS-C hacia un servidor central, donde se alojan y resguardan los datos en una base de datos dedicada a Internet de las Cosas.</p>
+<p>Según la documentación oficial de ThingsBoard, la plataforma admite la conectividad mediante protocolos estándares como MQTT, CoAP y HTTP, lo que facilita la integración de diversos dispositivos y sensores, <span class="citation" data-cites="thingsboard">ThingsBoard (<a href="references.html#ref-thingsboard" role="doc-biblioref">2023</a>)</span>. En este caso, las mediciones de los sensores se envían desde el DTHIS-C a ThingsBoard, que actúa como un repositorio seguro y escalable. La plataforma no solo almacena la información, sino que también permite la creación de dashboards interactivos y personalizables que posibilitan la visualización en tiempo real de las mediciones. Esto es fundamental durante las campañas de medición, ya que permite monitorizar de forma inmediata el desempeño de los sensores, identificar tendencias y detectar posibles anomalías en los datos.</p>
+<p>Para obtener datos directamente desde ThingsBoard, se desarrolló una función en el paquete instalable de Python denominado <code>iertools</code>, creado por el Grupo de Energía en Edificaciones. Este paquete se puede instalar desde la consola de su ordenador (previamente contando con una distribución de Python instalada) mediante el siguiente comando:</p>
+<div id="b3037a99" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pip install git<span class="op">+</span>https:<span class="op">//</span>github.com<span class="op">/</span>AltamarMx<span class="op">/</span>iertools.git</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Es importante señalar que, antes de proceder a la obtención y descarga de datos desde ThingsBoard, es necesario crear un archivo de configuración con extensión <code>.ini</code>. Un archivo .ini es un documento de texto plano que almacena parámetros y opciones en formato clave-valor, y se utiliza para definir la configuración necesaria (como la URL del servidor y el token de acceso) que el paquete <code>iertools</code> requiere para conectarse a ThingsBoard.</p>
+<p>A continuación, se presenta un ejemplo de cómo estructurar dicho archivo:</p>
+<div id="a8a3b325" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>[dthisc]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>token     <span class="op">=</span> token</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>device_id <span class="op">=</span> device_id</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>tenant    <span class="op">=</span> lata_testing<span class="op">@</span>ier.unam.mx</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>password  <span class="op">=</span> password</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>host      <span class="op">=</span> tb.ier.unam.mx</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>port      <span class="op">=</span> <span class="dv">8080</span> </span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Una vez instalado <code>iertools</code>, es posible recuperar datos desde un script o notebook. El siguiente fragmento de código ilustra cómo obtener los datos de medición de los termopares del DTHIS-C a partir de ThingsBoard; este ejemplo puede ser ajustado según las necesidades específicas, permitiendo extraer distintos conjuntos de datos o modificar parámetros conforme a los requerimientos del estudio:</p>
+<div id="d4d343b2" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Código</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> iertools.tb <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fecha1 <span class="op">=</span> parse(<span class="st">"2024-11-22"</span>) </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fecha2 <span class="op">=</span> fecha1 <span class="op">+</span> pd.Timedelta(<span class="st">"1D"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>tmp <span class="op">=</span> TB(config_file<span class="op">=</span><span class="st">'data/config.ini'</span>, device_name<span class="op">=</span><span class="st">'dthisc'</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>sensores <span class="op">=</span> [<span class="st">"TEMP1"</span>, <span class="st">"TEMP2"</span>, <span class="st">"TEMP3"</span>, <span class="st">"TEMP4"</span>]</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.concat([tmp.get_df(key<span class="op">=</span>sensor,start_datetime<span class="op">=</span>fecha1,end_datetime<span class="op">=</span>fecha2) <span class="cf">for</span> sensor <span class="kw">in</span> sensores],axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>hora_inicio <span class="op">=</span> <span class="st">"2024-11-22 15:42"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>hora_fin <span class="op">=</span> <span class="st">"2024-11-22 17:09"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[(data.index <span class="op">&gt;=</span> hora_inicio) <span class="op">&amp;</span> (data.index <span class="op">&lt;=</span> hora_fin)]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>data.sort_index(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>data.head(<span class="dv">10</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TEMP1</th>
+<th data-quarto-table-cell-role="th">TEMP2</th>
+<th data-quarto-table-cell-role="th">TEMP3</th>
+<th data-quarto-table-cell-role="th">TEMP4</th>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">ts</th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:00.774</td>
+<td>12.42</td>
+<td>12.63</td>
+<td>13.81</td>
+<td>13.48</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:03.505</td>
+<td>12.37</td>
+<td>12.57</td>
+<td>13.81</td>
+<td>13.46</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:06.235</td>
+<td>12.44</td>
+<td>12.61</td>
+<td>13.75</td>
+<td>13.48</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:08.965</td>
+<td>12.46</td>
+<td>12.59</td>
+<td>13.79</td>
+<td>13.45</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:11.697</td>
+<td>12.38</td>
+<td>12.51</td>
+<td>13.75</td>
+<td>13.44</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:14.427</td>
+<td>12.35</td>
+<td>12.56</td>
+<td>13.77</td>
+<td>13.41</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:17.159</td>
+<td>12.41</td>
+<td>12.63</td>
+<td>13.73</td>
+<td>13.40</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:19.892</td>
+<td>12.41</td>
+<td>12.52</td>
+<td>13.66</td>
+<td>13.38</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:22.620</td>
+<td>12.38</td>
+<td>12.56</td>
+<td>13.66</td>
+<td>13.40</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2024-11-22 15:42:25.351</td>
+<td>12.34</td>
+<td>12.52</td>
+<td>13.72</td>
+<td>13.34</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Finalmente, para almacenar los datos recuperados, se puede utilizar el siguiente comando para exportarlos a un archivo CSV:</p>
+<div id="7cb4ff11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data.to_csv(<span class="st">"ruta/de/su/preferencia.csv"</span>)</span></code><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
 <section id="temperatura-ambiente" class="level4">
 <h4 class="anchored" data-anchor-id="temperatura-ambiente">Temperatura ambiente</h4>
 <p>En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155 (<a href="#fig-AMETEK" class="quarto-xref">Figura&nbsp;<span>4.1</span></a>), un calibrador de temperatura que permite evaluar sensores en un rango de -25°C a 155°C.</p>
@@ -355,11 +536,11 @@ Figura&nbsp;4.1: AMETEK Jofra PTC-155.
 </div>
 <p>El instrumento mencionado se utilizó junto a cuatro termopares tipo T, estableciendo cinco puntos de referencia de temperatura en el intervalo de 10°C a 50°C.</p>
 <p>Para cada punto de calibración, se esperó aproximadamente 5 minutos para que el calibrador alcanzara y estabilizara la temperatura deseada. Una vez estabilizada, se registraron los datos durante 10 minutos antes de proceder al siguiente punto. Los resultados obtenidos en esta campaña se pueden observar en la <a href="#fig-termopares" class="quarto-xref">Figura&nbsp;<span>4.2</span></a>.</p>
-<div id="cell-fig-termopares" class="cell" data-execution_count="2">
+<div id="cell-fig-termopares" class="cell" data-execution_count="6">
 <div id="fig-termopares" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-termopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_2.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-termopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.2: Rangos de temperatura utilizados para la calibración de los termopares.
@@ -382,11 +563,11 @@ Figura&nbsp;4.3: Quest Technologies QUESTemp 32.
 </figure>
 </div>
 <p>El experimento consistió en ubicar el QUESTemp 32 dentro de una caja diseñada para limitar la incidencia directa de la radiación solar, lo que minimizó la influencia de la radiación externa y redujo el efecto de la convección forzada del viento, permitiendo así que la medición se centrara en la radiación térmica del entorno inmediato. Paralelamente, se colocó el sensor TPF1 en condiciones similares para garantizar que ambos dispositivos registraran la temperatura con la menor perturbación posible. Se tomaron datos cada minuto durante 23 horas. Los datos obtenidos se pueden observar en la <a href="#fig-radiante" class="quarto-xref">Figura&nbsp;<span>4.4</span></a>.</p>
-<div id="cell-fig-radiante" class="cell" data-execution_count="3">
+<div id="cell-fig-radiante" class="cell" data-execution_count="7">
 <div id="fig-radiante" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-radiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_3.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-radiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.4: Intervalo de medición del QUESTemp 32 y el TPF1 para su calibración.
@@ -409,11 +590,11 @@ Figura&nbsp;4.5: Gill Instruments WindMaster.
 </figure>
 </div>
 <p>La campaña de calibración tuvo una duración de 1 hora, durante la cual se capturaron datos a una frecuencia de 1 muestra por segundo. Aprovechando las dimensiones del WindSensor (2230 x 680 mm), se posicionó estratégicamente en la parte superior central del WindMaster, previa verificación de que su presencia no interfiriera con las mediciones del anemómetro. En un entorno abierto, el WindSensor registró datos de voltaje, los cuales se utilizaron junto con los datos de velocidad del viento obtenidos del WindMaster para desarrollar una ecuación de calibración que permitiera convertir el voltaje medido a m/s. Los resultados de la campaña se pueden visualizar en la <a href="#fig-viento" class="quarto-xref">Figura&nbsp;<span>4.6</span></a>.</p>
-<div id="cell-fig-viento" class="cell" data-execution_count="4">
+<div id="cell-fig-viento" class="cell" data-execution_count="8">
 <div id="fig-viento" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_4.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-viento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.6: Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración.
@@ -436,11 +617,11 @@ Figura&nbsp;4.7: Fluke 975 AirMeter.
 </figure>
 </div>
 <p>La campaña consistió en realizar mediciones simultáneas del Fluke 975 AirMeter y del SCD30 durante un período total de 7 horas y 45 minutos, registrando una muestra cada minuto. Para minimizar posibles interferencias, ambos dispositivos se ubicaron lo más próximos posible y se instalaron en una zona aislada de un espacio cerrado, de modo que la presencia humana no afectara los resultados. Los datos obtenidos se muestran en la <a href="#fig-calidad" class="quarto-xref">Figura&nbsp;<span>4.8</span></a>.</p>
-<div id="cell-fig-calidad" class="cell" data-execution_count="5">
+<div id="cell-fig-calidad" class="cell" data-execution_count="9">
 <div id="fig-calidad" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_5.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_6.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-calidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.8: Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación.
@@ -527,11 +708,11 @@ T_{ref} &amp;= 1.0554 \cdot TEMP4 - 3.9348
 \end{align}
 \tag{4.2}\]</span></span></p>
 <p>Al aplicar estas ecuaciones a los datos obtenidos en la campaña, se obtienen los valores corregidos de temperatura para cada termopar. Los resultados de la calibración pueden observarse en la <a href="#fig-ctermopares" class="quarto-xref">Figura&nbsp;<span>4.10</span></a>.</p>
-<div id="cell-fig-ctermopares" class="cell" data-execution_count="6">
+<div id="cell-fig-ctermopares" class="cell" data-execution_count="10">
 <div id="fig-ctermopares" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ctermopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_6.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_7.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ctermopares-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.10: Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración.
@@ -547,11 +728,11 @@ Figura&nbsp;4.10: Resultados de las mediciones de temperatura después de aplica
 T_{ref} = 1.0582 \cdot temp - 1.5553
 \tag{4.3}\]</span></span></p>
 <p>Al aplicar esta ecuación a los datos obtenidos durante la campaña, se calcularon los valores corregidos para el TPF1/E-20. Los resultados de esta calibración se pueden observar en la <a href="#fig-cradiante" class="quarto-xref">Figura&nbsp;<span>4.11</span></a>.</p>
-<div id="cell-fig-cradiante" class="cell" data-execution_count="7">
+<div id="cell-fig-cradiante" class="cell" data-execution_count="11">
 <div id="fig-cradiante" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cradiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_7.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_8.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cradiante-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.11: Comparación de las mediciones del QUESTemp 32, el TPF1/E-20 y sus datos tras la calibración.
@@ -642,11 +823,11 @@ Tabla&nbsp;4.4: Coeficientes de correlación para los distinto remuestreos.
 </figure>
 </div>
 <p>El aumento progresivo en el coeficiente de correlación, alcanzando 0.8637 para un remuestreo de 10 segundos, indica que el modelo de calibración y la corrección del desfase mejoran significativamente la consistencia de las mediciones del Wind Sensor con respecto al WindMaster. Estos hallazgos validan la eficacia del procedimiento de calibración y pueden observarse en la <a href="#fig-cviento" class="quarto-xref">Figura&nbsp;<span>4.12</span></a>.</p>
-<div id="cell-fig-cviento" class="cell" data-execution_count="8">
+<div id="cell-fig-cviento" class="cell" data-execution_count="12">
 <div id="fig-cviento" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cviento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_8.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_9.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cviento-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.12: Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración.
@@ -697,11 +878,11 @@ Tabla&nbsp;4.5: Error medio y error medio absoluto para cada variable del SCD30 
 </div>
 <p>La tabla indica que, para la humedad relativa, el SCD30 subestima en promedio 2.1681 unidades respecto al Fluke, mientras que para la concentración de CO<sub>2</sub> se observa una sobreestimación de 9.6543 unidades en promedio, con un error medio absoluto mayor que su error medio, lo que sugiere una mayor dispersión en las mediciones. En el caso de la temperatura, la discrepancia es menor, con un error medio de 0.8853.</p>
 <p>La correlación entre las mediciones de ambos instrumentos se visualiza en la <a href="#fig-ccalidad" class="quarto-xref">Figura&nbsp;<span>4.13</span></a>, lo que respalda la evaluación de precisión y consistencia. Un coeficiente de correlación elevado indicaría que, a pesar de los errores sistemáticos, la tendencia de las mediciones del SCD30 sigue de cerca la del Fluke.</p>
-<div id="cell-fig-ccalidad" class="cell" data-execution_count="9">
+<div id="cell-fig-ccalidad" class="cell" data-execution_count="13">
 <div id="fig-ccalidad" class="cell-output cell-output-display quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ccalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_9.html" frameborder="0" allowfullscreen=""></iframe>
+<iframe scrolling="no" width="100%" height="545px" src="iframe_figures/figure_10.html" frameborder="0" allowfullscreen=""></iframe>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ccalidad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.13: Correlación de las mediciones de humedad relativa, CO<sub>2</sub> y temperatura entre el Fluke y el SCD30.
@@ -717,6 +898,9 @@ Figura&nbsp;4.13: Correlación de las mediciones de humedad relativa, CO<sub>2</
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-windsensor" class="csl-entry" role="listitem">
 Device, Modern. 2017. <span>«Calibrating The Rev. P Wind Sensor From A New Regression»</span>. <a href="https://moderndevice.com/blogs/documentation/calibrating-the-rev-p-wind-sensor-from-a-new-regression">https://moderndevice.com/blogs/documentation/calibrating-the-rev-p-wind-sensor-from-a-new-regression</a>.
+</div>
+<div id="ref-thingsboard" class="csl-entry" role="listitem">
+ThingsBoard. 2023. <span>«ThingsBoard: Open-source IoT platform for data collection, processing, visualization, and device management»</span>. <a href="https://thingsboard.io/">https://thingsboard.io/</a>.
 </div>
 </div>
 </section>
