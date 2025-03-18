@@ -58,6 +58,7 @@ port      = 8080
 Una vez instalado `iertools`, es posible recuperar datos desde un script o notebook. El siguiente fragmento de código ilustra cómo obtener los datos de medición de los termopares del DTHIS-C a partir de ThingsBoard; este ejemplo puede ser ajustado según las necesidades específicas, permitiendo extraer distintos conjuntos de datos o modificar parámetros conforme a los requerimientos del estudio:
 ```{python}
 #| code-fold: true
+#| code-overflow: wrap
 from iertools.tb import *
 import warnings
 warnings.filterwarnings("ignore")
