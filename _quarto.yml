@@ -6,7 +6,10 @@ lang: es
 
 book:
   title: "Desarrollo e implementación con tecnologías libres de un dispositivo portátil para evaluar el confort térmico, lumínico y acústico en interiores"
-  author: "José Ramón Hernández Aguilar"
+  output-file: "Tesis-JRHA"
+  author: 
+    name: "José Ramón Hernández Aguilar"
+    email: hdezagjr@gmail.com
   date: "12/25/2024"
   chapters:
     - index.qmd
