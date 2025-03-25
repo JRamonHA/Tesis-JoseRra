@@ -1,0 +1,776 @@
+# Diseño y construcción del DTHIS-C {#cap-construccion}
+
+En este capítulo se presenta una descripción detallada del DTHIS-C, incluyendo sus componentes y especificaciones técnicas. Además, se proporcionan los diagramas de conexión y los códigos necesarios para la configuración de cada sensor, facilitando tanto la reproducción completa del DTHIS-C como la implementación individual de sus sensores.
+
+## Especificaciones del DTHIS-C {#sec-especificaciones}
+
+En la @tbl-componentes se muestran los sensores y componentes electrónicos que conforman al DTHIS-C.
+
+| **Sensor**                                    | **Variable**                       | **Comunicación** | **Microcontrolador**     | **Acondicionador de señal**  |
+|-----------------------------------------------|------------------------------------|------------------|--------------------------|------------------------------|
+| Termopar tipo T                               | Temperatura ambiente               | ICSP             | Arduino UNO WiFi Rev2    | PWFusion MAX31856 SEN-30007	|
+| TPF1/E-20 PT1000                              | Temperatura radiante               | ICSP             | Arduino UNO WiFi Rev2    | Adafruit PT1000 RTD-MAX31865 |
+| Wind Sensor Rev P6                            | Velocidad del viento		           | ADC              | Arduino UNO WiFi Rev2    |				                      |
+| SCD30 Sensirion                               | CO<sub>2</sub> y humedad relativa  | I2C              | Raspberry Pi 4 Model B   |				                      |
+| 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | CSI              | Raspberry Pi 4 Model B   |				                      |
+| Micrófono ambiental USB                       | Sonido                             | USB              | Raspberry Pi 4 Model B   |                              |
+: Sensores y componentes electrónicos que consitutyen al DTHIS-C. {#tbl-componentes .hover .sm}
+
+## Diseño del DTHIS-C {#sec-diseno}
+
+La arquitectura del DTHIS-C se ha fundamentado en el uso combinado de la Raspberry Pi 4 y el Arduino Uno WiFi Rev2, microcontroladores seleccionados por las siguientes características y ventajas:
+
+1. **Versatilidad y capacidad de procesamiento:**  
+   La Raspberry Pi 4, programada mediante Python, proporciona una plataforma robusta para el procesamiento avanzado de datos y la ejecución de algoritmos complejos. Su flexibilidad, junto con la facilidad de integración de diversas funcionalidades, permite adaptar el sistema a requerimientos específicos y optimizar el rendimiento según las demandas del entorno.
+
+2. **Conectividad y eficiencia en la adquisición de datos:**  
+   Ambos dispositivos cuentan con conectividad a Internet, lo que posibilita la transmisión en tiempo real de datos hacia una base de datos remota alojada en el servidor ThingsBoard. Además, el Arduino Uno WiFi Rev2 destaca por su eficiencia en la gestión de operaciones de entrada/salida, garantizando una respuesta rápida y precisa en la adquisición y control de los sensores.
+
+3. **Compatibilidad y ecosistema abierto:**  
+   La adopción de tecnologías abiertas facilita la integración y reproducibilidad del sistema. La amplia comunidad de desarrolladores que respalda tanto la Raspberry Pi como el Arduino asegura soporte continuo, actualizaciones regulares y una extensa variedad de recursos y librerías, lo que se traduce en mayor flexibilidad para adaptar el sistema a diversas necesidades y entornos.
+
+4. **Accesibilidad:**  
+   Frente a equipos especializados, la utilización de estos microcontroladores constituye una solución rentable sin comprometer el rendimiento ni la fiabilidad del sistema. Esta ventaja económica facilita la replicación y el escalado del proyecto en distintos contextos.
+
+A continuación, se detallan las especificaciones técnicas y el código implementado para cada sensor.
+
+### Arduino UNO WiFi Rev2
+
+El Arduino UNO WiFi Rev2 es una placa de microcontrolador diseñada para proyectos de Internet de las Cosas (IoT), integrando conectividad WiFi y Bluetooth mediante el módulo u-blox NINA-W102 y un sensor IMU de 6 ejes (LSM6DS3TR) para detección de movimientos. Equipada con el microcontrolador ATmega4809, ofrece una óptima capacidad de memoria, y mantiene compatibilidad con el formato estándar UNO, facilitando su uso con shields existentes. Su diseño eficiente y versátil lo hace ideal para la adquisición de datos de sensores y la comunicación inalámbrica en tiempo real, como se requiere en el DTHIS-C. @arduino
+
+En la @tbl-arduino se muestran sus especificaciones.
+
+| **Parámetro**              | **Detalle**                                   |
+|----------------------------|-----------------------------------------------|
+| Microcontrolador           | ATmega4809                                    |
+| Memoria flash              | 48 KB                                         |
+| SRAM                       | 6,144 Bytes                                   |
+| EEPROM                     | 256 Bytes                                     |
+| Conectividad Wi-Fi         | Sí, u-blox NINA-W102 (2.4 GHz)                |
+| Bluetooth                  | Sí, Bluetooth Low Energy                      |
+| Sensor IMU                 | Sí, LSM6DS3TR (6 ejes)                        |
+| Pines digitales I/O        | 14 (5 PWM)                                    |
+| Pines analógicos           | 6                                             |
+| Voltaje de operación       | 5V                                            |
+| Consumo máximo total       | 200 mA                                        |
+| Dimensiones                | 68.6 mm x 53.4 mm                             |
+: Especificaciones del Arduino UNO WiFi Rev2. {#tbl-arduino .hover .sm}
+
+El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#include <WiFiNINA.h>
+#include <PubSubClient.h>
+
+// Definiciones para la red WiFi y ThingsBoard
+#define WIFI_AP "IER"          
+#define WIFI_PASSWORD "acadier2014" 
+#define TOKEN "bXQq1eepFYJV3nldvLTV"
+#define THINGSBOARD_SERVER "tb.ier.unam.mx"
+#define MQTT_PORT 1883
+
+// Inicialización de las librerías y objetos
+WiFiClient espClient;
+PubSubClient mqttClient(espClient);
+
+/**
+ * Configuración inicial del dispositivo.
+ * Configura la conexión WiFi y el cliente MQTT para ThingsBoard.
+ */
+void setup() {
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);  // Conectar a la red WiFi
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);  // Espera hasta conectarse
+  }
+  
+  mqttClient.setServer(THINGSBOARD_SERVER, MQTT_PORT);
+  connectToThingsBoard();  // Conectar a ThingsBoard
+}
+
+/**
+ * Ciclo principal del programa.
+ * Mantiene las conexiones y realiza las tareas periódicas.
+ */
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    reconnectWiFi();  // Reconecta WiFi si es necesario
+  }
+  
+  if (!mqttClient.connected()) {
+    reconnectThingsBoard();  // Reconecta MQTT si es necesario
+  }
+
+  // Obtener las mediciones de los termopares (temperaturas)
+  float* temperatures = ThermocoupleTemp();
+  sendTC(temperatures);    // Enviar temperaturas a ThingsBoard
+
+  // Obtener la temperatura del TPF1
+  float radiant = TPF1Temp();
+  sendRT(radiant);  // Enviar temperatura radiante a ThingsBoard
+
+  // Obtener la velocidad promedio del viento
+  float* windspeed = WindSensor();
+  sendWS(windspeed);      // Enviar velocidad del viento a ThingsBoard
+
+  mqttClient.loop();
+  delay(2000);  // Espera 2 segundos antes de la siguiente iteración
+}
+
+/**
+ * Conecta a la red WiFi.
+ */
+void connectWiFi() {
+  WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);  // Espera hasta conectarse
+  }
+}
+
+/**
+ * Reconecta a la red WiFi si es necesario.
+ */
+void reconnectWiFi() {
+  while (WiFi.status() != WL_CONNECTED) {
+    WiFi.begin(WIFI_AP, WIFI_PASSWORD);
+    delay(500);
+  }
+}
+
+/**
+ * Reconecta a ThingsBoard si es necesario.
+ */
+void reconnectThingsBoard() {
+  while (!mqttClient.connected()) {
+    connectToThingsBoard();
+    delay(5000);  // Espera antes de reintentar
+  }
+}
+
+/**
+ * Conecta a ThingsBoard usando el token de autenticación.
+ */
+bool connectToThingsBoard() {
+  return mqttClient.connect("ArduinoClient", TOKEN, NULL);
+}
+
+/**
+ * Envía los datos de temperatura.
+ */
+void sendTC(float* temperatures) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"T1\":" + String(temperatures[0]) + 
+                   ", \"T2\":" + String(temperatures[1]) + 
+                   ", \"T3\":" + String(temperatures[2]) + 
+                   ", \"T4\":" + String(temperatures[3]) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());
+}
+
+/**
+ * Envía los datos de temperatura radiante.
+ */
+void sendRT(float radiant) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"TR\":" + String(radiant) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());  
+}
+
+/**
+ * Envía los datos de velocidad del viento.
+ */
+void sendWS(float* windspeed) {
+  String topic = "v1/devices/me/telemetry";
+  String payload = "{\"WS\":" + String(windspeed[0]) + 
+                   ", \"TEMP\":" + String(windspeed[1]) + "}";
+  mqttClient.publish(topic.c_str(), payload.c_str());
+}
+```
+
+#### Termopar Tipo T 
+
+En la construcción del DTHIS se emplea un termopar tipo T, un sensor de temperatura compuesto por la unión de cobre y cobre-níquel. Su uso es ideal para entornos con humedad.  
+
+A continuación, se presentan sus especificaciones según @omega:  
+
+**Rangos de Temperatura**  
+- **Grado de termopar:** -200 a 350 °C (-328 a 662 °F).  
+- **Grado de extensión:** -60 a 100 °C (-76 a 212 °F).  
+
+**Límites de Error**  
+- **Estándar:**  
+  - ±1.0 °C o ±0.75% por encima de 0 °C.  
+  - ±1.0 °C o ±1.5% por debajo de 0 °C.  
+- **Especial:**  
+  - ±0.5 °C o ±0.4%.  
+
+#### PWFusion MAX31856 SEN-30007
+
+El PWFusion MAX31856 SEN-30007 es un shield de termopares de cuatro canales diseñado para integrarse con la plataforma Arduino. Este dispositivo se conecta directamente a la placa de desarrollo. El módulo acondiciona la señal proveniente de termopares, realizando el procesamiento necesario para adaptar y amplificar la señal eléctrica, la cual se caracteriza por su baja amplitud.
+
+![Diagrama de conexión para el shield MAX31856 SEN-30007.](/images/sen30007_bb.png){#fig-MAX31856 width=70%}
+
+Acorde a @pwf sus específicaciones son las siguientes:
+
+- Conversión de señal analógica a digital con resolución de 19 bits.
+- Interfaz ICSP de 4 hilos.
+- Rango de voltaje de alimentación: 3.3 V a 5.0 V.
+
+Igualmente se proporciona el código de Arduino empleado:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
+#include <PWFusion_MAX31856.h>
+
+// Definición de los pines chip select para cada termopar
+uint8_t tcChipSelects[] = {10, 9, 8, 7};
+#define NUM_THERMOCOUPLES   (sizeof(tcChipSelects) / sizeof(uint8_t))
+
+// Coeficientes de calibración para cada termopar
+const float m[NUM_THERMOCOUPLES] = {1.0450, 1.0602, 1.0814, 1.0554};  // Pendientes
+const float b[NUM_THERMOCOUPLES] = {-2.4327, -2.8632, -4.4316, -3.9348};  // Intersecciones
+
+// Se crea un objeto MAX31856 para cada termopar
+MAX31856 thermocouples[NUM_THERMOCOUPLES];
+
+float* ThermocoupleTemp() {
+  static float tc_temps[NUM_THERMOCOUPLES];
+  static bool initialized = false;
+
+  // Inicializa los sensores solo la primera vez que se llama a la función
+  if (!initialized) {
+    delay(1000);  // Espera para la estabilización de los sensores
+    for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+      thermocouples[i].begin(tcChipSelects[i]);
+      thermocouples[i].config(T_TYPE, CUTOFF_60HZ, AVG_SEL_4SAMP, CMODE_OFF);
+    }
+    initialized = true;
+  }
+  
+  // Inicia la medición en cada sensor
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+    thermocouples[i].startOneShotMeasurement();
+  }
+  
+  // Espera el tiempo necesario para que la conversión se complete
+  delay(180);
+  
+  // Actualiza la muestra en cada sensor
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+    thermocouples[i].sample();
+  }
+  
+  // Obtiene la temperatura ambiente de cada sensor y aplica la calibración
+  for (int i = 0; i < NUM_THERMOCOUPLES; i++) {
+    if (thermocouples[i].getStatus() != 0) {
+      // En caso de error, se asigna NaN (Not a Number)
+      tc_temps[i] = NAN;
+    } else {
+      float raw_temperature = thermocouples[i].getTemperature();
+      tc_temps[i] = m[i] * raw_temperature + b[i];  // Aplica la calibración
+    }
+  }
+  
+  return tc_temps;
+}
+```
+
+#### Fuehler Systeme TPF1/E-20 PT1000
+Se empleó el TPF1/E-20 PT1000, diseñado para medir la temperatura radiante en un rango de temperaturas de -30 °C a +75 °C. Su sonda de temperatura, basada en la tecnología PT1000, se puede montar como un péndulo libremente suspendido, lo que permite obtener mediciones precisas de la temperatura de sensación térmica en entornos donde la convección natural y la estratificación del aire pueden influir en los resultados. @fuehler
+
+**Especificaciones**
+
+- Tipo de circuito: Conexión de 2 hilos.
+- Corriente de medición: Aproximadamente 1 mA.
+- Conexión eléctrica: Extremos pelados con terminales.
+- Cable: Cable de PVC (2×0,25 mm<sup>2</sup>, temperatura máxima +105 °C) con extremos de cable núcleo disponibles en diferentes longitudes.
+- Resistencia de fuga: Mayor a 100 M$\Omega$ a +20 °C (500 V DC).
+- Material del globo: Aluminio (negro).
+- Dimensiones del globo: Diámetro de 70 mm.
+
+#### Adafruit PT1000 RTD-MAX31865
+
+El PT1000 RTD-MAX31865 es un convertidor de resistencia a digital. 
+
+![Diagrama de conexión para el PT1000 RTD-MAX31865.](/images/pt1000_bb.png){#fig-MAX31865 width=70%}
+
+@adafruit describe las siguientes características:
+
+- Realiza la conversión de la resistencia de sensores RTD de platino a un valor digital de forma sencilla.
+- Soporte con RTD de platino con valores de 100 $\Omega$ a 1 k$\Omega$ (a 0 °C), abarcando desde PT100 hasta PT1000.
+- Compatible con configuraciones de 2, 3 y 4 hilos para la conexión de sensores.
+- Incorpora una interfaz ICSP, facilitando su integración en sistemas basados en microcontroladores.
+- Cuenta con un ADC de 15 bits que proporciona una resolución nominal de temperatura de 0.03125 °C (valor variable debido a la no linealidad del RTD) y una precisión total de hasta 0.5 °C (0.05% de la escala completa) en todas las condiciones operativas.
+- Tiempo máximo de conversión es de 21 ms.
+
+A continuación se muestra el código de Arduino:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#include <Adafruit_MAX31865.h>
+
+// Usamos software SPI: CS, DI, DO, CLK
+Adafruit_MAX31865 thermo = Adafruit_MAX31865(10, 11, 12, 13);
+// Para hardware SPI solo se pasa el pin CS
+// Adafruit_MAX31865 thermo = Adafruit_MAX31865(10);
+
+#define RREF      4300.0  // Resistor de referencia (usa 430.0 para PT100 o 4300.0 para PT1000)
+#define RNOMINAL  1000.0  // Resistencia nominal a 0°C (100.0 para PT100, 1000.0 para PT1000)
+
+// Función que realiza la medición y retorna la temperatura radiante en grados Celsius.
+float TPF1Temp() {
+  // Inicializa el sensor solo la primera vez que se llama a la función.
+  static bool initialized = false;
+  if (!initialized) {
+    thermo.begin(MAX31865_2WIRE);  // Inicialización del MAX31865
+    initialized = true;
+  }
+  
+  // Lectura del valor RTD
+  uint16_t rtd = thermo.readRTD();
+  
+  // Calcula la razón y la resistencia (opcional si se requiere para otros cálculos)
+  float ratio = rtd / 32768.0;
+  float resistance = RREF * ratio;
+  
+  // Calcula la temperatura utilizando el método de la librería
+  float raw_temp = thermo.temperature(RNOMINAL, RREF);
+
+  // Aplica la ecuación de calibración: 1.0582 * temp + (-1.5553)
+  float radiant_temp = 1.0582 * raw_temp - 1.5553;
+  
+  return radiant_temp;
+}
+```
+
+#### Modern Device Wind Sensor Rev. P6
+
+El sensor de viento Rev. P6 es un anemómetro de hilo caliente. Incorpora un potenciómetro de alta precisión para facilitar la calibración (realizada en fábrica) y utilizar termistores de coeficiente de temperatura positivo, que aseguran mediciones más estables incluso ante variaciones de temperatura ambiente. Requiere una fuente de alimentación de 9 a 12 V (idealmente 12 V) para garantizar el adecuado calentamiento de los termistores y evitar la saturación en condiciones de viento intenso. Integra un sensor de temperatura ambiental con salida escalada a 3.3 V y una señal de viento ajustada a un máximo de 3.3 V mediante resistencias de alta precisión. @modern
+
+![Diagrama de conexión para el Wind Sensor Rev. P6.](/images/windsensor_bb.png){#fig-WindSensor width=70%}
+
+**Especificaciones**
+
+- Voltaje de alimentación: 10–12 V.
+- Corriente: Aproximadamente 40 mA.
+- Velocidades de viento medidas: 0–150 mph.
+- Compensación de temperatura ambiente.
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+#| 
+#include <math.h>
+
+const int OutPin  = A0;   // Pin analógico para el sensor de viento ("OUT")
+const int TempPin = A2;   // Pin analógico para el sensor de temperatura ("TMP")
+
+// Función que lee velocidad de viento y temperatura, y retorna un array de dos floats:
+// ws[0] -> velocidad de viento (m/s)
+// ws[1] -> temperatura (°C)
+float* WindSensor() {
+  static float ws[2];
+  
+  // Lectura del sensor de viento
+  int windADunits = analogRead(OutPin);
+  float voltage = (float)windADunits * 5.0 / 1024.0;
+  
+  // Aplicar la corrección al voltaje
+  float correctedVoltage = voltage - 1.1621;
+  
+  // Lectura del sensor de temperatura
+  int tempRawAD = analogRead(TempPin);
+  float tempC = ((((float)tempRawAD * 5.0) / 1024.0) - 0.400) / 0.0195;
+  
+  // Cálculo de la velocidad de viento en m/s usando la ecuación empírica:
+  // WS = 26.3431 * (correctedVoltage)^(1.4273) * (tempC)^(-0.7631)
+  float windSpeed = 26.3431 * pow(correctedVoltage, 1.4273) * pow(tempC, -0.7631);
+  
+  ws[0] = windSpeed;
+  ws[1] = tempC;
+  
+  return ws;
+}
+```
+
+
+### Raspberry Pi 4 Model B
+
+El Raspberry Pi 4 Model B es una computadora de placa única de alto rendimiento, diseñada para tareas de procesamiento avanzado y conectividad eficiente en un formato compacto. Equipada con un procesador de 64 bits de cuatro núcleos y opciones de RAM de hasta 8 GB, ofrece soporte para salida de video dual 4K y conectividad avanzada mediante Wi-Fi de doble banda, Bluetooth 5.0, Ethernet Gigabit y puertos USB 3.0, con capacidad para Power over Ethernet (PoE) mediante un accesorio adicional. Su diseño versátil y eficiente la hace ideal para la integración y gestión de datos en el sistema DTHIS-C. @raspberry
+
+En la @tbl-raspberry se muestran sus especificaciones.
+
+| **Parámetro**              | **Detalle**                                     |
+|----------------------------|-------------------------------------------------|
+| Procesador                 | Broadcom BCM2711, 4 núcleos Cortex-A72, 1.5 GHz |
+| Memoria RAM                | 8 GB (LPDDR4-3200)                              |
+| Conectividad Wi-Fi         | Sí, dual-band 2.4 GHz y 5 GHz, 802.11ac         |
+| Bluetooth                  | Sí, Bluetooth 5.0                               |
+| Puertos USB                | 2 USB 3.0, 2 USB 2.0                            |
+| Salida de video            | 2 micro HDMI, soporte dual 4K 60 fps            |
+| Ethernet                   | Gigabit                                         |
+| Almacenamiento             | Tarjeta microSD                                 |
+| Voltaje de operación       | 5V                                              |
+| Consumo energético         | Eficiente, sin ventilador (~3A recomendado)     |
+| Dimensiones                | 85.6 mm x 56.5 mm x 17 mm                       |
+: Especificaciones del Raspberry Pi 4 Model B. {#tbl-raspberry .hover .sm}
+
+El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería `paho-mqtt` para la comunicación y está diseñado para operar de manera continua:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+import paho.mqtt.client as mqtt
+import json
+import time
+from thingsboard_credentials import thingsboard_data
+from scd30 import scd30_measurements
+from sound import sound_data
+
+# Obtiene los datos de conexión para ThingsBoard
+unique_id, token, thingsboard_host = thingsboard_data()
+
+# Diccionario para almacenar las lecturas del sensor
+sensor_data = {'CO2': 0, 'T': 0, 'HR': 0}
+# Diccionario para datos de sonido
+# micro_data = {'RMS': 0, 'dBmax': 0, 'dBmin': 0}  
+
+# Configura el cliente MQTT
+client = mqtt.Client(unique_id, False)
+client.username_pw_set(token, password=None)
+client.connect(thingsboard_host, 1883, 60, '')
+client.loop_start()
+
+try:
+    while True:
+        # Obtiene las mediciones del sensor SCD30
+        CO2, T, HR = scd30_measurements()
+
+        # Actualiza el diccionario con las lecturas actuales
+        sensor_data['CO2'] = CO2
+        sensor_data['T'] = T
+        sensor_data['HR'] = HR
+
+        # Publica los datos del SCD30 en ThingsBoard
+        client.publish('v1/devices/me/telemetry', json.dumps(sensor_data), 1)
+
+        # Obtiene los datos de sonido
+        # micro_data = sound_data() 
+
+        # Publica los datos de sonido en ThingsBoard
+        # client.publish('v1/devices/me/telemetry', json.dumps(micro_data), 1)
+
+        time.sleep(2)  # Ajusta el intervalo de tiempo entre lecturas
+
+except KeyboardInterrupt:
+    pass
+
+# Detiene el loop del cliente MQTT y desconecta del servidor
+client.loop_stop()
+client.disconnect()
+```
+
+#### Sensirion SCD30
+
+El SCD30 es un sensor de CO<sub>2</sub> basado en tecnología de detección por infrarrojos. Incorpora un sensor de humedad y temperatura. Cuenta con un diseño de doble canal. Además, ofrece una precisión de ±(30 ppm + 3% de la lectura) en un rango de 400 a 10,000 ppm. @scd30
+
+![Diagrama de conexión para el SCD30.](/images/scd30_bb.png){#fig-SCD30 width=70%}
+
+**Especificaciones**
+
+**CO<sub>2</sub>**
+
+- Rango de medición: 400 – 10,000 ppm
+- Precisión: ±30 ppm ±3% del valor medido
+- Tiempo de respuesta (τ63%): 20 s
+- Estabilidad térmica: 2.5 ppm/°C
+
+**Humedad**
+
+- Precisión típica: ±3 %RH
+- Rango de operación: 0 – 95 %RH
+- Tiempo de respuesta (τ63%): 8 s
+- Certificación de calibración: Calibrado de fábrica
+- Temperatura
+- Precisión típica: ±0.4 °C
+- Tiempo de respuesta (τ63%): 10 s
+
+**Características generales**
+
+- Voltaje de alimentación: 3.3 – 5.5 V
+- Corriente promedio: 19 mA
+- Corriente máxima: 75 mA
+- Rango de temperatura de operación: 0 – 50 °C
+- Interfaces: I²C, ModBus, PWM
+- Dimensiones: 35 × 23 × 7 mm
+
+A continuación se muestra el código de Python empleado para su incorpación al DTHIS-C:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+import time
+import board
+import busio
+from scd30_i2c import SCD30
+
+def scd30_measurements():
+    """
+    Función para obtener las lecturas de CO2, Temperatura y Humedad Relativa del sensor SCD30.
+
+    Retorna:
+        tuple: (CO2, T, HR) donde
+            CO2: concentración de CO2 en ppm
+            T: temperatura en grados Celsius
+            HR: humedad relativa en porcentaje
+    """
+    # Inicializa el sensor SCD30
+    scd30 = SCD30()
+    # Espera para asegurarse de que el sensor esté listo
+    time.sleep(2)  
+    
+    # Verifica si los datos están listos para ser leídos
+    if scd30.get_data_ready():
+        # Lee las mediciones del sensor
+        CO2, T, HR = scd30.read_measurement()
+        # Redondea cada valor a dos decimales
+        CO2 = round(CO2, 2)
+        T = round(T, 2)
+        HR = round(HR, 2)
+        return CO2, T, HR
+```
+
+#### Arducam 5MP OV5647 Ultra Wide Angle
+
+La cámara Arducam Ultra Wide Angle cuenta con un objetivo ojo de pez M12 que ofrece un campo de visión horizontal de 220°. @arducam
+
+![Diagrama de conexión para la cámara OV5647.](/images/camera_bb.png){#fig-Camara width=70%}
+
+**Especificaciones**
+
+- Sensor: Omnivision OV5647
+- Tamaño del sensor: 1/4″ (OV5647)
+- Resolución: 5 MP (2592×1944)
+- Video:
+  - 1080p a 30 fps
+  - 720p a 60 fps
+  - 480p a 90 fps
+- Sensibilidad IR: Filtro IR-cut integrado (solo luz visible)
+- Campo de visión horizontal (HFOV): 220°
+- Distancia focal efectiva: 0.76 mm
+- Distancia focal equivalente en 35 mm: 8.2 mm
+- Tipo de enfoque: Manual
+- Montura del objetivo: M12
+- Dimensiones: 36 mm × 36 mm
+- Corriente pico: 300 mA
+
+A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#!/bin/bash
+
+DATE=$(date +"%Y-%m-%d_%H%M")
+IMG_DIR="/home/hdeza/Luminance/images"
+HDR_IMG="/home/hdeza/Luminance/HDR_images"
+MAPS_DIR="/home/hdeza/Luminance/maps"
+OUTPUT_DIR="/home/hdeza/Luminance"
+
+#Loop through shutter speeds and capture images
+SHUTTERS=(100 500 1000 5000 10000 50000 100000 500000 1000000 2000000)
+
+for i in "${!SHUTTERS[@]}"; do
+  rpicam-still --raw -n --gain 1 -t 500 --shutter "${SHUTTERS[$i]}" -o "$IMG_DIR/$(printf "%02d" $((i+1))).jpg"
+done
+
+#Run raw2hdr with the path to the images and save as image.hdr
+raw2hdr -a -e -g -f -h -w -o "$HDR_IMG/image_$DATE.hdr" "$IMG_DIR"/*dng
+
+#Get info about the final HDR
+getinfo "$HDR_IMG/image_$DATE.hdr"
+
+#Nullify exposure value
+ra_xyze -r -o "$HDR_IMG/image_$DATE.hdr" > "$OUTPUT_DIR/image_nullEV_$DATE.hdr"
+
+#Resize image
+pfilt -1 -x 1000 -y 1000 "$OUTPUT_DIR/image_nullEV_$DATE.hdr" > "$OUTPUT_DIR/image_resize_$DATE.hdr"
+
+#Make photometric adjustment
+pcomb -s 1.8 "$OUTPUT_DIR/image_resize_$DATE.hdr" > "$OUTPUT_DIR/image_photometric_$DATE.hdr"
+
+#Change view angle for fisheye
+getinfo -a "VIEW= -vta -vv 160 -vh 160" < "$OUTPUT_DIR/image_photometric_$DATE.hdr" > "$IMG_DIR/image_final_$DATE.hdr"
+
+#Print illuminance value
+echo "Total illuminance is: "
+evalglare -V "$IMG_DIR/image_final_$DATE.hdr"
+evalglare -V "$IMG_DIR/image_final_$DATE.hdr" > "$OUTPUT_DIR/illuminance_$DATE.txt"
+
+#Move final HDR image to HDR_images
+mv "$IMG_DIR/image_final_$DATE.hdr" "$HDR_IMG/image_final_$DATE.hdr"
+
+#Crop to a 160
+pcomb -e 'Cx:xmax/2;Cy:ymax/2;R:444.44;sq(x):x*x' -e 'inC=sq(R)-sq(x-Cx)-sq(y-Cy)' -e 'ro=if(inC,ri(1),0);go=if(inC,gi(1),0);bo=if(inC,bi(1),0)' "$HDR_IMG/image_final_$DATE.hdr" > "$HDR_IMG/image_crop_$DATE.hdr"
+
+#Make the luminance map with configurations and save it
+falsecolor -s 5000 -d 1 -i "$HDR_IMG/image_crop_$DATE.hdr" --log 3 > "$MAPS_DIR/image_map_$DATE.hdr"
+```
+
+#### Micrófono ambiental USB
+
+El micrófono incorpora un filtro que atenúa eficazmente los ruidos producidos por el viento o la respiración. Su patrón de captación direccional optimiza la focalización de la fuente sonora. @steren
+
+![Diagrama de conexión para el micrófono.](/images/micro_bb.png){#fig-Microfono width=70%}
+
+**Especificaciones**
+
+- Respuesta en frecuencia: 50 a 10,000 Hz
+- Impedancia 2,200 $\Omega$
+- Sensibilidad: -32 dB ±3 dB
+
+A continuación, se presentan los códigos utilizados para la captura y análisis de sonido. Estos scripts permiten grabar el audio, extraer parámetros clave de la señal y convertirlos a valores en decibeles (dB).
+
+El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#!/bin/bash
+
+grabar="/home/hdeza/Sonido/audio.wav"
+
+arecord -D plughw:3,0 -f cd -t wav -d 15 -r 44100 $grabar
+```
+Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#!/bin/bash
+
+maximo="/home/hdeza/Sonido/dBmax.txt"
+
+/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Maximum amplitude:" | /usr/bin/awk '{print $3}'  > $maximo
+```
+
+Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#!/bin/bash
+
+minimo="/home/hdeza/Sonido/dBmin.txt"
+
+/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "Minimum amplitude:" | /usr/bin/awk '{print $3}' > $minimo
+```
+
+Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+#!/bin/bash
+
+media="/home/hdeza/Sonido/rms.txt"
+
+/usr/bin/sox /home/hdeza/Sonido/audio.wav -n stat 2>&1 | /usr/bin/grep "RMS     amplitude:" | /usr/bin/awk '{print $3}' > $media
+```
+
+El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:
+
+$$dB = 20 \log_{10}(\text{amplitud}) + 120$$
+
+Los valores resultantes son almacenados en un diccionario para su posterior uso:
+
+```{python}
+#| eval: false
+#| code-overflow: wrap
+#| code-fold: true
+
+import numpy as np
+
+def sound_data():
+    """
+    Función para obtener los datos de sonido desde archivos y calcular sus valores en dB.
+
+    Retorna:
+        dict: Datos de sonido en dB (RMS_dB, dBmax_dB, dBmin_dB).
+    """
+    archivos = [
+        '/home/dthisc/dthis-c/sound/rms.txt',
+        '/home/dthisc/dthis-c/sound/dBmax.txt',
+        '/home/dthisc/dthis-c/sound/dBmin.txt'
+    ]
+    
+    rms_x = ""
+    dBmax_x = ""
+    dBmin_x = ""
+
+    for archivo in archivos:
+        with open(archivo, 'r', encoding='utf-8') as f:
+            if archivo == '/home/dthisc/dthis-c/sound/rms.txt':
+                rms_x = round(float(f.read().strip()), 4)
+            elif archivo == '/home/dthisc/dthis-c/sound/dBmax.txt':
+                dBmax_x = round(float(f.read().strip()), 4)
+            elif archivo == '/home/dthisc/dthis-c/sound/dBmin.txt':
+                dBmin_x = round(float(f.read().strip()), 4)
+
+    rms_db = round(20 * np.log10(float(rms_x)) + 120, 4)
+    dBmax_db = round(20 * np.log10(float(dBmax_x)) + 120, 4)
+    dBmin_db = round(20 * np.log10(abs(float(dBmin_x))) + 120, 4)
+
+    return {'RMS': rms_db, 'dBmax': dBmax_db, 'dBmin': dBmin_db}
+```
+
+## Lista de materiales {#sec-materiales}
+
+La @tbl-materiales muestra la lista de materiales necesarios para la construcción del DTHIS-C, detallando la cantidad de cada componente, los costos y la fuente de venta.
+
+| **Designación**             | **Componente**                                                        | **Cantidad** | **Costo unitario (MXN)** | **Costo total (MXN)** | **Fuente de compra**                                                                                                                        |
+|-----------------------------|-----------------------------------------------------------------------|--------------|--------------------------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| Adaptador USB               | UGREEN Adaptador USB C Hembra a USB Macho 3                           | 1            | $199.00                  | $199.00               | [Amazon](https://a.co/d/arZqIaH)                                                                                                            |
+| Arduino                     | Arduino UNO WiFi Rev2                                                 | 1            | $1,268.10                | $1,268.10             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=ABX00021)                                                                      |
+| Cable para cámara Raspberry | OKY9053                                                               | 1            | $27.59                   | $27.59                | [AG Electrónica](https://www.agelectronica.com/detalle?busca=OKY9053)                                                                       |
+| Carcasa                     | Carcasa ABS para Raspberry Pi 4 con ventilador y disipadores de calor | 1            | $188.00                  | $188.00               | [330ohms](https://www.330ohms.com/collections/carcasas-rpi/products/carcasa-abs-para-raspberry-pi-4-con-ventilador-y-disipadores-de-calor)  |
+| Fisheye                     | 5MP OV5647 Wide Angle Fisheye Camera                                  | 1            | $502.59                  | $502.59               | [AG Electrónica](https://www.agelectronica.com/detalle?busca=SKU10344*)                                                                     |
+| Fuente de alimentación      | DC 12 V 30 A Fuente de alimentación 360 W                             | 1            | $382.00                  | $382.00               | [Amazon](https://a.co/d/dZtxNhR)                                                                                                            |
+| Fuente para Arduino         | Aclorol 9V 1A DC Fuente de alimentación                               | 2            | $269.00                  | $538.00               | [Amazon](https://a.co/d/6nRFb6V)                                                                                                            |
+| Fuente para Raspberry       | Fuente oficial para Raspberry Pi 27W USB-C                            | 1            | $370.00                  | $370.00               | [330ohms](https://www.330ohms.com/collections/raspberry-pi-5/products/fuente-oficial-para-raspberry-pi-27w-usb-c?src=raspberrypi)           |
+| MAX31856                    | PWFusion SEN-30007 MAX31856                                           | 1            | ≈ $1,493.10              | ≈ $1,493.10           | [Playing With Fusion](https://www.playingwithfusion.com/productview.php?catid=0&pdid=71)                                                    |
+| MAX31865                    | Adafruit PT1000 RTD-MAX31865                                          | 1            | ≈ $269.10                | ≈ $269.10             | [Adafruit](https://www.adafruit.com/product/3648)                                                                                           |
+| Micro SD                    | Memoria Microsd Kingston Canvas Go Plus 64gb U3 V30 A2 170mb          | 1            | $194.00                  | $194.00               | [Mercado Libre](https://articulo.mercadolibre.com.mx/MLM-1509193544-memoria-microsd-kingston-canvas-go-plus-64gb-u3-v30-a2-170mb-_JM)       |
+| Micrófono                   | Micrófono ambiental USB                                               | 1            | $99.00                   | $99.00                | [Steren](https://www.steren.com.mx/microfono-usb-c-de-solapa-para-celular.html)                                                             |
+| Raspberry                   | Raspberry Pi 4 Model B 8 GB                                           | 1            | $1,990.52                | $1,990.52             | [AG Electrónica](https://www.agelectronica.com/detalle?busca=RASPBERRYPI-4-MODB%25sum-8GB)                                                    |
+| SCD30                       | SCD30 Sensirion                                                       | 1            | ≈ $563.94                | ≈ $563.94             | [DigiKey](https://www.digikey.com.mx/es/products/detail/sensirion-ag/SCD30/8445334)                                                         |
+| Termopar                    | Termopar tipo T                                                       | 30 m         | $3,735.00                | $3,735.00             | [Omega](https://mx.omega.com/pptst/GG_T_TC_WIRE.html#order)                                                                                 |
+| TPF1                        | TPF1/E-20 PT1000                                                      | 1            | ≈ $1,576.60              | ≈ $1,576.60           | [FuehlerSysteme](https://www.fuehlersysteme.de/Radiation-Pendulum-Temperature-Sensor_1)                                                     |
+| Tripié                      | XXZU 210 cm soporte de luz                                            | 1            | $539.10                  | $539.10               | [Amazon](https://a.co/d/1OlLE51)                                                                                                            |
+| Wind Sensor                 | Wind Sensor Rev P6                                                    | 1            | ≈ $719.10                | ≈ $719.10             | [Modern Device](https://moderndevice.com/products/wind-sensor-rev-p)                                                                        |
+: Lista de materiales para la construcción del DTHIS-C. {#tbl-materiales .hover .sm}
+
+*Nota: Los precios no incluyen envío y pueden estar sujetos a cambios según el destino del producto.*

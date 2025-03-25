@@ -1,0 +1,349 @@
+```{python}
+#| echo: false
+import thesis_tools as tt
+```
+
+# Calibración y referenciación del DTHIS-C {#cap-calibracion}
+
+En este capítulo se detalla el proceso de calibración y referenciación del DTHIS-C. Se describen las metodologías experimentales empleadas para validar su precisión, así como las pruebas realizadas en diferentes escenarios. Además, se presentan y analizan los resultados obtenidos en términos de variables térmicas, lumínicas y acústicas, ofreciendo una evaluación integral de su desempeño. Finalmente, se explican las herramientas y procedimientos para la recuperación, visualización e interpretación de los datos recopilados.
+
+## Metodología experimental {#sec-metodologia}
+
+Dado que cada sensor mide diferentes variables físicas y sus mediciones se obtienen de manera distinta, se han diseñado campañas de calibración y referenciación adaptadas a las características propias de cada instrumento. Este proceso responde a la necesidad de garantizar la exactitud, confiabilidad y trazabilidad de los datos recopilados.
+
+La metodología experimental se basa en obtener mediciones precisas que permitan validar el desempeño del dispositivo en condiciones reales. Para ello, se definieron procedimientos apoyados en instrumentos de referencia certificados, lo que facilita la detección y corrección de desviaciones inherentes a cada sensor, asegurando resultados consistentes tanto en condiciones controladas como en situaciones de campo.
+
+La aplicación de estos procedimientos refuerza la integridad de la adquisición de datos y favorece una optimización continua del sistema, facilitando su integración en diversos contextos de aplicación.
+
+A continuación se muestra en la @tbl-instrumentos la lista de los sensores y sus respectivos instrumentos de referencia utilizados para la calibración y referenciación:
+
+| **Variable**                          | **Sensor**                            | **Instrumento**                 | **Procedimiento**     |
+|---------------------------------------|---------------------------------------|---------------------------------|-----------------------|
+| Temperatura ambiente                  | Termopar tipo T                       | AMETEK Jofra PTC-155            | Calibración           |
+| Temperatura radiante                  | TPF1/E-20 PT1000                      | Quest Technologies QUESTemp 36  | Calibración           |
+| Velocidad del viento                  | Wind Sensor Rev P6                    | Gill Instruments WindMaster     | Calibración           |
+| CO<sub>2</sub> y humedad relativa     | SCD30 Sensirion                       | Fluke 975 AirMeter              | Referenciación        |
+| Sonido                                | Micrófono ambiental USB               | TES-1356 Sound Level Calibrator | Calibración           |
+| Luminancia                            | 5MP OV5647 Wide Angle Fisheye Camera  | No aplica                       | No aplica             |
+: Instrumentos de calibración y referenciación para los sensores que consitutyen al DTHIS-C. {#tbl-instrumentos .hover .sm}
+
+## Obtención y visualización de los datos {#sec-obtencion}
+
+#### ThingsBoard
+
+ThingsBoard es una plataforma IoT de código abierto diseñada para la recopilación, procesamiento, visualización y gestión de dispositivos, @thingsboard. En el contexto de esta tesis, se utiliza para transmitir en tiempo real las mediciones obtenidas de los distintos sensores del DTHIS-C hacia un servidor central, donde se alojan y resguardan los datos en una base de datos dedicada a Internet de las Cosas.
+
+Según la documentación oficial de ThingsBoard, la plataforma admite la conectividad mediante protocolos estándares como MQTT, CoAP y HTTP, lo que facilita la integración de diversos dispositivos y sensores, @thingsboard. En este caso, las mediciones de los sensores se envían desde el DTHIS-C a ThingsBoard, que actúa como un repositorio seguro y escalable. La plataforma no solo almacena la información, sino que también permite la creación de dashboards interactivos y personalizables que posibilitan la visualización en tiempo real de las mediciones. Esto es fundamental durante las campañas de medición, ya que permite monitorizar de forma inmediata el desempeño de los sensores, identificar tendencias y detectar posibles anomalías en los datos.
+
+Para obtener datos directamente desde ThingsBoard, se desarrolló una función en el paquete instalable de Python denominado `iertools`, creado por el Grupo de Energía en Edificaciones. Este paquete se puede instalar desde la consola de su ordenador (previamente contando con una distribución de Python instalada) mediante el siguiente comando:
+```{python}
+#| eval: false
+pip install git+https://github.com/AltamarMx/iertools.git
+```
+
+Es importante señalar que, antes de proceder a la obtención y descarga de datos desde ThingsBoard, es necesario crear un archivo de configuración con extensión `.ini`. Un archivo .ini es un documento de texto plano que almacena parámetros y opciones en formato clave-valor, y se utiliza para definir la configuración necesaria (como la URL del servidor y el token de acceso) que el paquete `iertools` requiere para conectarse a ThingsBoard.
+
+A continuación, se presenta un ejemplo de cómo estructurar dicho archivo:
+```{python}
+#| eval: false
+[dthisc]
+token     = token
+device_id = device_id
+tenant    = lata_testing@ier.unam.mx
+password  = password
+host      = tb.ier.unam.mx
+port      = 8080 
+```
+
+Una vez instalado `iertools`, es posible recuperar datos desde un script o notebook. El siguiente fragmento de código ilustra cómo obtener los datos de medición de los termopares del DTHIS-C a partir de ThingsBoard; este ejemplo puede ser ajustado según las necesidades específicas, permitiendo extraer distintos conjuntos de datos o modificar parámetros conforme a los requerimientos del estudio:
+```{python}
+#| code-fold: true
+#| code-overflow: wrap
+from iertools.tb import *
+import warnings
+warnings.filterwarnings("ignore")
+
+fecha1 = parse("2024-11-22") 
+fecha2 = fecha1 + pd.Timedelta("1D")
+
+tmp = TB(config_file='data/config.ini', device_name='dthisc')
+sensores = ["TEMP1", "TEMP2", "TEMP3", "TEMP4"]
+
+data = pd.concat([tmp.get_df(key=sensor,start_datetime=fecha1,end_datetime=fecha2) for sensor in sensores],axis=1)
+
+hora_inicio = "2024-11-22 15:42"
+hora_fin = "2024-11-22 17:09"
+
+data = data[(data.index >= hora_inicio) & (data.index <= hora_fin)]
+data.sort_index(inplace=True)
+
+data.head(10)
+```
+
+Finalmente, para almacenar los datos recuperados, se puede utilizar el siguiente comando para exportarlos a un archivo CSV:
+```{python}
+#| eval: false
+data.to_csv("ruta/de/su/preferencia.csv")
+```
+
+#### Temperatura ambiente
+
+En esta campaña de calibración se utilizó el AMETEK Jofra PTC-155 (@fig-AMETEK), un calibrador de temperatura que permite evaluar sensores en un rango de -25°C a 155°C. 
+
+![AMETEK Jofra PTC-155.](/images/ametek.jpg){#fig-AMETEK width="25%"}
+
+El instrumento mencionado se utilizó junto a cuatro termopares tipo T, estableciendo cinco puntos de referencia de temperatura en el intervalo de 10°C a 50°C.
+
+Para cada punto de calibración, se esperó aproximadamente 5 minutos para que el calibrador alcanzara y estabilizara la temperatura deseada. Una vez estabilizada, se registraron los datos durante 10 minutos antes de proceder al siguiente punto. Los resultados obtenidos en esta campaña se pueden observar en la @fig-termopares.
+
+```{python}
+#| echo: false
+#| label: fig-termopares
+#| fig-cap: "Rangos de temperatura utilizados para la calibración de los termopares."
+tt.scatter_plot('data/temp.parquet', ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4'], 'Tiempo', 'Temperatura (°C)')
+```
+
+#### Temperatura radiante
+
+Para la medición de la temperatura radiante se empleó el QUESTemp 36 (@fig-quest), un confortímetro diseñado para evaluar el estrés térmico en el ambiente, ya que permite medir la temperatura radiante, la temperatura del aire y la humedad relativa.
+
+![Quest Technologies QUESTemp 36.](/images/quest.jpeg){#fig-quest width="30%"}
+
+El experimento consistió en ubicar el QUESTemp 36 dentro de una caja diseñada para limitar la incidencia directa de la radiación solar, lo que minimizó la influencia de la radiación externa y redujo el efecto de la convección forzada del viento, permitiendo así que la medición se centrara en la radiación térmica del entorno inmediato. Paralelamente, se colocó el sensor TPF1 en condiciones similares para garantizar que ambos dispositivos registraran la temperatura con la menor perturbación posible. Se tomaron datos cada minuto durante 23 horas. Los datos obtenidos se pueden observar en la @fig-radiante.
+
+```{python}
+#| echo: false
+#| label: fig-radiante
+#| fig-cap: "Intervalo de medición del QUESTemp 36 y el TPF1 para su calibración."
+tt.scatter_plot('data/trad.parquet',
+                columns=['temp', 'globo'],
+                x_label='Tiempo',
+                y_label='Temperatura (°C)',
+                legend_labels=['TPF1', 'QUESTemp 36'])
+```
+
+#### Velocidad del viento
+
+El WindMaster de Gill Instruments (@fig-wind) es un anemómetro ultrasónico de alta precisión diseñado para medir la velocidad y dirección del viento en tres direcciones (u, v, w). En esta campaña se utilizó como instrumento de referencia para la calibración del Wind Sensor.
+
+![Gill Instruments WindMaster.](/images/windmaster.jpg){#fig-wind width="35%"}
+
+La campaña de calibración tuvo una duración de 1 hora, durante la cual se capturaron datos a una frecuencia de 1 muestra por segundo. Aprovechando las dimensiones del WindSensor (2230 x 680 mm), se posicionó estratégicamente en la parte superior central del WindMaster, previa verificación de que su presencia no interfiriera con las mediciones del anemómetro. En un entorno abierto, el WindSensor registró datos de voltaje, los cuales se utilizaron junto con los datos de velocidad del viento obtenidos del WindMaster para desarrollar una ecuación de calibración que permitiera convertir el voltaje medido a m/s. Los resultados de la campaña se pueden visualizar en la @fig-viento.
+
+```{python}
+#| echo: false
+#| label: fig-viento
+#| fig-cap: "Comparación de la velocidad del viento registrada por el WindMaster y el voltaje del Wind Sensor para su calibración."
+tt.scatter_plot('data/ws.parquet',
+                columns=['ws', 'voltage'],
+                x_label='Tiempo',
+                y_label='Voltaje (V)<br>Velocidad de viento (m/s)',
+                legend_labels=['WindMaster', 'Wind Sensor'])
+```
+
+#### Humedad relativa y CO<sub>2</sub>
+
+Para la campaña de referenciación del SCD30, el instrumento utilizado fue el Fluke 975 AirMeter (@fig-fluke), este es un instrumento portátil de diagnóstico de la calidad del aire interior. Este dispositivo mide simultáneamente temperatura, humedad relativa, dióxido de carbono (CO<sub>2</sub>) y monóxido de carbono (CO).
+
+![Fluke 975 AirMeter.](/images/fluke.png){#fig-fluke width="15%"}
+
+La campaña consistió en realizar mediciones simultáneas del Fluke 975 AirMeter y del SCD30 durante un período total de 7 horas y 45 minutos, registrando una muestra cada minuto. Para minimizar posibles interferencias, ambos dispositivos se ubicaron lo más próximos posible y se instalaron en una zona aislada de un espacio cerrado, de modo que la presencia humana no afectara los resultados. Los datos obtenidos se muestran en la @fig-calidad.
+
+```{python}
+#| echo: false
+#| label: fig-calidad
+#| fig-cap: "Comparación de las mediciones del Fluke y el SCD30 durante su campaña de referenciación."
+group_dict = {
+    'Humedad relativa': ('HR', 'HR_F'),
+    'CO<sub>2</sub>': ('CO2', 'CO2_F'),
+    'Temperatura': ('T', 'T_F')
+}
+
+y_label = {
+    'Humedad relativa': 'Humedad relativa (%)',
+    'CO<sub>2</sub>': 'CO<sub>2</sub> (ppm)',
+    'Temperatura': 'Temperatura (°C)'
+}
+
+legend_labels = {
+    'Humedad relativa': ('SCD30', 'Fluke'),
+    'CO<sub>2</sub>': ('SCD30', 'Fluke'),
+    'Temperatura': ('SCD30', 'Fluke')
+}
+
+tt.compare_plot('data/scd30.parquet',
+                group_dict,
+                y_label=y_label,
+                legend_labels=legend_labels)
+```
+
+#### Sonido
+
+![TES-1356 Sound Level Calibrator.](/images/tes.jpg){#fig-tes width="20%"}
+
+#### Iluminancia
+
+![Mapa de iluminancia generado con una cámara 5MP OV5647 y el software Radiance.](/images/ilum.jpg){#fig-ilum width="75%"}
+
+## Análisis e interpretación de resultados {#sec-analisis}
+
+#### Temperatura ambiente
+
+Para la calibración de los termopares, se utilizó Python junto con la librería `scikit-learn`, una herramienta utilizada para el análisis y modelado de datos. En particular, se aplicó un ajuste por regresión lineal a los datos obtenidos durante la campaña, utilizando los siguientes rangos de tiempo y sus respectivas temperaturas de referencia (@tbl-temperaturas).
+
+| Temperatura (°C)| Inicio    | Final     |
+|-----------------|-----------|-----------|
+| 10              | 15:44:01  | 15:52:31  |
+| 20              | 16:02:06  | 16:11:52  |
+| 30              | 16:20:44  | 16:28:58  |
+| 40              | 16:39:23  | 16:49:57  |
+| 50              | 16:58:24  | 17:08:25  |
+:Temperaturas de referencia y rangos de tiempo. {#tbl-temperaturas .hover .sm}
+
+El ajuste por regresión lineal es una técnica estadística utilizada para modelar la relación entre una variable dependiente y una o más variables independientes. En este caso, la variable dependiente es la temperatura de referencia ($T_{ref}$), mientras que las variables independientes corresponden a las lecturas obtenidas por cada termopar. El modelo lineal (@eq-lineal) se expresa de la forma:
+
+$$
+T_{ref} = m \cdot T_{sensor} + b
+$${#eq-lineal}
+
+donde $m$ es la pendiente y $b$ es la ordenada al origen. La regresión lineal permite minimizar el error entre las mediciones del sensor y los valores de referencia, obteniendo ecuaciones de calibración (@eq-cal-termopares) que corrigen las lecturas de cada termopar.
+
+$$
+\begin{align}
+T_{ref} &= 1.0450 \cdot TEMP1 - 2.4327 \\
+T_{ref} &= 1.0602 \cdot TEMP2 - 2.8632 \\
+T_{ref} &= 1.0814 \cdot TEMP3 - 4.4316 \\
+T_{ref} &= 1.0554 \cdot TEMP4 - 3.9348
+\end{align}
+$${#eq-cal-termopares}
+
+Al aplicar estas ecuaciones a los datos obtenidos en la campaña, se obtienen los valores corregidos de temperatura para cada termopar. Los resultados de la calibración pueden observarse en la @fig-ctermopares.
+
+```{python}
+#| echo: false
+#| label: fig-ctermopares
+#| fig-cap: "Resultados de las mediciones de temperatura después de aplicar la ecuación de calibración."
+time_intervals = [('15:44:01', '15:52:31', 10.),
+                  ('16:02:06', '16:11:52', 20.),
+                  ('16:20:44', '16:28:58', 30.),
+                  ('16:39:23', '16:49:57', 40.),
+                  ('16:58:24', '17:08:25', 50.)]
+
+columns = ['TEMP1', 'TEMP2', 'TEMP3', 'TEMP4']
+
+tt.linear_reg_plot('data/temp.parquet', columns, time_intervals)
+```
+
+#### Temperatura radiante
+
+Para la calibración del TPF1/E-20, se aplicó un ajuste por regresión lineal utilizando la librería `scikit-learn` de Python, a partir de los datos de temperatura registrados simultáneamente por el QUESTemp 36 y el sensor TPF1/E-20. Empleando el mismo modelo lineal descrito en la @eq-lineal, se derivó la siguiente ecuación de calibración (@eq-cal-radiante):
+
+$$
+T_{ref} = 1.0582 \cdot temp - 1.5553
+$${#eq-cal-radiante}
+
+Al aplicar esta ecuación a los datos obtenidos durante la campaña, se calcularon los valores corregidos para el TPF1/E-20. Los resultados de esta calibración se pueden observar en la @fig-cradiante.
+
+```{python}
+#| echo: false
+#| label: fig-cradiante
+#| fig-cap: "Comparación de las mediciones del QUESTemp 36, el TPF1/E-20 y sus datos tras la calibración."
+tt.scatter_plot('data/cal_trad.parquet',
+                columns=['temp', 'calibrated', 'globo'],
+                x_label='Tiempo',
+                y_label='Temperatura (°C)',
+                legend_labels=['TPF1/E-20', 'TPF1/E-20 (Calibrado)' ,'QUESTemp 36'])
+```
+
+En la tabla @tbl-error-rad se observa que, antes de calibrar, el sensor TPF1/E-20 presentaba un error medio de -0.1124, lo que indica un sesgo sistemático que tendía a subestimar la temperatura en comparación con el QUESTemp 36. Tras la aplicación de la ecuación de calibración, el error medio se reduce drásticamente a 4.8948e-15, un valor prácticamente nulo que evidencia la eliminación casi total del sesgo sistemático. Paralelamente, el error medio absoluto disminuye de 0.1518 a 0.0344, lo que implica una mejora significativa en la precisión global de las mediciones. Estos resultados confirman que el proceso de calibración ha corregido eficazmente tanto el sesgo como la dispersión de los datos, permitiendo obtener mediciones de temperatura de alta fiabilidad y precisión, estrechamente alineadas con los valores de referencia del QUESTemp 36.
+
+| Fase                | Error medio  | Error medio absoluto |
+|---------------------|--------------|----------------------|
+| Antes de calibrar   | -0.1124      | 0.1518               |
+| Después de calibrar | 4.8948e-15   | 0.0344               |
+: Error medio y error medio absoluto antes y después de la calibración. {#tbl-error-rad .hover .sm}
+
+#### Velocidad del viento
+
+Durante la calibración del Wind Sensor se siguió la metodología proporcionada por el fabricante @windsensor en su blog oficial. Según esta fuente, la relación entre la velocidad del viento (WS), el voltaje corregido y la temperatura sigue una ley de potencia descrita por la siguiente ecuación (@eq-potencia):
+
+$$
+WS = a \cdot \text{voltaje}^b \cdot \text{temp}^c
+$${#eq-potencia}
+
+Adicionalmente, se identificó un error sistemático en las lecturas de voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor registraba un desfase de 1.1621 V. Este error se corrigió restando 1.1621 V a cada medición, de modo que el voltaje empleado en el análisis reflejara únicamente la contribución del viento.
+
+Para facilitar el ajuste mediante técnicas de regresión, se aplicó una transformación logarítmica a ambos lados de la ecuación, lo que permitió convertir el modelo en una forma lineal (@eq-potencia-ln):
+
+$$
+\ln(WS) = \ln(a) + b \cdot \ln(\text{voltaje}) + c \cdot \ln(\text{temp})
+$${#eq-potencia-ln}
+
+Esta transformación es crucial, ya que permite emplear técnicas de regresión lineal para estimar los parámetros $ln(a)$, $b$ y $c$ a partir de los datos experimentales. Una vez obtenidos, se recupera el parámetro $a$ mediante la función exponencial $(a = exp(ln(a)))$ y se formula la ecuación de calibración en su forma original. En este dominio lineal, se utilizó la librería `scikit-learn` de Python para estimar los parámetros del modelo.
+
+Adicionalmente, se identificó un error sistemático en las lecturas de voltaje: en condiciones de viento nulo (0 m/s), el Wind Sensor registraba un desfase de 1.1621 V. Este error se corrigió restando 1.1621 V a cada medición, de modo que el voltaje empleado en el análisis reflejara únicamente la contribución del viento.
+
+Para el caso elegido, correspondiente a un remuestreo de 10 segundos, el proceso de regresión lineal en el dominio logarítmico produjo la siguiente ecuación de calibración (@eq-cal-viento):
+
+$$
+WS = 26.3431 \cdot \text{voltage}^{1.4273} \cdot \text{temp}^{-0.7631}
+$${#eq-cal-viento}
+
+Esta ecuación se emplea para convertir las mediciones de voltaje (tras aplicar la corrección) y de temperatura en valores precisos de velocidad del viento (m/s).
+
+El coeficiente de correlación obtenido tras aplicar el modelo es un indicador de la calidad del ajuste. Valores de correlación cercanos a 1 implican una excelente concordancia entre las mediciones del Wind Sensor (tras la calibración) y las obtenidas con el WindMaster, lo que confirma que el modelo captura de manera adecuada la variabilidad de los datos. En la @tbl-corr-viento se resumen los coeficientes de correlación para los diferentes intervalos de remuestreo.
+
+| Remuestreo   | Coeficiente de correlación |
+|--------------|----------------------------|
+| 3 segundos   | 0.7622                     |
+| 5 segundos   | 0.8079                     |
+| 10 segundos  | 0.8637                     |
+: Coeficientes de correlación para los distinto remuestreos. {#tbl-corr-viento .hover .sm}
+
+El aumento progresivo en el coeficiente de correlación, alcanzando 0.8637 para un remuestreo de 10 segundos, indica que el modelo de calibración y la corrección del desfase mejoran significativamente la consistencia de las mediciones del Wind Sensor con respecto al WindMaster. Estos hallazgos validan la eficacia del procedimiento de calibración y pueden observarse en la @fig-cviento.
+
+```{python}
+#| echo: false
+#| label: fig-cviento
+#| fig-cap: "Comparación de las mediciones de velocidad del viento registradas por el WindMaster y el Wind Sensor tras su calibración."
+tt.scatter_plot('data/cal_ws.parquet',
+                columns=['ws', '10s'],
+                x_label='Tiempo',
+                y_label='Velocidad de viento (m/s)',
+                legend_labels=['WindMaster', 'Wind Sensor'])
+```
+
+#### Humedad relativa y CO<sub>2</sub>
+
+Para esta campaña de referenciación, se compararon directamente los datos de medición obtenidos por el SCD30 y el Fluke 975 AirMeter, dado que el SCD30 se calibra de forma independiente. Se realizó el cálculo de errores, en particular el error medio y el error medio absoluto, para evaluar la discrepancia entre las mediciones de ambos instrumentos. Estos errores permiten determinar si existe algún sesgo sistemático en las lecturas del SCD30 respecto al Fluke.
+
+El error medio se obtiene al calcular la diferencia promedio entre las mediciones del SCD30 y las del Fluke. Un valor negativo indica que, en promedio, el SCD30 tiende a subestimar la variable, mientras que un valor positivo indica una sobreestimación. El error medio absoluto cuantifica la magnitud promedio del error sin considerar el signo, ofreciendo una medida de la precisión global de las mediciones.
+
+La @tbl-error-calidad resume los resultados obtenidos para cada variable:
+
+| Variable            | Error medio  | Error medio absoluto |
+|---------------------|--------------|----------------------|
+| Humedad relativa    | -2.1681      | 2.1681               |
+| CO<sub>2</sub>      | 9.6543       | 13.1565              |
+| Temperatura         | 0.8853       | 0.8853               |
+: Error medio y error medio absoluto para cada variable del SCD30 con respecto al Fluke. {#tbl-error-calidad .hover .sm}
+
+La tabla indica que, para la humedad relativa, el SCD30 subestima en promedio 2.1681 unidades respecto al Fluke, mientras que para la concentración de CO<sub>2</sub> se observa una sobreestimación de 9.6543 unidades en promedio, con un error medio absoluto mayor que su error medio, lo que sugiere una mayor dispersión en las mediciones. En el caso de la temperatura, la discrepancia es menor, con un error medio de 0.8853.
+
+La correlación entre las mediciones de ambos instrumentos se visualiza en la @fig-ccalidad, lo que respalda la evaluación de precisión y consistencia. Un coeficiente de correlación elevado indicaría que, a pesar de los errores sistemáticos, la tendencia de las mediciones del SCD30 sigue de cerca la del Fluke.
+
+```{python}
+#| echo: false
+#| label: fig-ccalidad
+#| fig-cap: "Correlación de las mediciones de humedad relativa, CO<sub>2</sub> y temperatura entre el Fluke y el SCD30."
+tt.dropdowns_plot(
+    filepath='data/scd30.parquet',
+    trace_labels=['Humedad relativa (%)','CO<sub>2</sub> (ppm)', 'Temperatura (°C)'],
+    x_cols=['HR', 'CO2', 'T'],
+    y_cols=['HR_F', 'CO2_F', 'T_F'],
+    x_axis_title='SCD30',
+    y_axis_title='Fluke'
+)
+```
+
+#### Sonido

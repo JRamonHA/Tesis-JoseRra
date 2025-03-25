@@ -1,0 +1,55 @@
+# Introducción al confort en espacios interiores y el desarrollo del DTHIS-C {#cap-intro}
+
+En este capítulo se examina la importancia del confort en espacios interiores, de acuerdo con el ANSI/ASHRAE Standard 55, que establece las condiciones térmicas necesarias para el bienestar de los ocupantes. Se analizan modelos adaptativos de confort que explican cómo varían las expectativas de los usuarios según el clima y el contexto, aportando claves esenciales para el diseño de entornos confortables y eficientes. Asimismo, se introduce el Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña (DTHIS-C), una herramienta portátil que permite la medición integral de variables ambientales para evaluar el confort térmico, acústico, lumínico, y la calidad del aire.
+
+## Importancia del confort en espacios interiores {#sec-importancia}
+
+#### Confort térmico, acústico, lumínico y calidad del aire
+
+El confort térmico, acústico, lumínico y la calidad del aire son aspectos clave que influyen directamente en la calidad de vida, ya que afectan la salud, el bienestar y el desempeño de las personas en espacios interiores.
+
+El confort térmico, regulado por el estándar ANSI/ASHRAE 55, asegura que los ocupantes experimenten condiciones térmicas óptimas, evitando sensaciones de calor o frío extremo que pueden generar incomodidad y afectar la productividad [ASHRAE-55, -@ashrae55].
+
+El confort acústico minimiza la exposición a ruidos molestos, lo que reduce el estrés, mejora la concentración y favorece entornos tranquilos y funcionales. Un ambiente acústicamente adecuado puede prevenir problemas de salud asociados con la exposición prolongada al ruido [Panagiota Antoniadou and Agis M. Papadopoulos, -@antoniadou].
+
+El confort lumínico, definido en la norma ISO EN 12464-1, garantiza condiciones de iluminación idóneas para que las personas realicen sus actividades de manera eficiente y segura, evitando la fatiga visual y contribuyendo al bienestar general [British Standard, -@light].
+
+Por último, una buena calidad del aire, conforme a la normativa ANSI/ASHRAE 62, es esencial para prevenir problemas respiratorios y mantener un ambiente saludable al controlar las concentraciones de CO<sub>2</sub> y otros contaminantes [ASHRAE-62, -@air].
+
+En las secciones @sec-termico, @sec-acustico, @sec-luminico y @sec-calidad se definen detalladamente estos conceptos y se abordan los aspectos fundamentales asociados a cada uno, junto con el análisis de su impacto en la calidad de vida y el bienestar de los ocupantes. Esta base teórica respalda la importancia de optimizar dichas condiciones en el diseño de entornos interiores saludables y habitables.
+
+#### Importancia del DTHIS-C
+
+El DTHIS-C es un equipo portátil desarrollado para medir, de forma simultánea y en tiempo real, diversas variables físicas que inciden directamente en el confort de los espacios interiores. Las variables evaluadas son las siguientes:
+
+- Temperatura ambiente
+- Temperatura radiante
+- Humedad relativa
+- Velocidad del viento
+- Concentración de CO<sub>2</sub>
+- Luminancia
+- Niveles de sonido
+
+La versatilidad del DTHIS-C radica en su capacidad para integrar múltiples sensores en un solo dispositivo, lo que facilita el análisis y la monitorización continua de las variables ambientales. Su desarrollo se basa en tecnologías de bajo costo y alto rendimiento, posicionándolo como una alternativa viable a los equipos de medición tradicionales, que suelen ser más costosos y exclusivos. Esta herramienta podría contribuir a la optimización del diseño de entornos habitables mediante la recopilación de datos precisos y confiables.
+
+## Modelos de confort adaptativos {#sec-adaptativos}
+
+## Modelos de confort estadísticos {#sec-estadisticos}
+
+## Objetivos {#sec-objetivos}
+
+#### Objetivo general
+
+- Desarrollar un dispositivo de confort móvil usando software y hardware libre.
+
+#### Objetivos específicos
+
+- Selección de variables a medir.
+
+- Identificación y selección de sensores apropiados.
+
+- Calibración y referenciación de los sensores seleccionados.
+
+- Propuesta de un diseño de dispositivo con integración de sensores.
+
+- Integración del dispositivo a un sistema de Internet de las Cosas (IoT).

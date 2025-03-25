@@ -1,0 +1,87 @@
+# Confort y calidad del aire en espacios interiores {#cap-confort}
+
+En este capítulo se aborda el contexto del confort en espacios cerrados, incluyendo los aspectos térmico, acústico, lumínico y la calidad del aire. Se define el concepto de confort térmico, destacando las variables físicas que lo determinan. Además, se identifican y describen los principales fenómenos asociados con el disconfort térmico, acústico y lumínico. Finalmente, se presentan los aspectos fundamentales relacionados con el confort acústico, lumínico y la calidad del aire.
+
+## Confort térmico {#sec-termico}
+
+El confort térmico se define como una condición mental que refleja la satisfacción con el entorno térmico, de acuerdo con el estándar @ashrae55.
+
+Según @djongyang, el confort térmico se alcanza cuando la temperatura corporal se mantiene dentro de rangos estrechos, la humedad en la piel es baja y el esfuerzo fisiológico para regular la temperatura es mínimo. Además, el confort no solo depende de factores ambientales, sino también de diferentes aspectos, como el tipo de vestimenta, el tipo de actividad física, cambiar de postura o ubicación, abrir una ventana, etc.
+
+## Variables físicas del confort térmico
+
+@macpherson identificó seis factores determinantes que afectan la sensación térmica en los espacios cerrados. Entre ellos, cuatro son variables físicas: temperatura del aire, velocidad del aire, humedad relativa y temperatura media radiante; y dos son variables personales: el aislamiento térmico de la ropa y el nivel de actividad física, también conocido como tasa metabólica. Estos factores constituyen la base para el análisis y predicción del confort térmico.  
+
+Acorde a @ashrae55, dichas variables se definen de la siguiente manera:  
+
+1. **Temperatura del aire**: La temperatura medida en un punto específico del aire.  
+
+2. **Velocidad del aire**: La magnitud del movimiento del aire en un punto determinado, sin considerar su dirección.  
+
+3. **Humedad**: Representa el contenido de humedad en el aire y se expresa mediante varias variables termodinámicas, como presión de vapor, temperatura de punto de rocío, temperatura de bulbo húmedo, relación de humedad y humedad relativa. Su promedio espacial y temporal se calcula de manera similar al de la temperatura del aire.  
+
+4. **Temperatura media radiante ($t_{r}$)**: La temperatura de un recinto negro y uniforme que intercambia con el ocupante la misma cantidad de calor por radiación que el entorno real. Este valor único aplica a todo el cuerpo y considera tanto la temperatura radiante media de onda larga ($t_{rlw}$) como la de onda corta ($t_{rsw}$).  
+
+5. **Aislamiento térmico de la ropa ($I_{cl}$)**: La resistencia al intercambio de calor sensible proporcionada por un conjunto de ropa, expresada en unidades de "clo". *Nota informativa*: Esta definición incluye la transferencia de calor de todo el cuerpo, incluyendo las áreas no cubiertas, como la cabeza y las manos.  
+
+6. **Tasa metabólica ($met$)**: La tasa a la que se transforma la energía química en calor y trabajo mecánico debido a las actividades metabólicas de un individuo. Se mide por unidad de área de superficie de la piel y se expresa en "met", equivalente a 58.2 W/m<sup>2</sup>, que corresponde a la energía generada por unidad de superficie de piel de una persona promedio en reposo.  
+
+## Confort acústico {#sec-acustico}
+
+El confort acústico se define como "un estado de satisfacción con las condiciones acústicas", representa el bienestar y la percepción positiva de un entorno en términos sonoros. Sin embargo, este confort es altamente subjetivo, ya que fuentes de ruido con características físicas similares pueden percibirse de manera distinta dependiendo de la persona. @antoniadou @azar 
+
+## Variables físicas del confort acústico
+
+@azar nombra dos tipos principales de ruido en los edificios:
+
+- **Ruido estructural (por impacto)**: Generado por impactos físicos o vibraciones sobre un elemento de la construcción.
+
+- **Ruido aéreo**: Transmitido a través del aire.
+
+El **nivel de presión sonora**, definido como la vibración del aire que constituye el sonido @berglund, es uno de los principales factores acústicos que influyen en el confort. Un nivel neutral de presión sonora se encuentra en un rango de 30 a 40 $dB$ @antoniadou. Para predecir el confort frente al ruido de impacto, se utiliza típicamente el nivel máximo de presión sonora ($L_{max}$), mientras que para el ruido aéreo se emplea el nivel de presión sonora equivalente durante un periodo de tiempo determinado ($L_{eq}$). @azar
+
+Asimismo @berglund, enumera ciertos factores acústicos que impactan el confort acústico:
+
+1. **Frecuencia del ruido**: Su unidad de medida son los Hertz ($Hz$) y se refiere al número de vibraciones por segundo del aire en el cual el sonido es propagado. El rango de frecuencia audible normalmente se encuentra en un rango de 20-20,000 $Hz$. 
+
+2. **Fuente del ruido**: Se mencionan diferentes fuentes, las cuales pueden ser industrial, de transporte, construcción y doméstico.
+
+3. **Duración del ruido**
+
+4. **Variación en el tiempo**: Existen variaciones de la presión sonora que suelen causar mayor disconfort auditivo. Por ejemplo, los ruidos que varían periódicamente para crear una sensación de pulsación pueden ser más molestos que el ruido continuo, las variaciones de aproximadamente 4 por segundo podrían ser más perturbadoras.
+
+## Confort lumínico {#sec-luminico}
+
+El confort lumínico se refiere a la percepción de bienestar visual en un espacio, permitiendo que las personas realicen sus actividades cotidianas de manera efectiva y cómoda bajo condiciones de iluminación adecuadas. @vasquez
+
+## Variables físicas del confort lumínico
+
+Según se describe en la norma ISO EN 12464-1 @light, la evaluación del confort lumínico puede lograrse mediante la determinación de: la luminancia y la iluminancia.
+
+1. **Luminancia**: Su unidad de medida es la candela por metro cuadrado ($cd/m^2$) y se define como la densidad de la intensidad luminosa en una dirección específica, por unidad de área proyectada en un punto determinado de una superficie real o imaginaria. @cie_lum 
+
+    Matemáticamente, se expresa como:
+
+    $L_v = \frac{I_v}{A \cdot \cos(\alpha)}$
+
+    donde ($L_v$) es la luminancia, ($I_v$) representa la intensidad luminosa en la dirección especificada, ($A$) es el área considerada, y ($\alpha$) es el ángulo entre la normal a la superficie en el punto especificado y la dirección considerada.
+
+    La luminancia cuantifica cuán brillante aparece una superficie cuando se observa desde una dirección específica, teniendo en cuenta tanto la intensidad de la luz emitida o reflejada como la geometría de la superficie. 
+
+2. **Iluminancia**: Su unidad de medida es el lux ($lx$) y se define como la densidad del flujo luminoso incidente por unidad de área en un punto de una superficie real o imaginaria. @cie_illum
+
+    Matemáticamente, se expresa como:
+
+    $E_v = \frac{\Phi_v}{A}$
+
+    donde ($E_v$) es la iluminancia, ($\Phi_v$) representa el flujo luminoso incidente, y ($A$) es el área sobre la cual incide el flujo luminoso. 
+    
+    La iluminancia cuantifica la cantidad de luz que llega a una superficie específica, considerando tanto la intensidad de la luz como el área sobre la cual se distribuye.
+
+## Calidad del aire {#sec-calidad}
+
+De acuerdo con el estándar @air, se considera que el aire interior tiene una calidad aceptable cuando "no contiene contaminantes conocidos en concentraciones nocivas según lo establecido por las autoridades competentes y la mayoría sustancial de las personas expuestas (80% o más) no expresa insatisfacción".
+
+## Variables físicas de la calidad del aire
+
+La calidad del aire interior se evalúa monitoreando la **concentración de CO<sub>2</sub>**, comparándola con los niveles exteriores (300-500 ppm). @air recomienda mantener concentraciones interiores entre 1000 y 1200 ppm para garantizar un ambiente adecuado y regular los sistemas de ventilación. Sin embargo, concentraciones superiores a 5000 ppm son peligrosas, ya que indican una ausencia total de aire fresco.
