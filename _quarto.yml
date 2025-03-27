@@ -3,6 +3,8 @@ project:
   output-dir: docs
 
 lang: es
+language:
+  title-block-author-single: "Autor"
 
 book:
   title: "Desarrollo e implementación con tecnologías libres de un dispositivo portátil para evaluar el confort térmico, lumínico y acústico en interiores"
@@ -19,7 +21,6 @@ book:
     - chapter_4.qmd
     - chapter_5.qmd
     - references.qmd
-    - anexos.qmd
 
   navbar:
     title: false

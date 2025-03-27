@@ -1,8 +1,10 @@
 # Introducción al confort en espacios interiores y el desarrollo del DTHIS-C {#cap-intro}
 
-En este capítulo se examina la importancia del confort en espacios interiores, de acuerdo con el ANSI/ASHRAE Standard 55, que establece las condiciones térmicas necesarias para el bienestar de los ocupantes. Se analizan modelos adaptativos de confort que explican cómo varían las expectativas de los usuarios según el clima y el contexto, aportando claves esenciales para el diseño de entornos confortables y eficientes. Asimismo, se introduce el Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña (DTHIS-C), una herramienta portátil que permite la medición integral de variables ambientales para evaluar el confort térmico, acústico, lumínico, y la calidad del aire.
+En este capítulo se examina la importancia del confort en espacios interiores, conforme a los lineamientos del ANSI/ASHRAE Standard 55, que define las condiciones térmicas óptimas para el bienestar de los ocupantes. Se analiza el modelo de confort PMV, que explica cómo varían las expectativas de los usuarios en función del clima y el contexto, y que ha servido como referencia para la selección de las variables ambientales que mide el Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña (DTHIS-C). Esta herramienta portátil permite evaluar el confort térmico, acústico y lumínico, así como la calidad del aire, proporcionando información clave para el diseño de entornos interiores confortables.
 
 ## Importancia del confort en espacios interiores {#sec-importancia}
+
+El confort en espacios interiores es fundamental para garantizar el bienestar y la calidad de vida de los ocupantes, ya que entornos confortables promueven percepciones positivas, mientras que condiciones inadecuadas, como niveles elevados de ruido, temperaturas y humedad inapropiadas, iluminación insuficiente, mala calidad del aire y olores desagradables, pueden generar experiencias negativas y afectar la salud a largo plazo. [Wu, Y. and Liu, Z. and Kong, Z., -@wuindoor]
 
 #### Confort térmico, acústico, lumínico y calidad del aire
 
@@ -18,7 +20,7 @@ Por último, una buena calidad del aire, conforme a la normativa ANSI/ASHRAE 62,
 
 En las secciones @sec-termico, @sec-acustico, @sec-luminico y @sec-calidad se definen detalladamente estos conceptos y se abordan los aspectos fundamentales asociados a cada uno, junto con el análisis de su impacto en la calidad de vida y el bienestar de los ocupantes. Esta base teórica respalda la importancia de optimizar dichas condiciones en el diseño de entornos interiores saludables y habitables.
 
-#### Importancia del DTHIS-C
+#### DTHIS-C
 
 El DTHIS-C es un equipo portátil desarrollado para medir, de forma simultánea y en tiempo real, diversas variables físicas que inciden directamente en el confort de los espacios interiores. Las variables evaluadas son las siguientes:
 
@@ -32,9 +34,74 @@ El DTHIS-C es un equipo portátil desarrollado para medir, de forma simultánea 
 
 La versatilidad del DTHIS-C radica en su capacidad para integrar múltiples sensores en un solo dispositivo, lo que facilita el análisis y la monitorización continua de las variables ambientales. Su desarrollo se basa en tecnologías de bajo costo y alto rendimiento, posicionándolo como una alternativa viable a los equipos de medición tradicionales, que suelen ser más costosos y exclusivos. Esta herramienta podría contribuir a la optimización del diseño de entornos habitables mediante la recopilación de datos precisos y confiables.
 
-## Modelos de confort adaptativos {#sec-adaptativos}
+## Modelo de confort PMV {#sec-modelo}
+ 
+El modelo de confort térmico PMV (Predicted Mean Vote) es una herramienta predictiva ampliamente reconocida para evaluar la sensación térmica promedio de un grupo de personas en un ambiente interior. Este modelo estima la percepción térmica en una escala que va desde -3 (frío) hasta +3 (caliente), donde 0 representa una sensación térmica neutral, considerada ideal para el confort [Fanger, P. O., -@fanger]. El PMV se fundamenta en el balance de calor del cuerpo humano y toma en cuenta seis variables principales:
 
-## Modelos de confort estadísticos {#sec-estadisticos}
+- Temperatura del aire: Temperatura ambiente del entorno.
+- Temperatura radiante media: Influencia de las superficies radiantes circundantes.
+- Velocidad del aire: Movimiento del aire en el espacio.
+- Humedad relativa: Nivel de humedad en el ambiente.
+- Tasa metabólica: Nivel de actividad física de los ocupantes.
+- Aislamiento de la ropa: Capacidad térmica de la vestimenta.
+
+Estas variables se integran en una ecuación compleja (@eq-pmv) que calcula el índice PMV, permitiendo predecir si un entorno es térmicamente confortable según las normas internacionales como ANSI/ASHRAE Standard 55 [-@ashrae55] e ISO 7730 [-@iso7730].
+
+$$
+\begin{gather}
+\text{PMV} = \left[ 0.303 \cdot \exp(-0.036 \cdot M) + 0.028 \right] \cdot \Bigg\{ (M - W) \\
+- 3.05 \times 10^{-3} \cdot \big[ 5733 - 6.99 \cdot (M - W) - P_a \big] - 0.42 \cdot \big[ (M - W) \\
+- 58.15 \big] - 1.7 \times 10^{-5} \cdot M \cdot (5867 - P_a) - 0.0014 \cdot M \cdot (34 - t_a) \\
+- 3.96 \times 10^{-8} \cdot f_{cl} \cdot \big[ (t_{cl} + 273)^4 - (t_r + 273)^4 \big] \\
+- f_{cl} \cdot h_c \cdot (t_{cl} - t_a) \Bigg\} 
+\end{gather}
+$$ {#eq-pmv}
+
+La determinación de las variables intermedias que describen el intercambio de calor entre el cuerpo y su entorno se realiza mediante las ecuaciones @eq-tcl, @eq-hc, @eq-fcl y @eq-var, las cuales proporcionan los parámetros necesarios para evaluar el balance térmico y, en consecuencia, calcular el índice PMV.
+
+$$
+\begin{gather}
+t_{cl} = 35.7 - 0.028 \cdot (M - W) - I_{cl} \cdot \Bigg\{ 3.96 \times 10^{-8} \cdot f_{cl} \cdot \big[(t_{cl} + 273)^4 \\
+ - (\bar{t}_r + 273)^4\big] + f_{cl} \cdot h_c \cdot (t_{cl} - t_a) \Bigg\}
+\end{gather}
+$$ {#eq-tcl}
+
+$$
+h_c = 
+\begin{cases} 
+{2.38 \cdot |t_{cl} - t_a|^{0.25}} & \text{si } 2.38 \cdot |t_{cl} - t_a|^{0.25} > 12.1 \cdot \sqrt{v_{ar}} \\
+12.1 \cdot \sqrt{v_{ar}} & \text{si } 2.38 \cdot |t_{cl} - t_a|^{0.25} < 12.1 \cdot \sqrt{v_{ar}}
+\end{cases}
+$$ {#eq-hc}
+
+$$
+f_{cl} =
+\begin{cases} 
+1.00 + 1.290 \cdot I_{cl} & \text{si } I_{cl} \leq 0.078 \\
+1.00 + 0.645 \cdot I_{cl} & \text{si } I_{cl} > 0.078
+\end{cases}
+$$ {#eq-fcl}
+
+$$
+v_{ar} = v_{air} + 0.3 \cdot (M - 1)
+$$ {#eq-var}
+
+donde:
+
+$M$  :  Tasa metabólica ($W/m^2$)  
+$W$  :  Trabajo mecánico externo ($W/m^2$)  
+$I_{cl}$  :  Aislamiento térmico de la ropa ($m^2 \cdot °C/W$)  
+$f_{cl}$  :  Factor de cobertura de la ropa (sin unidad)  
+$t_a$  :  Temperatura del aire (°C)  
+$\bar{t}_r$  :  Temperatura media radiante (°C)  
+$p_a$  :  Presión parcial del vapor de agua (Pa)  
+$v_{ar}$  :  Velocidad relativa del aire (m/s)  
+$v_{air}$  :  Velocidad del aire (m/s)  
+$h_c$  :  Coeficiente de transferencia de calor por convección ($W/m^2 \cdot °C$)  
+$t_{cl}$  :  Temperatura de la superficie de la ropa (°C)  
+
+#### Relevancia del modelo PMV en el DTHIS-C
+El modelo PMV es fundamental en el diseño de espacios interiores confortables y eficientes, ya que proporciona un marco cuantitativo para evaluar cómo las condiciones ambientales y personales afectan la percepción térmica de los ocupantes. Su adopción en estándares como ASHRAE 55 lo posiciona como una referencia clave para el diseño de sistemas de calefacción, ventilación y aire acondicionado (HVAC). En el contexto de esta tesis, el PMV sirve como base teórica para comprender cómo optimizar las condiciones térmicas en entornos habitables, alineándose con el objetivo de garantizar el bienestar y la calidad de vida de los usuarios.
 
 ## Objetivos {#sec-objetivos}
 

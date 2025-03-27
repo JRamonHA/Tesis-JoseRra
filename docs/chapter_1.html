@@ -96,6 +96,35 @@ div.csl-indent {
   });
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -177,12 +206,6 @@ div.csl-indent {
  <span class="menu-text">Bibliografía</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./anexos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Anexos</span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -196,11 +219,13 @@ div.csl-indent {
   <li><a href="#sec-importancia" id="toc-sec-importancia" class="nav-link active" data-scroll-target="#sec-importancia"><span class="header-section-number">1.1</span> Importancia del confort en espacios interiores</a>
   <ul>
   <li><a href="#confort-térmico-acústico-lumínico-y-calidad-del-aire" id="toc-confort-térmico-acústico-lumínico-y-calidad-del-aire" class="nav-link" data-scroll-target="#confort-térmico-acústico-lumínico-y-calidad-del-aire">Confort térmico, acústico, lumínico y calidad del aire</a></li>
-  <li><a href="#importancia-del-dthis-c" id="toc-importancia-del-dthis-c" class="nav-link" data-scroll-target="#importancia-del-dthis-c">Importancia del DTHIS-C</a></li>
+  <li><a href="#dthis-c" id="toc-dthis-c" class="nav-link" data-scroll-target="#dthis-c">DTHIS-C</a></li>
   </ul></li>
-  <li><a href="#sec-adaptativos" id="toc-sec-adaptativos" class="nav-link" data-scroll-target="#sec-adaptativos"><span class="header-section-number">1.2</span> Modelos de confort adaptativos</a></li>
-  <li><a href="#sec-estadisticos" id="toc-sec-estadisticos" class="nav-link" data-scroll-target="#sec-estadisticos"><span class="header-section-number">1.3</span> Modelos de confort estadísticos</a></li>
-  <li><a href="#sec-objetivos" id="toc-sec-objetivos" class="nav-link" data-scroll-target="#sec-objetivos"><span class="header-section-number">1.4</span> Objetivos</a>
+  <li><a href="#sec-modelo" id="toc-sec-modelo" class="nav-link" data-scroll-target="#sec-modelo"><span class="header-section-number">1.2</span> Modelo de confort PMV</a>
+  <ul>
+  <li><a href="#relevancia-del-modelo-pmv-en-el-dthis-c" id="toc-relevancia-del-modelo-pmv-en-el-dthis-c" class="nav-link" data-scroll-target="#relevancia-del-modelo-pmv-en-el-dthis-c">Relevancia del modelo PMV en el DTHIS-C</a></li>
+  </ul></li>
+  <li><a href="#sec-objetivos" id="toc-sec-objetivos" class="nav-link" data-scroll-target="#sec-objetivos"><span class="header-section-number">1.3</span> Objetivos</a>
   <ul>
   <li><a href="#objetivo-general" id="toc-objetivo-general" class="nav-link" data-scroll-target="#objetivo-general">Objetivo general</a></li>
   <li><a href="#objetivos-específicos" id="toc-objetivos-específicos" class="nav-link" data-scroll-target="#objetivos-específicos">Objetivos específicos</a></li>
@@ -230,9 +255,10 @@ div.csl-indent {
 </header>
 
 
-<p>En este capítulo se examina la importancia del confort en espacios interiores, de acuerdo con el ANSI/ASHRAE Standard 55, que establece las condiciones térmicas necesarias para el bienestar de los ocupantes. Se analizan modelos adaptativos de confort que explican cómo varían las expectativas de los usuarios según el clima y el contexto, aportando claves esenciales para el diseño de entornos confortables y eficientes. Asimismo, se introduce el Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña (DTHIS-C), una herramienta portátil que permite la medición integral de variables ambientales para evaluar el confort térmico, acústico, lumínico, y la calidad del aire.</p>
+<p>En este capítulo se examina la importancia del confort en espacios interiores, conforme a los lineamientos del ANSI/ASHRAE Standard 55, que define las condiciones térmicas óptimas para el bienestar de los ocupantes. Se analiza el modelo de confort PMV, que explica cómo varían las expectativas de los usuarios en función del clima y el contexto, y que ha servido como referencia para la selección de las variables ambientales que mide el Dispositivo de Temperatura, Humedad, Iluminación y Sonido de Campaña (DTHIS-C). Esta herramienta portátil permite evaluar el confort térmico, acústico y lumínico, así como la calidad del aire, proporcionando información clave para el diseño de entornos interiores confortables.</p>
 <section id="sec-importancia" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="sec-importancia"><span class="header-section-number">1.1</span> Importancia del confort en espacios interiores</h2>
+<p>El confort en espacios interiores es fundamental para garantizar el bienestar y la calidad de vida de los ocupantes, ya que entornos confortables promueven percepciones positivas, mientras que condiciones inadecuadas, como niveles elevados de ruido, temperaturas y humedad inapropiadas, iluminación insuficiente, mala calidad del aire y olores desagradables, pueden generar experiencias negativas y afectar la salud a largo plazo. <span class="citation" data-cites="wuindoor">(Wu, Y. and Liu, Z. and Kong, Z., <a href="references.html#ref-wuindoor" role="doc-biblioref">2023</a>)</span></p>
 <section id="confort-térmico-acústico-lumínico-y-calidad-del-aire" class="level4">
 <h4 class="anchored" data-anchor-id="confort-térmico-acústico-lumínico-y-calidad-del-aire">Confort térmico, acústico, lumínico y calidad del aire</h4>
 <p>El confort térmico, acústico, lumínico y la calidad del aire son aspectos clave que influyen directamente en la calidad de vida, ya que afectan la salud, el bienestar y el desempeño de las personas en espacios interiores.</p>
@@ -242,8 +268,8 @@ div.csl-indent {
 <p>Por último, una buena calidad del aire, conforme a la normativa ANSI/ASHRAE 62, es esencial para prevenir problemas respiratorios y mantener un ambiente saludable al controlar las concentraciones de CO<sub>2</sub> y otros contaminantes <span class="citation" data-cites="air">(ASHRAE-62, <a href="references.html#ref-air" role="doc-biblioref">2001</a>)</span>.</p>
 <p>En las secciones <a href="chapter_2.html#sec-termico" class="quarto-xref"><span>Sección 2.1</span></a>, <a href="chapter_2.html#sec-acustico" class="quarto-xref"><span>Sección 2.3</span></a>, <a href="chapter_2.html#sec-luminico" class="quarto-xref"><span>Sección 2.5</span></a> y <a href="chapter_2.html#sec-calidad" class="quarto-xref"><span>Sección 2.7</span></a> se definen detalladamente estos conceptos y se abordan los aspectos fundamentales asociados a cada uno, junto con el análisis de su impacto en la calidad de vida y el bienestar de los ocupantes. Esta base teórica respalda la importancia de optimizar dichas condiciones en el diseño de entornos interiores saludables y habitables.</p>
 </section>
-<section id="importancia-del-dthis-c" class="level4">
-<h4 class="anchored" data-anchor-id="importancia-del-dthis-c">Importancia del DTHIS-C</h4>
+<section id="dthis-c" class="level4">
+<h4 class="anchored" data-anchor-id="dthis-c">DTHIS-C</h4>
 <p>El DTHIS-C es un equipo portátil desarrollado para medir, de forma simultánea y en tiempo real, diversas variables físicas que inciden directamente en el confort de los espacios interiores. Las variables evaluadas son las siguientes:</p>
 <ul>
 <li>Temperatura ambiente</li>
@@ -257,14 +283,70 @@ div.csl-indent {
 <p>La versatilidad del DTHIS-C radica en su capacidad para integrar múltiples sensores en un solo dispositivo, lo que facilita el análisis y la monitorización continua de las variables ambientales. Su desarrollo se basa en tecnologías de bajo costo y alto rendimiento, posicionándolo como una alternativa viable a los equipos de medición tradicionales, que suelen ser más costosos y exclusivos. Esta herramienta podría contribuir a la optimización del diseño de entornos habitables mediante la recopilación de datos precisos y confiables.</p>
 </section>
 </section>
-<section id="sec-adaptativos" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="sec-adaptativos"><span class="header-section-number">1.2</span> Modelos de confort adaptativos</h2>
+<section id="sec-modelo" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="sec-modelo"><span class="header-section-number">1.2</span> Modelo de confort PMV</h2>
+<p>El modelo de confort térmico PMV (Predicted Mean Vote) es una herramienta predictiva ampliamente reconocida para evaluar la sensación térmica promedio de un grupo de personas en un ambiente interior. Este modelo estima la percepción térmica en una escala que va desde -3 (frío) hasta +3 (caliente), donde 0 representa una sensación térmica neutral, considerada ideal para el confort <span class="citation" data-cites="fanger">(Fanger, P. O., <a href="references.html#ref-fanger" role="doc-biblioref">1970</a>)</span>. El PMV se fundamenta en el balance de calor del cuerpo humano y toma en cuenta seis variables principales:</p>
+<ul>
+<li>Temperatura del aire: Temperatura ambiente del entorno.</li>
+<li>Temperatura radiante media: Influencia de las superficies radiantes circundantes.</li>
+<li>Velocidad del aire: Movimiento del aire en el espacio.</li>
+<li>Humedad relativa: Nivel de humedad en el ambiente.</li>
+<li>Tasa metabólica: Nivel de actividad física de los ocupantes.</li>
+<li>Aislamiento de la ropa: Capacidad térmica de la vestimenta.</li>
+</ul>
+<p>Estas variables se integran en una ecuación compleja (<a href="#eq-pmv" class="quarto-xref">Ecuación&nbsp;<span>1.1</span></a>) que calcula el índice PMV, permitiendo predecir si un entorno es térmicamente confortable según las normas internacionales como ANSI/ASHRAE Standard 55 <span class="citation" data-cites="ashrae55">(<a href="references.html#ref-ashrae55" role="doc-biblioref">2021</a>)</span> e ISO 7730 <span class="citation" data-cites="iso7730">(<a href="references.html#ref-iso7730" role="doc-biblioref">2005</a>)</span>.</p>
+<p><span id="eq-pmv"><span class="math display">\[
+\begin{gather}
+\text{PMV} = \left[ 0.303 \cdot \exp(-0.036 \cdot M) + 0.028 \right] \cdot \Bigg\{ (M - W) \\
+- 3.05 \times 10^{-3} \cdot \big[ 5733 - 6.99 \cdot (M - W) - P_a \big] - 0.42 \cdot \big[ (M - W) \\
+- 58.15 \big] - 1.7 \times 10^{-5} \cdot M \cdot (5867 - P_a) - 0.0014 \cdot M \cdot (34 - t_a) \\
+- 3.96 \times 10^{-8} \cdot f_{cl} \cdot \big[ (t_{cl} + 273)^4 - (t_r + 273)^4 \big] \\
+- f_{cl} \cdot h_c \cdot (t_{cl} - t_a) \Bigg\}
+\end{gather}
+\tag{1.1}\]</span></span></p>
+<p>La determinación de las variables intermedias que describen el intercambio de calor entre el cuerpo y su entorno se realiza mediante las ecuaciones <a href="#eq-tcl" class="quarto-xref">Ecuación&nbsp;<span>1.2</span></a>, <a href="#eq-hc" class="quarto-xref">Ecuación&nbsp;<span>1.3</span></a>, <a href="#eq-fcl" class="quarto-xref">Ecuación&nbsp;<span>1.4</span></a> y <a href="#eq-var" class="quarto-xref">Ecuación&nbsp;<span>1.5</span></a>, las cuales proporcionan los parámetros necesarios para evaluar el balance térmico y, en consecuencia, calcular el índice PMV.</p>
+<p><span id="eq-tcl"><span class="math display">\[
+\begin{gather}
+t_{cl} = 35.7 - 0.028 \cdot (M - W) - I_{cl} \cdot \Bigg\{ 3.96 \times 10^{-8} \cdot f_{cl} \cdot \big[(t_{cl} + 273)^4 \\
+- (\bar{t}_r + 273)^4\big] + f_{cl} \cdot h_c \cdot (t_{cl} - t_a) \Bigg\}
+\end{gather}
+\tag{1.2}\]</span></span></p>
+<p><span id="eq-hc"><span class="math display">\[
+h_c =
+\begin{cases}
+{2.38 \cdot |t_{cl} - t_a|^{0.25}} &amp; \text{si } 2.38 \cdot |t_{cl} - t_a|^{0.25} &gt; 12.1 \cdot \sqrt{v_{ar}} \\
+12.1 \cdot \sqrt{v_{ar}} &amp; \text{si } 2.38 \cdot |t_{cl} - t_a|^{0.25} &lt; 12.1 \cdot \sqrt{v_{ar}}
+\end{cases}
+\tag{1.3}\]</span></span></p>
+<p><span id="eq-fcl"><span class="math display">\[
+f_{cl} =
+\begin{cases}
+1.00 + 1.290 \cdot I_{cl} &amp; \text{si } I_{cl} \leq 0.078 \\
+1.00 + 0.645 \cdot I_{cl} &amp; \text{si } I_{cl} &gt; 0.078
+\end{cases}
+\tag{1.4}\]</span></span></p>
+<p><span id="eq-var"><span class="math display">\[
+v_{ar} = v_{air} + 0.3 \cdot (M - 1)
+\tag{1.5}\]</span></span></p>
+<p>donde:</p>
+<p><span class="math inline">\(M\)</span> : Tasa metabólica (<span class="math inline">\(W/m^2\)</span>)<br>
+<span class="math inline">\(W\)</span> : Trabajo mecánico externo (<span class="math inline">\(W/m^2\)</span>)<br>
+<span class="math inline">\(I_{cl}\)</span> : Aislamiento térmico de la ropa (<span class="math inline">\(m^2 \cdot °C/W\)</span>)<br>
+<span class="math inline">\(f_{cl}\)</span> : Factor de cobertura de la ropa (sin unidad)<br>
+<span class="math inline">\(t_a\)</span> : Temperatura del aire (°C)<br>
+<span class="math inline">\(\bar{t}_r\)</span> : Temperatura media radiante (°C)<br>
+<span class="math inline">\(p_a\)</span> : Presión parcial del vapor de agua (Pa)<br>
+<span class="math inline">\(v_{ar}\)</span> : Velocidad relativa del aire (m/s)<br>
+<span class="math inline">\(v_{air}\)</span> : Velocidad del aire (m/s)<br>
+<span class="math inline">\(h_c\)</span> : Coeficiente de transferencia de calor por convección (<span class="math inline">\(W/m^2 \cdot °C\)</span>)<br>
+<span class="math inline">\(t_{cl}\)</span> : Temperatura de la superficie de la ropa (°C)</p>
+<section id="relevancia-del-modelo-pmv-en-el-dthis-c" class="level4">
+<h4 class="anchored" data-anchor-id="relevancia-del-modelo-pmv-en-el-dthis-c">Relevancia del modelo PMV en el DTHIS-C</h4>
+<p>El modelo PMV es fundamental en el diseño de espacios interiores confortables y eficientes, ya que proporciona un marco cuantitativo para evaluar cómo las condiciones ambientales y personales afectan la percepción térmica de los ocupantes. Su adopción en estándares como ASHRAE 55 lo posiciona como una referencia clave para el diseño de sistemas de calefacción, ventilación y aire acondicionado (HVAC). En el contexto de esta tesis, el PMV sirve como base teórica para comprender cómo optimizar las condiciones térmicas en entornos habitables, alineándose con el objetivo de garantizar el bienestar y la calidad de vida de los usuarios.</p>
 </section>
-<section id="sec-estadisticos" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="sec-estadisticos"><span class="header-section-number">1.3</span> Modelos de confort estadísticos</h2>
 </section>
-<section id="sec-objetivos" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="sec-objetivos"><span class="header-section-number">1.4</span> Objetivos</h2>
+<section id="sec-objetivos" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sec-objetivos"><span class="header-section-number">1.3</span> Objetivos</h2>
 <section id="objetivo-general" class="level4">
 <h4 class="anchored" data-anchor-id="objetivo-general">Objetivo general</h4>
 <ul>
@@ -292,8 +374,17 @@ ASHRAE-55. 2021. <em>ANSI/ASHRAE Standard 55-2020: Thermal Environmental Conditi
 <div id="ref-air" class="csl-entry" role="listitem">
 ASHRAE-62. 2001. <em>ANSI/ASHRAE Standard 62-2001: Ventilation for acceptable indoor air quality</em>. Vol. 62. 2001. American Society of Heating, Refrigerating; Air-Conditioning Engineers.
 </div>
+<div id="ref-fanger" class="csl-entry" role="listitem">
+Fanger, P. O. 1970. <em>Thermal Comfort: Analysis and Applications in Environmental Engineering</em>. Copenhagen: Danish Technical Press. <a href="https://archive.org/details/thermalcomfortan0000fang">https://archive.org/details/thermalcomfortan0000fang</a>.
+</div>
+<div id="ref-iso7730" class="csl-entry" role="listitem">
+International Standardization Organization (ISO). 2005. <span>«Ergonomics of the thermal environment-analytical determination and interpretation of the thermal comfort using calculation of the PMV and PPD indices and local thermal comfort»</span>. ISO Standard 7730. Geneva.
+</div>
 <div id="ref-light" class="csl-entry" role="listitem">
 Standard, British. 2011. <span>«Light and lighting: Lighting of work places: Part 1: Indoor work places»</span>. <em>NS-EN 12464-1: 2011</em>.
+</div>
+<div id="ref-wuindoor" class="csl-entry" role="listitem">
+Wu, Y., Z. Liu, y Z. Kong. 2023. <span>«Indoor Environmental Quality and Occupant Comfort»</span>. <em>Buildings</em> 13 (6): 1400. <a href="https://doi.org/10.3390/buildings13061400">https://doi.org/10.3390/buildings13061400</a>.
 </div>
 </div>
 </section>
