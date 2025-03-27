@@ -144,7 +144,7 @@
     "href": "chapter_3.html#sec-especificaciones",
     "title": "3  Diseño y construcción del DTHIS-C",
     "section": "",
-    "text": "Tabla 3.1: Sensores y componentes electrónicos que consitutyen al DTHIS-C.\n\n\n\n\n\n\n\n\n\n\n\n\nSensor\nVariable\nComunicación\nMicrocontrolador\nAcondicionador de señal\n\n\n\n\nTermopar tipo T\nTemperatura ambiente\nICSP\nArduino UNO WiFi Rev2\nPWFusion MAX31856 SEN-30007\n\n\nTPF1/E-20 PT1000\nTemperatura radiante\nICSP\nArduino UNO WiFi Rev2\nAdafruit PT1000 RTD-MAX31865\n\n\nWind Sensor Rev P6\nVelocidad del viento\nADC\nArduino UNO WiFi Rev2\n\n\n\nSCD30 Sensirion\nCO2 y humedad relativa\nI2C\nRaspberry Pi 4 Model B\n\n\n\n5MP OV5647 Wide Angle Fisheye Camera\nLuminancia\nCSI\nRaspberry Pi 4 Model B\n\n\n\nMicrófono ambiental USB\nSonido\nUSB\nRaspberry Pi 4 Model B",
+    "text": "Tabla 3.1: Sensores y componentes electrónicos que constituyen al DTHIS-C.\n\n\n\n\n\n\n\n\n\n\n\n\nSensor\nVariable\nComunicación\nMicrocontrolador\nAcondicionador de señal\n\n\n\n\nTermopar tipo T\nTemperatura ambiente\nICSP\nArduino UNO WiFi Rev2\nPWFusion MAX31856 SEN-30007\n\n\nTPF1/E-20 PT1000\nTemperatura radiante\nICSP\nArduino UNO WiFi Rev2\nAdafruit PT1000 RTD-MAX31865\n\n\nWind Sensor Rev P6\nVelocidad del viento\nADC\nArduino UNO WiFi Rev2\n\n\n\nSCD30 Sensirion\nCO2 y humedad relativa\nI2C\nRaspberry Pi 4 Model B\n\n\n\n5MP OV5647 Wide Angle Fisheye Camera\nLuminancia\nCSI\nRaspberry Pi 4 Model B\n\n\n\nMicrófono ambiental USB\nSonido\nUSB\nRaspberry Pi 4 Model B",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Diseño y construcción del DTHIS-C</span>"
     ]

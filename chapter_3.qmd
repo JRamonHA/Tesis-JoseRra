@@ -14,7 +14,7 @@ En la @tbl-componentes se muestran los sensores y componentes electrónicos que 
 | SCD30 Sensirion                               | CO<sub>2</sub> y humedad relativa  | I2C              | Raspberry Pi 4 Model B   |				                      |
 | 5MP OV5647 Wide Angle Fisheye Camera          | Luminancia                         | CSI              | Raspberry Pi 4 Model B   |				                      |
 | Micrófono ambiental USB                       | Sonido                             | USB              | Raspberry Pi 4 Model B   |                              |
-: Sensores y componentes electrónicos que consitutyen al DTHIS-C. {#tbl-componentes .hover .sm}
+: Sensores y componentes electrónicos que constituyen al DTHIS-C. {#tbl-componentes .hover .sm}
 
 ## Diseño del DTHIS-C {#sec-diseno}
 
