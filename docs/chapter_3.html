@@ -460,7 +460,7 @@ Tabla&nbsp;3.2: Especificaciones del Arduino UNO WiFi Rev2.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Arduino UNO WiFi Rev2 en el DTHIS-C, encargado de gestionar la conexión WiFi, la comunicación con ThingsBoard mediante el protocolo MQTT, y el envío de datos provenientes de sensores como termopares, temperatura radiante y velocidad del viento:</p>
-<div id="4cbbbd92" class="cell" data-execution_count="1">
+<div id="d7babd3f" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;WiFiNINA.h&gt;</span></span>
@@ -623,7 +623,7 @@ Figura&nbsp;3.1: Diagrama de conexión para el shield MAX31856 SEN-30007.
 <li>Rango de voltaje de alimentación: 3.3 V a 5.0 V.</li>
 </ul>
 <p>Igualmente se proporciona el código de Arduino empleado:</p>
-<div id="cebc6e6c" class="cell" data-execution_count="2">
+<div id="3d758243" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;PWFusion_MAX31856.h&gt;</span></span>
@@ -719,7 +719,7 @@ Figura&nbsp;3.2: Diagrama de conexión para el PT1000 RTD-MAX31865.
 <li>Tiempo máximo de conversión es de 21 ms.</li>
 </ul>
 <p>A continuación se muestra el código de Arduino:</p>
-<div id="1c5734de" class="cell" data-execution_count="3">
+<div id="82fe305b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;Adafruit_MAX31865.h&gt;</span></span>
@@ -779,7 +779,7 @@ Figura&nbsp;3.3: Diagrama de conexión para el Wind Sensor Rev.&nbsp;P6.
 <li>Velocidades de viento medidas: 0–150 mph.</li>
 <li>Compensación de temperatura ambiente.</li>
 </ul>
-<div id="f2dacf8c" class="cell" data-execution_count="4">
+<div id="2f320ee5" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#include &lt;math.h&gt;</span></span>
@@ -889,7 +889,7 @@ Tabla&nbsp;3.3: Especificaciones del Raspberry Pi 4 Model B.
 </figure>
 </div>
 <p>El siguiente código constituye el programa principal del Raspberry Pi 4 Model B en el DTHIS-C, encargado de gestionar la conexión al servidor ThingsBoard mediante el protocolo MQTT y el envío de datos provenientes de sensores como el SCD30 (CO2, temperatura y humedad relativa). Escrito en Python, utiliza la librería <code>paho-mqtt</code> para la comunicación y está diseñado para operar de manera continua:</p>
-<div id="8f9e5dea" class="cell" data-execution_count="5">
+<div id="53e5fb19" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> paho.mqtt.client <span class="im">as</span> mqtt</span>
@@ -983,7 +983,7 @@ Figura&nbsp;3.4: Diagrama de conexión para el SCD30.
 <li>Dimensiones: 35 × 23 × 7 mm</li>
 </ul>
 <p>A continuación se muestra el código de Python empleado para su incorpación al DTHIS-C:</p>
-<div id="d3a1b280" class="cell" data-execution_count="6">
+<div id="f5304fba" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
@@ -1052,7 +1052,7 @@ Figura&nbsp;3.5: Diagrama de conexión para la cámara OV5647.
 <li>Corriente pico: 300 mA</li>
 </ul>
 <p>A continuación, se muestra el código escrito en Bash/Shell que accede a la cámara y, posteriormente, genera los mapas de luminancia:</p>
-<div id="aaae2ac9" class="cell" data-execution_count="7">
+<div id="fb3e1767" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1125,7 +1125,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono.
 </ul>
 <p>A continuación, se presentan los códigos utilizados para la captura y análisis de sonido. Estos scripts permiten grabar el audio, extraer parámetros clave de la señal y convertirlos a valores en decibeles (dB).</p>
 <p>El siguiente script graba un archivo de audio en formato WAV durante 15 segundos a una frecuencia de muestreo de 44.1 kHz:</p>
-<div id="434f6929" class="cell" data-execution_count="8">
+<div id="eb299eb6" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1136,7 +1136,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono.
 </details>
 </div>
 <p>Posteriormente este script analiza el archivo de audio y extrae la amplitud máxima de la señal, almacenándola en un archivo de texto:</p>
-<div id="ad33d6f4" class="cell" data-execution_count="9">
+<div id="596858e9" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1147,7 +1147,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono.
 </details>
 </div>
 <p>Similar al anterior, este script obtiene la amplitud mínima del audio y la guarda en un archivo de texto:</p>
-<div id="d2153b18" class="cell" data-execution_count="10">
+<div id="98bf3b98" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1158,7 +1158,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono.
 </details>
 </div>
 <p>Este código calcula la amplitud RMS (Root Mean Square) del audio, un indicador de la potencia promedio de la señal sonora:</p>
-<div id="e9a4578b" class="cell" data-execution_count="11">
+<div id="4cf77604" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
@@ -1171,7 +1171,7 @@ Figura&nbsp;3.6: Diagrama de conexión para el micrófono.
 <p>El código en Python lee los valores extraídos previamente (RMS, amplitud máxima y mínima) y los convierte a decibeles utilizando la fórmula:</p>
 <p><span class="math display">\[dB = 20 \log_{10}(\text{amplitud}) + 120\]</span></p>
 <p>Los valores resultantes son almacenados en un diccionario para su posterior uso:</p>
-<div id="48ba09d0" class="cell" data-execution_count="12">
+<div id="a60715b0" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Código</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-overflow-wrap code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
